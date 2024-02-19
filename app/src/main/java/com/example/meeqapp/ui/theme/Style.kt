@@ -34,7 +34,7 @@ class TextInputStyle(
     color: Color = Theme.darkText,
     fontSize: TextUnit = 16.sp,
     background: Color = Color.White,
-    textAlign: TextAlign? = TextAlign.Start,
+    textAlign: TextAlign = TextAlign.Start,
     heightFraction: Float = 0.15F,
     padding: Dp = 12.dp,
     paddingTop: Dp = 14.dp,

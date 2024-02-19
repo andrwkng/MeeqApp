@@ -15,13 +15,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.meeqapp.ui.thoughts.MediumHeader
 import com.example.meeqapp.ui.THOUGHT_SCREEN
 import com.example.meeqapp.ui.components.ActionButton
 import com.example.meeqapp.ui.components.FloatingCard
 import com.example.meeqapp.ui.components.MoodText
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.theme.Theme
+import com.example.meeqapp.ui.thoughts.MediumHeader
 
 @Composable
 fun CheckUpSummaryScreen(
@@ -46,7 +46,7 @@ fun CheckUpSummaryScreen(
             item {
                 MediumHeader(
                     title = "Milestone Summary",
-                    style = Modifier
+                    modifier = Modifier
                         .padding(bottom = 24.dp)
                 )
             }

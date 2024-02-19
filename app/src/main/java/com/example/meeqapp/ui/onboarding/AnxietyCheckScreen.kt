@@ -89,7 +89,7 @@ fun AnxietyCheckScreen(
             onClick = {
                 navigation.navigate(CHECKUP_PROMPT_SCREEN)
             },
-            style = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             SubHeader(
                 text = "None of these.",

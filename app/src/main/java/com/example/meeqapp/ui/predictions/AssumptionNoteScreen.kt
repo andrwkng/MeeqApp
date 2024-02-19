@@ -41,9 +41,6 @@ fun AssumptionNoteScreen(
     navigation: NavHostController,
     viewModel : SharedViewModel? = null,
     isEditing: Boolean = false,
-//    onFelt: (String) -> Unit,
-//    onChangeNote: (String) -> Unit,
-//    renderButtons: @Composable () -> Unit
 ) {
     val prediction: Prediction? = viewModel?.prediction?.value
     Log.i("AssumptionNoteScreen",prediction?.uuid ?: "empty")
@@ -70,7 +67,6 @@ fun AssumptionNoteScreen(
             modifier = Modifier.padding(top = 12.dp)
         )
 
-        // RoundedSelectorButtons
         RoundedSelectorButton(
             title = "Going to go well 👍",
             onClick = { onFelt(Experience.GOOD) },
@@ -87,17 +83,13 @@ fun AssumptionNoteScreen(
             selected = prediction?.predictedExperience == Experience.BAD
         )
 
-        // Sub Header
         SubHeader(
             text = "Thought",
             modifier = Modifier
                 .padding(top = 12.dp)
         )
 
-        // Hint Header
         HintHeader(text = "In your own words, describe what you think might happen.")
-
-        // TextInput
         TextField(
             value = predictedExperienceNote,
             onValueChange = { onChangeNote(it) },
@@ -111,9 +103,7 @@ fun AssumptionNoteScreen(
                 .heightIn(min = 120.dp)
         )
 
-        // Render Buttons
         prediction?.let { renderButtons(it, isEditing, navigation) }
-
     }
 }
 

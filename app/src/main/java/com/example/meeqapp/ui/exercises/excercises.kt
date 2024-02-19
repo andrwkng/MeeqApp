@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.meeqapp.ui.checkup.getOrderedCheckups
 import com.example.meeqapp.ui.predictions.getOrderedPredictions
 import com.example.meeqapp.ui.thoughts.Exercise
-import com.example.meeqapp.ui.thoughts.getOrderedThoughts
+import com.example.meeqapp.data.getOrderedThoughts
 import java.time.LocalDate
 
 suspend fun getSortedExerciseGroups(context: Context): List<ExerciseGroup> {

@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AssumptionScreen(
     navigation: NavHostController,
-    sharedViewModel: SharedViewModel = viewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel(),
     userPreferenceViewModel: PredictionsViewModel = viewModel(factory = PredictionsViewModel.provideFactory())
 ) {
     val prediction = remember { mutableStateOf<Prediction?>(null) }
@@ -44,10 +45,6 @@ fun AssumptionScreen(
     LaunchedEffect(true) {
         prediction.value = newPrediction()
         isEditing.value = false
-    }
-
-    if (prediction == null) {
-        return // Return null or handle accordingly
     }
 
     fun onFinish() {

@@ -41,7 +41,7 @@ fun ThoughtItem(
     ) {
         TouchableOpacity(
             onClick = { onPress(thought) },
-            style = Modifier
+            modifier = Modifier
                 .background(Color.White)
                 .border(2.dp, Theme.colorLightGray, shape = RoundedCornerShape(8.dp))
                 .padding(1.dp)

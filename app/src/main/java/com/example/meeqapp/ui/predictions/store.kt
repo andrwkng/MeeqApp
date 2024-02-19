@@ -16,24 +16,6 @@ fun newPrediction(): Prediction {
     return PredictionImpl(uuid, date, date)
 }
 
-/* fun savePrediction(prediction: Prediction) {
-    try {
-        if (prediction.uuid == null) {
-            throw Error("No uuid on prediction, not storing")
-        }
-        prediction.updatedAt = Date()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            // Assuming AsyncStorage is an asynchronous storage mechanism in Kotlin
-            // You may need to replace this part with the actual storage mechanism
-            // getKey and stringify functions should be implemented accordingly
-            AsyncStorage.setItem(getKey(prediction.uuid!!), Json.encodeToString(prediction))
-        }
-    } catch (err: Throwable) {
-        Sentry.captureException(err)
-    }
-}*/
-
 fun getOrderedPredictions(): List<Prediction> {
     /*return try {
         val keys = AsyncStorage.getAllKeys().await()

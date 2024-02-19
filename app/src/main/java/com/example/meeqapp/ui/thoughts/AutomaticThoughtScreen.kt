@@ -1,5 +1,6 @@
 package com.example.meeqapp.ui.thoughts
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +18,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +38,6 @@ import com.example.meeqapp.ui.components.GhostButton
 import com.example.meeqapp.ui.components.HintHeader
 import com.example.meeqapp.ui.theme.Theme
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,25 +48,31 @@ fun AutomaticThoughtScreen(
     isEditing: Boolean = false,
     sharedViewModel: SharedViewModel = viewModel(),
 ) {
-    var thought = remember { mutableStateOf(thought) }
-    val context = LocalContext.current
+    val thought = remember { mutableStateOf(thought) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
         thought.value = newThought()
     }
 
-    fun onFinish() {
-        GlobalScope.launch {
-            sharedViewModel.thought.value = saveThought(thought.value!!, context)
+    fun saveThought() {
+        coroutineScope.launch {
+            val nThought = thought.value
+            if (nThought != null) {
+                sharedViewModel.saveThought(nThought)
+            }
+
         }
+    }
+
+    fun onFinish() {
+        saveThought()
         navigation.navigate(FINISHED_SCREEN)
     }
 
     fun onNext() {
-        GlobalScope.launch {
-            sharedViewModel.thought.value = saveThought(thought.value!!, context)
-            navigation.navigate(DISTORTION_SCREEN)
-        }
+        saveThought()
+        navigation.navigate(DISTORTION_SCREEN)
     }
 
     fun onChange(label: String) {
@@ -76,66 +82,57 @@ fun AutomaticThoughtScreen(
     Surface(
         modifier = Modifier
             .padding(24.dp)
-            //.background(lightOffwhite)
+            .background(Theme.lightOffwhite)
             .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
-                //.padding(bottom = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            if (thought != null) {
-                //Row {
-                        MediumHeader(title = stringResource(id = R.string.auto_thought))
-                        HintHeader("What's going on?")
-               // }
+            MediumHeader(title = stringResource(id = R.string.auto_thought))
+            HintHeader("What's going on?")
 
-                var eventLabel by remember { mutableStateOf("") }
-                TextField(
-                    value = eventLabel,
-                    onValueChange = {
-                        eventLabel = it
-                        onChange(it)
-                    },
-                    singleLine = false,
-                    maxLines = 6,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp, bottom = 24.dp),
-                )
+            var eventLabel by remember { mutableStateOf("") }
+            TextField(
+                value = eventLabel,
+                onValueChange = {
+                    eventLabel = it
+                    onChange(it)
+                },
+                singleLine = false,
+                maxLines = 6,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 24.dp),
+            )
 
-                // Equivalent of Row with justifyContent="flex-end"
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp),
-                        //.padding(end = 12.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    // Conditional rendering based on isEditing
-                    if (isEditing) {
-                        // Equivalent of ActionButton
-                        ActionButton(
-                            title = "Finished",
-                            onClick = { onFinish() },
-                            style = Modifier.weight(1f)
-                        )
-                    } else {
-                        // Equivalent of GhostButton
-                        GhostButton(
-                            title = "Cancel",
-                            onClick = { navigation.navigate(THOUGHT_SCREEN) },
-                            marginRight = 12.dp,
-                        )
+            // Equivalent of Row with justifyContent="flex-end"
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                // Conditional rendering based on isEditing
+                if (isEditing) {
+                    ActionButton(
+                        title = "Finished",
+                        onClick = { onFinish() },
+                        style = Modifier.weight(1f)
+                    )
+                } else {
+                    GhostButton(
+                        title = "Cancel",
+                        onClick = { navigation.navigate(THOUGHT_SCREEN) },
+                        marginRight = 12.dp,
+                    )
 
-                        // Equivalent of ActionButton
-                        ActionButton(
-                            title = "Next",
-                            onClick = { onNext() },
-                            style = Modifier.weight(1f),
-                            disabled = thought.value?.automaticThought.isNullOrEmpty()
-                        )
-                    }
+                    ActionButton(
+                        title = "Next",
+                        onClick = { onNext() },
+                        style = Modifier.weight(1f),
+                        disabled = thought.value?.automaticThought.isNullOrEmpty()
+                    )
                 }
             }
         }
@@ -145,27 +142,25 @@ fun AutomaticThoughtScreen(
 @Composable
 fun MediumHeader(
     title: String,
-    style: Modifier = Modifier.padding(bottom = 12.dp),
-    //allowFontScaling: Boolean = false
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = title,
-        modifier = style,
+        modifier = modifier.padding(bottom = 12.dp),
         fontSize = 20.sp,
         fontWeight = FontWeight.W900,
         color = Theme.darkText,
-        //allowFontScaling = true
     )
 }
 
 @Composable
 fun HintHeader(
     title: String,
-    style: Modifier = Modifier.padding(bottom = 12.dp),
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = title,
-        modifier = style,
+        modifier = modifier,
         fontSize = 16.sp,
         fontWeight = FontWeight.W700,
         color = Theme.veryLightText,
@@ -177,59 +172,3 @@ fun HintHeader(
 fun AutomaticThoughtScreenPreview() {
     AutomaticThoughtScreen(rememberNavController())
 }
-
-/*@Composable
-fun AutomaticThoughtScreen() {
-    var thought by remember { mutableStateOf<Thought?>(null) }
-    var isEditing by remember { mutableStateOf(false) }
-
-    val automaticThoughtPlaceholder = stringResource(id = R.string.cbt_form_auto_thought_placeholder)
-
-    Container(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = Constants.statusBarHeight + 24),
-        backgroundColor = theme.lightOffwhite
-    ) {
-        KeyboardAvoidingView(
-            behavior = KeyboardViewBehavior.Position,
-            modifier = Modifier.padding(bottom = 24)
-        ) {
-            thought?.let {
-                Column {
-                    Row {
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                        ) {
-                            MediumHeader(text = stringResource(id = R.string.auto_thought))
-                            HintHeader(text = stringResource(id = R.string.whats_going_on))
-                        }
-                    }
-
-                    BasicTextField(
-                        value = it.automaticThought,
-                        onValueChange = { newText ->
-                            thought = it.copy(automaticThought = newText)
-                        },
-                        textStyle = textInputStyle,
-                        placeholder = { Text(text = automaticThoughtPlaceholder) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = 6 * LocalDensity.current.density)
-                            .padding(top = 8.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(onDone = {
-                            stats.userFilledOutFormField("automatic")
-                        })
-                    )
-
-
-                }
-            }
-        }
-    }
-}*/
-
