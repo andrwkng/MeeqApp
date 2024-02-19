@@ -73,22 +73,6 @@ fun NavGraph(
         composable(PREDICTION_FOLLOW_UP_SCREEN) {
             PredictionFollowUpScreen(navController, prediction)
         }
-        /*composable(
-            route = "${PREDICTION_FOLLOW_UP_SCREEN}?isEditing={isEditing}",
-            arguments = listOf(
-                navArgument("isEditing") {
-                    type = NavType.StringType
-                    defaultValue = "Default"
-                }
-            )
-        ) { backStackEntry ->
-            val prediction = sharedViewModel.prediction.value
-            PredictionFollowUpScreen(
-                navController,
-                prediction,
-                backStackEntry.arguments?.getString("isEditing") ?: false
-            )
-        }*/
         composable(AUTOMATIC_THOUGHT_SCREEN) {
             AutomaticThoughtScreen(navController, thought)
         }
@@ -101,12 +85,6 @@ fun NavGraph(
         composable(DISTORTION_SCREEN) {
             DistortionScreen(navController)
         }
-//        composable(EXPLANATION_SCREEN) {
-//            WelcomeScreen(navController)
-//        }
-//        composable(EXPLANATION_SCREEN) {
-//            WelcomeScreen(navController)
-//        }
     }
 }
 
