@@ -14,13 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.ui.components.ActionButton
@@ -31,7 +32,6 @@ import com.example.meeqapp.ui.components.RoundedSelectorButton
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.theme.MeeqAppTheme
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -39,10 +39,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun AssumptionNoteScreen(
     navigation: NavHostController,
-    viewModel : SharedViewModel? = null,
+    viewModel : SharedViewModel,
     isEditing: Boolean = false,
 ) {
-    val prediction: Prediction? = viewModel?.prediction?.value
+    val prediction: Prediction? = viewModel.prediction
     Log.i("AssumptionNoteScreen",prediction?.uuid ?: "empty")
     val predictedExperienceNote by remember { mutableStateOf("") }
 
@@ -112,10 +112,11 @@ fun renderButtons(
     prediction: Prediction,
     isEditing: Boolean,
     navigation: NavHostController,
-    userPreferenceViewModel: PredictionsViewModel = viewModel(factory = PredictionsViewModel.provideFactory())
+    userPreferenceViewModel: PredictionsViewModel = hiltViewModel()
 ) {
+    val coroutineScope = rememberCoroutineScope()
     fun onFinish() {
-        GlobalScope.launch {
+        coroutineScope.launch {
             userPreferenceViewModel.savePrediction(prediction);
 
             if (isEditing) {
@@ -159,6 +160,6 @@ fun renderButtons(
 @Composable
 fun AssumptionNoteScreenPreview() {
     MeeqAppTheme {
-        AssumptionNoteScreen(rememberNavController())
+        AssumptionNoteScreen(rememberNavController(), hiltViewModel())
     }
 }

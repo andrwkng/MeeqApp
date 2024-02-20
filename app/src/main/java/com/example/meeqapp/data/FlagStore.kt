@@ -8,8 +8,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.meeqapp.ui.predictions.Prediction
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -27,7 +29,9 @@ enum class HistoryButtonLabelSetting {
 }
 
 //class FlagStore(private val dataStore: DataStore<Preferences>) {
-class FlagStore(context: Context) {
+class FlagStore @Inject constructor(
+    @ApplicationContext context: Context
+) {
     private val dataStore = context.dataStore
 
     suspend fun setFlag(flag: Flag, value: Boolean) {

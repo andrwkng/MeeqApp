@@ -15,15 +15,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.meeqapp.data.FlagStore
 import com.example.meeqapp.ui.articles.TAB_BAR_HEIGHT
 import com.example.meeqapp.ui.components.ActionButton
 import com.example.meeqapp.ui.components.Badge
@@ -37,13 +37,10 @@ import com.example.meeqapp.ui.thoughts.FollowUpState
 import com.example.meeqapp.ui.thoughts.ImmediateCheckup
 import com.example.meeqapp.ui.thoughts.MediumHeader
 import com.example.meeqapp.ui.thoughts.SavedThought
-import com.example.meeqapp.ui.thoughts.countThoughts
+import com.example.meeqapp.ui.thoughts.ThoughtViewModel
 import com.example.meeqapp.ui.thoughts.followUpState
 import com.example.meeqapp.ui.thoughts.newThought
-import com.example.meeqapp.ui.thoughts.saveThought
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
-import com.example.meeqapp.ui.viewmodel.UserPreferenceStore
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import resetNavigationTo
@@ -52,16 +49,13 @@ import java.text.SimpleDateFormat
 @Composable
 fun FinishedScreen(
     navigation: NavController,
-    thought: SavedThought?,
-    sharedViewModel: SharedViewModel = viewModel(),
-    //userPreferenceViewModel: UserPreferenceViewModel = viewModel(/*factory = UserPreferenceViewModel.Factory*/)
+    viewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel = hiltViewModel()
 ) {
+    val thought = viewModel.thought as SavedThought
     val followUpState = remember { followUpState(thought) }
     val context = LocalContext.current
-
-    val flagStore = FlagStore(context)
-
-    val userPreferenceStore = UserPreferenceStore(flagStore)
+    val coroutineScope = rememberCoroutineScope()
 
     fun shouldSendToAndroidReview(): Boolean {
         /*if (userPreferenceStore.hasRatedFalse!!) {
@@ -69,9 +63,10 @@ fun FinishedScreen(
         }*/
 
         runBlocking {
-            if (countThoughts(context) < 2) {
+            if (thoughtViewModel.countThoughts() < 2) {
                 return@runBlocking false
-            } else {  }
+            } else {
+            }
         }
 
         if (thought?.immediateCheckup != ImmediateCheckup.BETTER) {
@@ -84,7 +79,7 @@ fun FinishedScreen(
     fun onRepeat() {
         val newThought = newThought()
         newThought.automaticThought = thought?.automaticThought!!
-        sharedViewModel.thought.value = newThought
+        viewModel.updateThought(newThought)
         navigation.navigate(AUTOMATIC_THOUGHT_SCREEN)
     }
 
@@ -92,14 +87,13 @@ fun FinishedScreen(
         if (followUpState(thought) == FollowUpState.READY) {
             val oldThought = thought!!
             oldThought.followUpCompleted = true
-            GlobalScope.launch { saveThought(oldThought, context) }
+            coroutineScope.launch { viewModel.saveThought(oldThought) }
         }
 
         if (shouldSendToAndroidReview()) {
-        navigation.navigate(FEEDBACK_SCREEN)
-        return
-    }
-
+            navigation.navigate(FEEDBACK_SCREEN)
+            return
+        }
         resetNavigationTo(navigation, THOUGHT_SCREEN)
     }
 
@@ -119,18 +113,31 @@ fun FinishedScreen(
                         .padding(bottom = 18.dp)
                 ) {
                     if (followUpState == FollowUpState.SCHEDULED) {
-                        Badge(text = "Follow up scheduled", icon = Icons.Default.DateRange, modifier = Modifier.padding(bottom = 18.dp))
+                        Badge(
+                            text = "Follow up scheduled",
+                            icon = Icons.Default.DateRange,
+                            modifier = Modifier.padding(bottom = 18.dp)
+                        )
                     }
 
                     if (followUpState == FollowUpState.READY) {
-                        Badge(text = "Reviewing Thought", icon = Icons.Default.DateRange, backgroundColor = Theme.colorLightPink, modifier = Modifier.padding(bottom = 18.dp))
+                        Badge(
+                            text = "Reviewing Thought",
+                            icon = Icons.Default.DateRange,
+                            backgroundColor = Theme.colorLightPink,
+                            modifier = Modifier.padding(bottom = 18.dp)
+                        )
                     }
 
                     MediumHeader(title = if (followUpState == FollowUpState.READY) "Does this still seem correct?" else "Summary of Thought")
 
                     HintHeader(
                         text = if (followUpState == FollowUpState.READY) {
-                            "Thought recorded on ${SimpleDateFormat("D MMM YYYY, h:mm a").format(thought.createdAt)}"
+                            "Thought recorded on ${
+                                SimpleDateFormat("D MMM YYYY, h:mm a").format(
+                                    thought.createdAt
+                                )
+                            }"
                         } else {
                             ""
                         }
@@ -151,7 +158,7 @@ fun FinishedScreen(
                             .fillMaxWidth()
                             .padding(bottom = 12.dp)
                     ) {
-                        Paragraph{ thought.automaticThought }
+                        Paragraph { thought.automaticThought }
                     }
                 }
 
@@ -178,7 +185,7 @@ fun FinishedScreen(
                             // Handle button click
                         }
                     ) {
-                        Paragraph{ thought.challenge }
+                        Paragraph { thought.challenge }
                     }
                 }
 
@@ -193,7 +200,7 @@ fun FinishedScreen(
                             // Handle button click
                         }
                     ) {
-                        Paragraph{ thought.alternativeThought }
+                        Paragraph { thought.alternativeThought }
                     }
                 }
 
@@ -209,7 +216,7 @@ fun FinishedScreen(
                                 // Handle button click
                             }
                         ) {
-                            Paragraph{ thought.followUpNote ?: "" }
+                            Paragraph { thought.followUpNote ?: "" }
                         }
                     }
                 }
@@ -241,8 +248,16 @@ fun FinishedScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(text = "Repeat", modifier = Modifier.weight(1f, fill = true), fontSize = 16.sp)
-                            Icon(imageVector = Icons.Default.Refresh, contentDescription = null, tint = Theme.colorBlue)
+                            Text(
+                                text = "Repeat",
+                                modifier = Modifier.weight(1f, fill = true),
+                                fontSize = 16.sp
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                                tint = Theme.colorBlue
+                            )
                         }
                     }
                 }

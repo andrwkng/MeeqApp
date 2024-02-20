@@ -13,7 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.data.Flag
@@ -22,6 +22,7 @@ import com.example.meeqapp.data.HistoryButtonLabelSetting
 import com.example.meeqapp.ui.checkup.Checkup
 import com.example.meeqapp.ui.exercises.ExerciseGroup
 import com.example.meeqapp.ui.exercises.ExerciseList
+import com.example.meeqapp.ui.exercises.ExerciseViewModel
 import com.example.meeqapp.ui.exercises.getSortedExerciseGroups
 import com.example.meeqapp.ui.predictions.PREDICTION_FOLLOW_UP_SCREEN
 import com.example.meeqapp.ui.predictions.PREDICTION_SUMMARY_SCREEN
@@ -34,7 +35,6 @@ import com.example.meeqapp.ui.thoughts.SavedThought
 import com.example.meeqapp.ui.thoughts.followUpState
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
 import com.example.meeqapp.ui.viewmodel.UserPreferenceStore
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -45,8 +45,8 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun Feed(
     navigation: NavController,
-    viewModel: SharedViewModel = viewModel(),
-//    userPrefViewModel: UserPreferenceViewModel = viewModel()
+    viewModel: SharedViewModel,
+    exerciseViewModel: ExerciseViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val flagStore = FlagStore(context)
@@ -81,7 +81,7 @@ fun Feed(
     }
 
     fun navigateToCheckupViewer(checkup: Checkup? = null) {
-        viewModel.checkup.value = checkup
+        checkup?.let { viewModel.updateCheckup(it) }
         navigation.navigate(CHECKUP_SUMMARY_SCREEN)
     }
 
@@ -112,9 +112,9 @@ fun Feed(
     }
 
     fun loadExercises() {
-        GlobalScope.launch {
+        coroutineScope.launch {
             try {
-                groups = getSortedExerciseGroups(context)
+                groups = getSortedExerciseGroups(exerciseViewModel)
                 Log.i("loadExercises", groups.size.toString())
             } catch (e: Exception) {
                 Log.e("loadExercises", "Error retrieving exercise groups", e)
@@ -138,10 +138,12 @@ fun Feed(
 
 
     fun navigateToPredictionViewer(prediction: Prediction? = null) {
-        viewModel.prediction.value = prediction
-        if (getPredictionState(prediction) === PredictionState.READY) {
-            navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
-            return
+        prediction?.let {
+            viewModel.updatePrediction(it)
+            if (getPredictionState(it) === PredictionState.READY) {
+                navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
+                return
+            }
         }
         navigation.navigate(PREDICTION_SUMMARY_SCREEN)
     }
@@ -276,5 +278,5 @@ suspend fun getNextCheckupDate(userPrefViewModel: UserPreferenceStore): LocalDat
 @Preview
 @Composable
 fun FeedPreview() {
-    Feed(rememberNavController())
+    Feed(rememberNavController(), hiltViewModel())
 }

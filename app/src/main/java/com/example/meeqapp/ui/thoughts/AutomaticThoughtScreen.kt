@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.R
@@ -44,11 +44,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun AutomaticThoughtScreen(
     navigation: NavController,
-    thought: Thought? = null,
     isEditing: Boolean = false,
-    sharedViewModel: SharedViewModel = viewModel(),
+    viewModel: SharedViewModel,
 ) {
-    val thought = remember { mutableStateOf(thought) }
+    val thought = remember { mutableStateOf(viewModel.thought) }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
@@ -59,9 +58,8 @@ fun AutomaticThoughtScreen(
         coroutineScope.launch {
             val nThought = thought.value
             if (nThought != null) {
-                sharedViewModel.saveThought(nThought)
+                viewModel.saveThought(nThought)
             }
-
         }
     }
 
@@ -170,5 +168,5 @@ fun HintHeader(
 @Preview(showBackground = true)
 @Composable
 fun AutomaticThoughtScreenPreview() {
-    AutomaticThoughtScreen(rememberNavController())
+    AutomaticThoughtScreen(rememberNavController(), viewModel = hiltViewModel())
 }

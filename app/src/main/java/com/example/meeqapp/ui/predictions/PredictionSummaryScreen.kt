@@ -20,7 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.ui.components.ActionButton
@@ -41,14 +41,13 @@ import java.util.Locale
 @Composable
 fun PredictionSummaryScreen(
     navigation: NavController,
-    prediction: Prediction? = null,
-    sharedViewModel : SharedViewModel = viewModel()
+    viewModel : SharedViewModel
 ) {
     var prediction by remember { mutableStateOf<Prediction?>(null) }
     //var scrollState = rememberLazyListState()
 
-    LaunchedEffect(sharedViewModel) {
-        prediction = sharedViewModel.prediction.value
+    LaunchedEffect(viewModel) {
+        prediction = viewModel.prediction
     }
 
     if (prediction == null) {
@@ -94,17 +93,18 @@ fun PredictionSummaryScreen(
                 borderColor = Theme.lightGray,
                 onClick = { navigation.navigate(ASSUMPTION_SCREEN) }
             ) {
-                Paragraph{ prediction?.eventLabel ?: ""}
+                Paragraph { prediction?.eventLabel ?: "" }
             }
         }
+        prediction?.let {
+            if (getPredictionState(it) == PredictionState.COMPLETE) {
+                ActualExperience(it, navigation, viewModel)
+            }
 
-        if (getPredictionState(prediction) == PredictionState.COMPLETE) {
-            ActualExperience(prediction!!, navigation)
-        }
-
-        if (getPredictionState(prediction) == PredictionState.WAITING) {
-            FollowUp(prediction!!) {
-                sharedViewModel.prediction.value = prediction
+            if (getPredictionState(it) == PredictionState.WAITING) {
+                FollowUp(it) {
+                    viewModel.updatePrediction(it)
+                }
                 navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
             }
         }
@@ -164,7 +164,7 @@ fun FollowUp(prediction: Prediction, onFollowUp: () -> Unit) {
 fun ActualExperience(
     prediction: Prediction,
     navigation: NavController,
-    sharedViewModel : SharedViewModel = viewModel()
+    sharedViewModel : SharedViewModel
 ) {
     Column(
         modifier = Modifier.padding(bottom = 12.dp)
@@ -174,7 +174,7 @@ fun ActualExperience(
         GhostButtonWithGuts(
             borderColor = Theme.lightGray,
             onClick = {
-                sharedViewModel.prediction.value = prediction
+                sharedViewModel.updatePrediction(prediction)
                 navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
             },
             style = Modifier.padding(bottom =  6.dp)
@@ -186,7 +186,7 @@ fun ActualExperience(
         GhostButtonWithGuts(
             borderColor = Theme.lightGray,
             onClick = {
-                sharedViewModel.prediction.value = prediction
+                sharedViewModel.updatePrediction(prediction)
                 navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
             },
         ) {
@@ -204,5 +204,5 @@ val actualExperienceText = mapOf(
 @Preview(showBackground = true)
 @Composable
 fun PredictionSummaryScreenPreview() {
-    PredictionSummaryScreen(rememberNavController(),)
+    PredictionSummaryScreen(rememberNavController(), hiltViewModel())
 }

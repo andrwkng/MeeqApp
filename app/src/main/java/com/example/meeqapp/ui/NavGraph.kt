@@ -1,6 +1,6 @@
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,18 +29,14 @@ import com.example.meeqapp.ui.predictions.PredictionFollowUpScreen
 import com.example.meeqapp.ui.predictions.PredictionOnboardingScreen
 import com.example.meeqapp.ui.predictions.PredictionSummaryScreen
 import com.example.meeqapp.ui.thoughts.AutomaticThoughtScreen
-import com.example.meeqapp.ui.thoughts.SavedThought
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = MAIN_SCREEN,
-    sharedViewModel: SharedViewModel = viewModel()
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val thought = sharedViewModel.thought.value
-    val prediction = sharedViewModel.prediction.value
-
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -53,31 +49,28 @@ fun NavGraph(
             WelcomeScreen(navController)
         }
         composable(CHECKUP_SUMMARY_SCREEN) {
-            val checkup = sharedViewModel.checkup.value
-            if (checkup != null) {
-                CheckUpSummaryScreen(navController,checkup)
-            }
+                CheckUpSummaryScreen(navController,viewModel = sharedViewModel)
         }
         composable(PREDICTION_ONBOARDING_SCREEN) {
             PredictionOnboardingScreen(navController)
         }
         composable(ASSUMPTION_SCREEN) {
-            AssumptionScreen(navController)
+            AssumptionScreen(navController,sharedViewModel = sharedViewModel)
         }
         composable(PREDICTION_SUMMARY_SCREEN) {
-            PredictionSummaryScreen(navController, prediction)
+            PredictionSummaryScreen(navController, viewModel = sharedViewModel)
         }
         composable(ASSUMPTION_NOTE_SCREEN) {
             AssumptionNoteScreen(navController, sharedViewModel)
         }
         composable(PREDICTION_FOLLOW_UP_SCREEN) {
-            PredictionFollowUpScreen(navController, prediction)
+            PredictionFollowUpScreen(navController, viewModel = sharedViewModel)
         }
         composable(AUTOMATIC_THOUGHT_SCREEN) {
-            AutomaticThoughtScreen(navController, thought)
+            AutomaticThoughtScreen(navController, viewModel = sharedViewModel)
         }
         composable(FINISHED_SCREEN) {
-            FinishedScreen(navController,thought as SavedThought)
+            FinishedScreen(navController, viewModel = sharedViewModel)
         }
         composable(THOUGHT_SCREEN) {
             MainScreen(navController)
