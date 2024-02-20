@@ -14,6 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.meeqapp.data.HistoryButtonLabelSetting
 import com.example.meeqapp.ui.CardAttentionDot
@@ -24,6 +25,7 @@ import com.example.meeqapp.ui.CardTextContent
 import com.example.meeqapp.ui.EmojiList
 import com.example.meeqapp.ui.theme.Theme
 import java.time.LocalDate
+import java.util.UUID
 
 
 /*
@@ -107,7 +109,7 @@ fun ThoughtItem(
     thought: SavedThought,
     historyButtonLabel: HistoryButtonLabelSetting,
     onPress: (SavedThought) -> Unit,
-    onDelete: (SavedThought) -> Unit,
+    //onDelete: (SavedThought) -> Unit,
     key: String
 ) {
     Column(
@@ -184,4 +186,23 @@ fun followUpState(thought: Thought?): FollowUpState {
 enum class FollowUpState {
     SCHEDULED, READY, NONE
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewThoughtItem() {
+    val savedThought = SavedThoughtImpl(
+        alternativeThought = "",
+        automaticThought = "",
+        challenge = "",
+        createdAt = LocalDate.now(),
+        updatedAt = LocalDate.now(),
+        uuid = UUID.randomUUID().toString()
+    )
+    ThoughtItem(
+        savedThought,
+        historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT,
+        onPress = {},
+        key = ""
+    )
 }

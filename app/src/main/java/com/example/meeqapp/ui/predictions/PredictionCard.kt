@@ -122,13 +122,13 @@ fun getPredictionResult(prediction: Prediction): PredictionResult {
     }
 }
 
-fun getPredictionState(prediction: Prediction?): PredictionState {
-    val hasCompletedActual = prediction?.actualExperience != null
+fun getPredictionState(prediction: Prediction): PredictionState {
+    val hasCompletedActual = prediction.actualExperience != null
     if (hasCompletedActual) {
         return PredictionState.COMPLETE
     }
 
-    val isAfterFollowUp = LocalDateTime.now().isAfter(LocalDateTime.parse(prediction?.followUpAt.toString()))
+    val isAfterFollowUp = LocalDateTime.now().isAfter(LocalDateTime.parse(prediction.followUpAt.toString()))
     if (!isAfterFollowUp) {
         return PredictionState.WAITING
     }

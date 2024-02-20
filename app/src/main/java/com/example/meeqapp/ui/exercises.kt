@@ -2,25 +2,26 @@ package com.example.meeqapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.meeqapp.ui.theme.Theme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExerciseButton(
     title: String,
@@ -29,56 +30,58 @@ fun ExerciseButton(
     hasYourAttention: Boolean = false,
     onClick: () -> Unit
 ) {
-    Column(
+    TouchableCardContainer(
+        onClick = { onClick() },
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp)
+            .border(
+                width = 1.dp,
+                color = if (hasYourAttention) Theme.colorPink else Theme.colorLightGray,
+            )
+        //.padding(bottom = 12.dp)
     ) {
-        if (hasYourAttention) {
-            CardAttentionDot()
-        }
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick() }
-                .background(
-                    color = if (hasYourAttention) Theme.colorLightPink else Theme.colorLightOffwhite
-                )
-                .border(
-                    width = 1.dp,
-                    color = if (hasYourAttention) Theme.colorPink else Theme.colorLightGray,
-                    shape = RoundedCornerShape(0.dp)
-                )
-                .padding(start = 12.dp, end = 12.dp)
-                .shadow(elevation = 4.dp)
+        Row(
+            modifier = Modifier.height(116.dp),
         ) {
-            Row(
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f)
+                    .fillMaxHeight()
             ) {
                 CardTitleAndSubtitleContent(title = title, subtitle = hint)
+            }
 
-                Box(
-                    modifier = Modifier
-                        .background(Theme.colorLightOffwhite)
-                        .size(64.dp)
-                        .padding(end = 12.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        icon,
-                        contentDescription = null,
-                        tint = if (hasYourAttention) Theme.colorDarkPink else Theme.colorDarkBlue,
-                        modifier = Modifier.size(16.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(
+                        color = if (hasYourAttention) Theme.colorLightPink else Theme.colorLightOffwhite
                     )
-                }
+                    .width(64.dp)
+                    .fillMaxHeight()
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    tint = if (hasYourAttention) Theme.colorDarkPink else Theme.colorDarkBlue,
+                    modifier = Modifier.size(32.dp)
+                )
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExerciseButtonPreview() {
+    ExerciseButton(
+        title = "Exercise Button",
+        hint = "Manage anxiety around upcoming events or tasks.",
+        icon = Icons.Default.Star,
+        hasYourAttention = true,
+        onClick = {}
+    )
 }
 
 /*@Composable

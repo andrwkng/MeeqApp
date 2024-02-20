@@ -25,10 +25,10 @@ val THOUGHTS_KEY_PREFIX = "@Meeq:thoughts:";
 val EXISTING_USER_KEY = "@Meeq:existing-user";
 
 class ThoughtStore @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext appContext: Context,
     private val flagStore: FlagStore
 ) {
-    private val dataStore = context.dataStore
+    private val dataStore = appContext.dataStore
     fun getIsExistingUser(): Flow<Boolean> {
         val key = booleanPreferencesKey(EXISTING_USER_KEY)
         return dataStore.data.map { preferences ->
@@ -44,6 +44,15 @@ class ThoughtStore @Inject constructor(
 
     suspend fun setSeenPredictionOnboarding(bool: Boolean) {
         flagStore.setFlag(Flag.HAS_SEEN_PREDICTION_ONBOARDING, bool)
+    }
+
+    suspend fun getOrderedThoughts(): List<SavedThought> {
+        val data = getThoughts()
+        val thoughts = parseThoughts(data)
+
+        return thoughts.sortedByDescending {
+            it.createdAt?.let { date -> Date(date as Long).time } ?: 0
+        }
     }
 
     suspend fun saveThought(thought: Thought): Thought {
@@ -85,47 +94,39 @@ class ThoughtStore @Inject constructor(
             }
         }
     }
-}
 
-suspend fun countThoughts(context: Context): Int {
-    val exercises = getThoughts(context)
-    return exercises.size
+    suspend fun getThoughts(): List<String> {
+        try {
+            var keys = listOf<Any>()
+            dataStore.data.map { preferences ->
+                preferences.asMap().keys.filter { it.toString().startsWith(THOUGHTS_KEY_PREFIX) }
+            }.collect{
+                keys = it
+            }
+
+            val rows = dataStore.data.map { preferences ->
+                preferences.asMap()
+                    .filterKeys { keys.contains(it) }
+                    .map { it.value.toString() }
+            }
+
+            // It's better to lose data than to brick the app
+            // (though losing data is really bad too)
+            return rows.firstOrNull() ?: emptyList()
+        } catch (error: Exception) {
+            Log.e("getThoughts", "Error retrieving thoughts", error)
+            return emptyList()
+        }
+    }
+
+    suspend fun countThoughts(): Int {
+        val exercises = getThoughts()
+        return exercises.size
+    }
 }
 
 fun getThoughtKey(info: String): String {
     return THOUGHTS_KEY_PREFIX + info
-}
-
-suspend fun getOrderedThoughts(context: Context): List<SavedThought> {
-    val data = getThoughts(context)
-    val thoughts = parseThoughts(data)
-
-    return thoughts.sortedByDescending {
-        it.createdAt?.let { date -> Date(date as Long).time } ?: 0
-    }
-}
-
-suspend fun getThoughts(context: Context): List<String> {
-    //return withContext(Dispatchers.IO) {
-    try {
-        val keys = context.dataStore.data.map { preferences ->
-            preferences.asMap().keys.filter { it.toString().startsWith(THOUGHTS_KEY_PREFIX) }
-        }
-
-        val rows = context.dataStore.data.map { preferences ->
-            preferences.asMap()
-                //.filterKeys { it in keys }
-                .map { it.value.toString() }
-        }
-
-        // It's better to lose data than to brick the app
-        // (though losing data is really bad too)
-        return rows.firstOrNull() ?: emptyList()
-    } catch (error: Exception) {
-        Log.e("getThoughts", "Error retrieving thoughts", error)
-        return emptyList()
-    }
-    //}
 }
 
 fun parseThoughts(data: List<String>): List<SavedThought> {

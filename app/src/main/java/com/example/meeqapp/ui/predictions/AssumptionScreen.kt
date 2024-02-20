@@ -14,12 +14,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.ui.THOUGHT_SCREEN
@@ -29,21 +29,21 @@ import com.example.meeqapp.ui.components.HintHeader
 import com.example.meeqapp.ui.components.MediumHeader
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssumptionScreen(
     navigation: NavHostController,
-    sharedViewModel: SharedViewModel = hiltViewModel(),
-    userPreferenceViewModel: PredictionsViewModel = viewModel(factory = PredictionsViewModel.provideFactory())
+    sharedViewModel: SharedViewModel,
+    viewModel: PredictionsViewModel = hiltViewModel()
 ) {
-    val prediction = remember { mutableStateOf<Prediction?>(null) }
+    val prediction = remember { mutableStateOf(sharedViewModel.prediction) }
     val isEditing = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
-        prediction.value = newPrediction()
+        prediction.value = viewModel.newPrediction()
         isEditing.value = false
     }
 
@@ -54,10 +54,12 @@ fun AssumptionScreen(
             return
         }
 
-        GlobalScope.launch {
-            userPreferenceViewModel.savePrediction(prediction.value!!)
+        prediction.value?.let {
+            coroutineScope.launch {
+                viewModel.savePrediction(it)
+            }
+            sharedViewModel.updatePrediction(it)
         }
-        sharedViewModel.prediction = prediction
 
         if (isEditing.value) {
             Log.i("onFinish", "isEditing true, navigate to prediction-summary-screen")
@@ -76,10 +78,6 @@ fun AssumptionScreen(
             .fillMaxSize()
             .padding(
                 24.dp
-                /*top = 24.dp,
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 24.dp*/
             )
     ) {
         MediumHeader(text = "New Prediction 🔮")
@@ -149,5 +147,5 @@ fun RenderButtons(
 @Preview(showBackground = true)
 @Composable
 fun AssumptionScreenPreview() {
-    AssumptionScreen(rememberNavController())
+    AssumptionScreen(rememberNavController(), sharedViewModel = hiltViewModel())
 }

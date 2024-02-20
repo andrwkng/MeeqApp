@@ -1,23 +1,21 @@
 package com.example.meeqapp.ui.exercises
 
-import android.content.Context
-import com.example.meeqapp.ui.checkup.getOrderedCheckups
-import com.example.meeqapp.ui.predictions.getOrderedPredictions
 import com.example.meeqapp.ui.thoughts.Exercise
-import com.example.meeqapp.data.getOrderedThoughts
 import java.time.LocalDate
 
-suspend fun getSortedExerciseGroups(context: Context): List<ExerciseGroup> {
-    val thoughts = getOrderedThoughts(context)
-    val checkups = getOrderedCheckups()
-    val predictions = getOrderedPredictions()
+suspend fun getSortedExerciseGroups(
+    viewModel: ExerciseViewModel
+): List<ExerciseGroup> {
+    val thoughts = viewModel.getOrderedThoughts()
+    val checkups = viewModel.getOrderedCheckups()
+    val predictions = viewModel.getOrderedPredictions()
 
     // Combine existing exercises and sort them by days
     val exercises: List<Exercise> = (thoughts + checkups + predictions)
     val sortedExercises = exercises.sortedByDescending { it.createdAt }
 
     // Bucket the exercises into groups
-    var groups = mutableListOf<ExerciseGroup>()
+    val groups = mutableListOf<ExerciseGroup>()
     var day: LocalDate? = null
     for (ex in sortedExercises) {
         if (day == null) {

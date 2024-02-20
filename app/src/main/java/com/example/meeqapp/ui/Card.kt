@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.Paragraph
@@ -26,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -36,16 +36,20 @@ import com.example.meeqapp.ui.components.HintHeader
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.theme.Theme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TouchableCardContainer(
     onClick: () -> Unit,
-    style: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     children: @Composable () -> Unit,
 ) {
+
     TouchableOpacity(
         onClick = onClick,
-        style = style
+        modifier = Modifier
+            .padding(bottom = 18.dp)
+            .background(Color.White)
+            .border(1.dp, Theme.colorLightGray, RoundedCornerShape(8.dp))
+            .then(modifier)
     ) {
         children()
     }
@@ -56,22 +60,12 @@ fun TouchableCardContainer(
 @Composable
 fun TouchableOpacity(
     onClick: () -> Unit,
-    style: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     children: @Composable () -> Unit,
-    ) {
+) {
     Card(
         onClick = onClick,
-        modifier = Modifier
-            //.rippleClickable { onPress() }
-            .border(
-                width = 1.dp,
-                color = Theme.colorLightGray,
-                shape = RoundedCornerShape(8.dp)
-            )
-            //.background(Color.White)
-            .fillMaxWidth()
-            .padding(bottom = 18.dp)
-            .then(style)
+        modifier = modifier
     ) {
         children()
     }
@@ -152,7 +146,7 @@ fun CardTitleAndSubtitleContent(title: String, subtitle: String) {
 
 
 @Composable
-fun  CardTextContent(text: String) {
+fun CardTextContent(text: String) {
     val defaultDensity = Density(density = 1f)
     val fontFamilyResolver = createFontFamilyResolver(
         InstrumentationRegistry.getInstrumentation().context
@@ -176,7 +170,6 @@ fun  CardTextContent(text: String) {
 }
 
 
-
 @Composable
 fun CardMutedContent(content: @Composable () -> Unit) {
     Box(
@@ -194,7 +187,6 @@ fun CardMutedContent(content: @Composable () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardBadge(
     text: String,
@@ -213,11 +205,24 @@ fun CardBadge(
 fun CardAttentionDot() {
     Box(
         modifier = Modifier
-            .background(Color(0xFFE91E63))
-            .padding(top = 12.dp, end = 6.dp)
+            .padding(top = 12.dp, end = 0.dp)
+            .offset((-6).dp, 0.dp)
             .size(18.dp)
-            .clip(CircleShape)
+            .background(Theme.colorPink, CircleShape)
+            //.align(Alignment.TopEnd)
     )
+}
+
+@Preview
+@Composable
+fun CardAttentionDotPreview() {
+    CardAttentionDot()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CardTitleAndSubtitleContentPreview() {
+    CardTitleAndSubtitleContent("Title", "SubTitle")
 }
 
 /*@Composable
@@ -225,8 +230,7 @@ fun CardAttentionDot() {
 fun TouchableCardContainerPreview() {
     TouchableCardContainer(
         //onPress = {},
-        children = {
-            // Your card content goes here
-        }
-    )
+    ){
+
+    }
 }*/

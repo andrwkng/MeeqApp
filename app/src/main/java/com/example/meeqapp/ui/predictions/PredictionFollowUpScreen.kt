@@ -18,14 +18,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.ui.components.ActionButton
 import com.example.meeqapp.ui.components.HintHeader
 import com.example.meeqapp.ui.components.MediumHeader
@@ -34,7 +37,7 @@ import com.example.meeqapp.ui.components.RoundedSelectorButton
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.pulse.Boost
 import com.example.meeqapp.ui.pulse.PulseViewModel
-import kotlinx.coroutines.GlobalScope
+import com.example.meeqapp.ui.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
 
 val START_PREDICTION: Boost = Boost(score = 3, label = "Prediction Started")
@@ -45,18 +48,14 @@ val FINISH_PREDICTION: Boost = Boost(score = 4, label = "Finished Prediction")
 @Composable
 fun PredictionFollowUpScreen(
     navigation: NavController,
-    prediction: Prediction? = null,
-    predictionsViewModel: PredictionsViewModel = viewModel(factory = PredictionsViewModel.provideFactory()),
+    viewModel : SharedViewModel,
+    predictionsViewModel: PredictionsViewModel = hiltViewModel(),
     pulseViewModel: PulseViewModel = viewModel()
 ) {
+    val prediction: Prediction? = viewModel.prediction
     val (actualExperience, setActualExperience) = remember { mutableStateOf(prediction?.actualExperience) }
-    val (actualExperienceNote, setActualExperienceNote) = remember { mutableStateOf<String?>(prediction?.actualExperienceNote) }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            // Cleanup logic if needed
-        }
-    }
+    val (actualExperienceNote, setActualExperienceNote) = remember { mutableStateOf(prediction?.actualExperienceNote) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(prediction) {
         setActualExperience(prediction?.actualExperience)
@@ -64,7 +63,7 @@ fun PredictionFollowUpScreen(
     }
 
      fun onFinish() {
-         GlobalScope.launch {
+         coroutineScope.launch {
              if (prediction != null) {
                  predictionsViewModel.savePrediction(prediction)
              }
@@ -141,4 +140,10 @@ fun PredictionFollowUpScreen(
             }
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PredictionFollowUpScreenPreview() {
+    PredictionFollowUpScreen(rememberNavController(), hiltViewModel())
 }

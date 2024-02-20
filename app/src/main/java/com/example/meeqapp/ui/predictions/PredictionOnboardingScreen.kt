@@ -87,7 +87,7 @@ fun PredictionOnboardingScreen(navigation: NavController) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PredictionOnboardingScreenPreview() {
     PredictionOnboardingScreen(rememberNavController())

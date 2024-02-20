@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,11 +37,11 @@ import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.theme.Theme
 import com.example.meeqapp.ui.thoughts.MediumHeader
 import com.example.meeqapp.ui.thoughts.Thought
-import com.example.meeqapp.ui.thoughts.saveThought
 import com.example.meeqapp.ui.viewmodel.SharedViewModel
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun DistortionScreen(
     navigation: NavController,
@@ -50,8 +51,9 @@ fun DistortionScreen(
     val scrollState = rememberScrollState()
     var shouldShowPreviousThought by remember { mutableStateOf(false) }
     var shouldShowDistortions by remember { mutableStateOf(false) }
-    var isEditing by remember { mutableStateOf(false) }
+    val isEditing by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
      fun onPressSlug(selected: Any) {
         val cognitiveDistortions = thought?.cognitiveDistortions?.toMutableList()
@@ -65,30 +67,26 @@ fun DistortionScreen(
         }
     }
 
-     fun onFinish() {
-         GlobalScope.launch {
-             thought?.let {
-                 sharedViewModel.thought.value = saveThought(thought, context)
-             }
-         }
+    fun saveThought() {
+        coroutineScope.launch {
+            thought?.let {
+                sharedViewModel.saveThought(it)
+            }
+        }
+    }
+
+    fun onFinish() {
+        saveThought()
         navigation.navigate(FINISHED_SCREEN)
     }
 
     fun onNext() {
-        GlobalScope.launch {
-            thought?.let {
-                sharedViewModel.thought.value = saveThought(thought, context)
-            }
-        }
+        saveThought()
         navigation.navigate(CHALLENGE_SCREEN)
     }
 
     fun onBackToThought() {
-        GlobalScope.launch {
-            thought?.let {
-                sharedViewModel.thought.value = saveThought(thought, context)
-            }
-        }
+        saveThought()
         navigation.navigate(AUTOMATIC_THOUGHT_SCREEN)
     }
 

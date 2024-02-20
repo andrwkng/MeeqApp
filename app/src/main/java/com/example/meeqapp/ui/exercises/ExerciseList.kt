@@ -168,7 +168,7 @@ fun ExerciseList(
                                     key = ex.uuid,
                                     thought = thought,
                                     onPress = { navigateToThoughtViewer(ex) },
-                                    onDelete = { navigateToThoughtViewer(ex) },
+                                    //onDelete = { navigateToThoughtViewer(ex) },
                                     historyButtonLabel = historyButtonLabel
                                 )
                             }

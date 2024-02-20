@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -22,13 +21,14 @@ import com.example.meeqapp.ui.components.MoodText
 import com.example.meeqapp.ui.components.SubHeader
 import com.example.meeqapp.ui.theme.Theme
 import com.example.meeqapp.ui.thoughts.MediumHeader
+import com.example.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun CheckUpSummaryScreen(
     navigation: NavController,
-    checkup: Checkup
+    viewModel: SharedViewModel
 ) {
-    var checkup by remember { mutableStateOf(checkup) }
+    val checkup by remember { mutableStateOf(viewModel.checkup) }
 
     if (checkup == null) {
         return

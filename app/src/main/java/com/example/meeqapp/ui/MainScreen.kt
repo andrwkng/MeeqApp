@@ -1,7 +1,7 @@
 package com.example.meeqapp.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,21 +14,20 @@ import androidx.navigation.compose.rememberNavController
 import com.example.meeqapp.ui.thoughts.ThoughtScreen
 
 @Composable
-fun MainScreen(navController: NavHostController) {
-    Box(
+fun MainScreen(
+    navController: NavHostController,
+) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            //.padding(top = LocalDensity.current.run { Constants.statusBarHeight.toDp() })
             .background(color = Color.White)
             .verticalScroll(rememberScrollState())
     ) {
-
         ThoughtScreen(navController)
-        Feed(navController)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
     MainScreen(rememberNavController())
