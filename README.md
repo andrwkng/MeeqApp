@@ -1,10 +1,8 @@
 # Meeq
 Meeq is an android native, GPL-licensed, [Cognitive Behavioral Therapy (CBT)](https://en.wikipedia.org/wiki/Cognitive_behavioral_therapy)
-app built in Kotlin and Jetpack compose.
+app built in Kotlin and Jetpack compose. It adheres to Android design and development best practices. It is intended to be used to test and benchmark latest technologies in Modern Andrond Development like Jetpack compose.
 
-Unlike many CBT apps, it's fairly unbiased in what you use it for; it doesn't ask about you
-to do depression-specific CBT exercises. That makes it fairly quick and discreet to use, especially in a public
-setting.
+This app is currently work in progress and in continous development. Production release version is currently not available.
 
 ![image](https://github.com/andrwkng/MeeqApp/assets/10634755/71bee794-a11c-4423-aee2-89c3a44964ef)
 
