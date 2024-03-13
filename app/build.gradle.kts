@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.meeqapp"
+    namespace = "com.spryteam.meeqapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.meeqapp"
+        applicationId = "com.spryteam.meeqapp"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -53,13 +53,14 @@ android {
 }
 
 dependencies {
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.50")
+    implementation("androidx.compose.material3:material3-android:1.2.0")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
@@ -68,14 +69,14 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-android:1.6.1")
+    //implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.compose.ui:ui-android:1.6.2")
     implementation("androidx.test:monitor:1.6.1")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
     implementation("androidx.datastore:datastore-core:1.0.0")
     implementation("androidx.emoji2:emoji2:1.4.0")
     implementation("androidx.emoji:emoji:1.1.0")
-    implementation("androidx.benchmark:benchmark-macro:1.2.3")
+    //implementation("androidx.benchmark:benchmark-macro:1.2.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
