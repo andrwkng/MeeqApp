@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.spryteam.meeqapp.data.ExerciseStore
 import com.spryteam.meeqapp.ui.checkup.Checkup
 import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
-import com.spryteam.meeqapp.ui.predictions.Prediction
 import com.spryteam.meeqapp.ui.thoughts.Exercise
 import com.spryteam.meeqapp.ui.thoughts.SavedThought
 import com.spryteam.meeqapp.ui.thoughts.Thought
@@ -31,9 +30,6 @@ class SharedViewModel @Inject constructor(
 
     //private val checkups = mutableStateOf<ExerciseGroup?>(null)
     private val checkups = mutableListOf<Checkup>()
-
-    //val predictions = mutableStateOf<ExerciseGroup?>(null)
-    val predictions = mutableListOf<Prediction>()
 
 
     /*fun updateThought() {
@@ -143,7 +139,7 @@ class SharedViewModel @Inject constructor(
     }
 
     fun loadExercises() {
-        val exercises: List<Exercise> = (thoughts + checkups + predictions)
+        val exercises: List<Exercise> = (thoughts + checkups)
 
         Log.i("thoughts size:", thoughts.size.toString())
 
@@ -156,16 +152,7 @@ class SharedViewModel @Inject constructor(
 
     }
 
-    fun navigateToPredictionViewer(prediction: Prediction? = null) {
-        /*prediction?.let {
-            viewModel.updatePrediction(it)
-            if (getPredictionState(it) === PredictionState.READY) {
-                navigation.navigate(PREDICTION_FOLLOW_UP_SCREEN)
-                return
-            }
-        }
-        navigation.navigate(PREDICTION_SUMMARY_SCREEN)*/
-    }
+
 
 
 
@@ -245,8 +232,6 @@ class SharedViewModel @Inject constructor(
     private var _thought: MutableState<Thought?> = mutableStateOf(null)
     val thought = _thought.value
 
-    private var _prediction: MutableState<Prediction?> = mutableStateOf(null)
-    val prediction = _prediction.value
 
     suspend fun saveThought(thought: Thought) {
         _thought.value = thoughtStore.saveThought(thought)
@@ -260,7 +245,4 @@ class SharedViewModel @Inject constructor(
         _checkup.value = checkup
     }
 
-    fun updatePrediction(prediction: Prediction) {
-        _prediction.value = prediction
-    }
 }*/

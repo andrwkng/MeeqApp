@@ -1,3 +1,4 @@
+
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,13 +45,11 @@ fun NavGraph(
         composable(MAIN_SCREEN) {
             //MainScreen { navController.navigate(THOUGHT_SCREEN) }
             MainRoute(
-                onNavigateToPredictionOnboarding = { /*TODO*/ },
                 onNavigateToAssumption = { /*TODO*/ },
                 onNavigateToAutoThought = { navController.navigate(THOUGHT_SCREEN) },
                 onNavigateToThoughtViewer = { /*TODO*/ },
                 onNavigateToCheckup = { /*TODO*/ },
                 onNavigateToCheckupViewer = { /*TODO*/ },
-                onNavigateToPredictionViewer = { /*TODO*/ },
                 sharedViewModel = viewModel
             )
         }
@@ -61,20 +60,11 @@ fun NavGraph(
         /*composable(CHECKUP_SUMMARY_SCREEN) {
                 CheckUpSummaryScreen(navController,viewModel = sharedViewModel)
         }*/
-        /*composable(PREDICTION_ONBOARDING_SCREEN) {
-            PredictionOnboardingScreen(navController)
-        }*/
         /*composable(ASSUMPTION_SCREEN) {
             AssumptionScreen(navController,sharedViewModel = sharedViewModel)
         }*/
-        /*composable(PREDICTION_SUMMARY_SCREEN) {
-            PredictionSummaryScreen(navController, viewModel = sharedViewModel)
-        }*/
         /*composable(ASSUMPTION_NOTE_SCREEN) {
             AssumptionNoteScreen(navController, sharedViewModel)
-        }*/
-        /*composable(PREDICTION_FOLLOW_UP_SCREEN) {
-            PredictionFollowUpScreen(navController, viewModel = sharedViewModel)
         }*/
         /*composable(AUTOMATIC_THOUGHT_SCREEN) {
             AutomaticThoughtRoute(
@@ -140,7 +130,7 @@ fun NavGraph(
             )
         }*/
 
-        composable(SCREENING_ROUTE) {
+composable(SCREENING_ROUTE) {
             ScreeningRoute()
         }
     }

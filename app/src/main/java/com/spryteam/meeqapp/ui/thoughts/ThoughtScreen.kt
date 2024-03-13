@@ -18,7 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.spryteam.meeqapp.ui.Feed
 import com.spryteam.meeqapp.ui.components.ExerciseButton
 import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
-import com.spryteam.meeqapp.ui.predictions.PredictionViewModel
 import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
@@ -49,7 +48,6 @@ fun MainRoute(
     onNavigateToPredictionViewer: () -> Unit,
     sharedViewModel: SharedViewModel,
     thoughtViewModel: ThoughtViewModel = hiltViewModel(),
-    predictionViewModel: PredictionViewModel = hiltViewModel()
 ) {
     sharedViewModel.loadExercises()
     val groups: List<ExerciseGroup> by sharedViewModel.groups.collectAsState(emptyList())
@@ -57,18 +55,9 @@ fun MainRoute(
     HomeScreen(
         groups = groups,
         onNewAutoThought = { onNavigateToAutoThought() },
-        onNewPrediction = {
-            if (!predictionViewModel.hasSeenPredictionOnboarding) {
-                predictionViewModel.setSeenPredictionOnboardingTrue()
-                onNavigateToPredictionOnboarding()
-            } else {
-                onNavigateToAssumption()
-            }
-        },
         navigateToThoughtViewer = onNavigateToThoughtViewer,
         navigateToCheckup = onNavigateToCheckup,
         navigateToCheckupViewer = onNavigateToCheckupViewer,
-        navigateToPredictionViewer = onNavigateToPredictionViewer,
         shouldFadeIn = thoughtViewModel.shouldFadeIn.value,
         shouldPromptCheckup = thoughtViewModel.shouldPromptCheckup.value,
         followUpState = { thoughtViewModel.followUpState() },
@@ -79,13 +68,11 @@ fun MainRoute(
 fun HomeScreen(
     groups: List<ExerciseGroup>,
     onNewAutoThought: () -> Unit,
-    onNewPrediction: () -> Unit,
     modifier: Modifier = Modifier,
     //Feed state
     navigateToThoughtViewer: () -> Unit,
     navigateToCheckup: () -> Unit,
     navigateToCheckupViewer: () -> Unit,
-    navigateToPredictionViewer: () -> Unit,
     shouldFadeIn: Boolean,
     shouldPromptCheckup: Boolean,
     followUpState: () -> FollowUpState,
@@ -105,7 +92,6 @@ fun HomeScreen(
             .background(Color.White)
     ) {
         ExerciseButtons(
-            onNewPredictionPressed = onNewPrediction,
             onNewAutoThoughtPressed = onNewAutoThought
         )
         Feed(
@@ -113,7 +99,6 @@ fun HomeScreen(
             navigateToThoughtViewer = navigateToThoughtViewer,
             navigateToCheckup = navigateToCheckup,
             navigateToCheckupViewer = navigateToCheckupViewer,
-            navigateToPredictionViewer = navigateToPredictionViewer,
             shouldFadeIn = shouldFadeIn,
             shouldPromptCheckup = shouldPromptCheckup,
             followUpState = followUpState,
@@ -124,14 +109,10 @@ fun HomeScreen(
 
 @Composable
 fun ExerciseButtons(
-    onNewPredictionPressed: () -> Unit,
     onNewAutoThoughtPressed: () -> Unit
 ) {
 //    val context = LocalContext.current
 //    val flagStore = FlagStore(context)
-//    val hasSeenPredictionOnboardingFlow: Flow<Boolean> =
-//        flagStore.getFlag(Flag.HAS_SEEN_PREDICTION_ONBOARDING)
-//    val hasSeenPredictionOnboarding by hasSeenPredictionOnboardingFlow.collectAsState(initial = false)
 //    val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -139,12 +120,6 @@ fun ExerciseButtons(
             .padding(top = 12.dp, bottom = 24.dp)
             .padding(end = 12.dp, start = 12.dp)
     ) {
-        /*ExerciseButton(
-            title = "New Prediction",
-            hint = "Manage anxiety around upcoming events or tasks.",
-            icon = Icons.Default.Star,
-            onClick = onNewPredictionPressed,
-        )*/
 
         ExerciseButton(
             title = "New Automatic Thought",
@@ -171,7 +146,5 @@ fun ThoughtScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ExerciseButtonsPreview() {
-    ExerciseButtons(onNewPredictionPressed = { /*TODO*/ }) {
-        
-    }
+    ExerciseButtons(onNewAutoThoughtPressed = { /*TODO*/ })
 }

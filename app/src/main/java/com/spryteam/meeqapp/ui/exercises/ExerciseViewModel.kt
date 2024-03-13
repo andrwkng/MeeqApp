@@ -2,7 +2,6 @@ package com.spryteam.meeqapp.ui.exercises
 
 import androidx.lifecycle.ViewModel
 import com.spryteam.meeqapp.data.CheckupStore
-import com.spryteam.meeqapp.data.PredictionStore
 import com.spryteam.meeqapp.data.ThoughtStore
 import com.spryteam.meeqapp.ui.checkup.Checkup
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +10,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val  thoughtStore: ThoughtStore,
-    private val predictionStore: PredictionStore,
     private val checkupStore: CheckupStore
 ): ViewModel() {
 

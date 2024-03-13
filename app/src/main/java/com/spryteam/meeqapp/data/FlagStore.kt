@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.spryteam.meeqapp.ui.predictions.Prediction
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,7 +19,6 @@ enum class Flag {
     START_HELP_BADGE,
     HAS_RATED,
     HAS_BEEN_SURVEYED,
-    HAS_SEEN_PREDICTION_ONBOARDING
 }
 
 enum class HistoryButtonLabelSetting {
@@ -71,7 +69,6 @@ class FlagStore @Inject constructor(
     }
 
     fun getFlags(flag: String): Flow<Boolean> {
-        val list : List<Prediction>
         val key = stringPreferencesKey(flag)
         return dataStore.data.map { preferences ->
             preferences.contains(key)

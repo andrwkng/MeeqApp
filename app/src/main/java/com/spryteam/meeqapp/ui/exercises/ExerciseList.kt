@@ -24,8 +24,6 @@ import com.spryteam.meeqapp.R
 import com.spryteam.meeqapp.data.HistoryButtonLabelSetting
 import com.spryteam.meeqapp.ui.checkup.CheckUpCard
 import com.spryteam.meeqapp.ui.checkup.Checkup
-import com.spryteam.meeqapp.ui.predictions.Prediction
-import com.spryteam.meeqapp.ui.predictions.PredictionCard
 import com.spryteam.meeqapp.ui.thoughts.Exercise
 import com.spryteam.meeqapp.ui.thoughts.FollowUpState
 import com.spryteam.meeqapp.ui.thoughts.SavedThought
@@ -39,7 +37,6 @@ fun XExerciseList(
     historyButtonLabel: HistoryButtonLabelSetting,
     navigateToThoughtViewer: (thought: SavedThought) -> Unit,
     navigateToCheckupViewer: (checkup: Checkup) -> Unit,
-    navigateToPredictionViewer: (prediction: Prediction) -> Unit
 ) {
     if (groups.isEmpty()) {
         EmptyThoughtIllustration()
@@ -67,9 +64,6 @@ fun XExerciseList(
                                 onPress = { navigateToCheckupViewer(ex) },
                                 key = ex.uuid
                             )
-                        }
-                        isPrediction(ex) -> {
-                            PredictionCard(prediction = ex, onPress = { navigateToPredictionViewer(ex) })
                         }
                         isThought(ex) -> {
                             ThoughtItem(thought = ex, onPress = { navigateToThoughtViewer(ex) }, historyButtonLabel = historyButtonLabel)
@@ -129,7 +123,6 @@ fun ExerciseList(
     groups: List<ExerciseGroup>,
     navigateToThoughtViewer: (SavedThought) -> Unit,
     navigateToCheckupViewer: (Checkup) -> Unit,
-    navigateToPredictionViewer: (Prediction) -> Unit,
     historyButtonLabel: HistoryButtonLabelSetting,
     followUpState: () -> FollowUpState,
 ) {
@@ -150,17 +143,6 @@ fun ExerciseList(
                                     key = ex.uuid,
                                     currentCheckup = checkup,
                                     onPress = { navigateToCheckupViewer(ex) }
-                                )
-                            }
-
-                            (ex is Prediction && ex.eventLabel != null) -> {
-                                //if (ex is Prediction) {
-                                val prediction: Prediction = ex
-
-                                PredictionCard(
-                                    key = prediction.uuid,
-                                    prediction = prediction,
-                                    onPress = { navigateToPredictionViewer(prediction) }
                                 )
                             }
 
@@ -207,7 +189,6 @@ fun ExerciseListPreview(){
         groups = emptyList(),
         navigateToThoughtViewer = {},
         navigateToCheckupViewer = {},
-        navigateToPredictionViewer = {},
         historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT
     )*/
 }

@@ -19,7 +19,6 @@ fun Feed(
     navigateToThoughtViewer: () -> Unit,
     navigateToCheckup: () -> Unit,
     navigateToCheckupViewer: () -> Unit,
-    navigateToPredictionViewer: () -> Unit,
     shouldFadeIn: Boolean = false,
     shouldPromptCheckup: Boolean = false,
     onLoad: () -> Unit,
@@ -58,7 +57,6 @@ fun Feed(
             historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT,
             navigateToThoughtViewer = { navigateToThoughtViewer() },
             navigateToCheckupViewer = { navigateToCheckupViewer() },
-            navigateToPredictionViewer = { navigateToPredictionViewer() },
             followUpState = followUpState,
         )
 
@@ -83,7 +81,6 @@ fun FeedPreview() {
         navigateToCheckup = { TODO },
         navigateToSurvey = { TODO },
         navigateToCheckupViewer = { TODO },
-        navigateToPredictionViewer = { TODO },
         shouldFadeIn = true,
         shouldPromptCheckup = false,
         dismissSurveyPrompt = { }

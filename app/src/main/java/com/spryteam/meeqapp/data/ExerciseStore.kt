@@ -7,15 +7,13 @@ import javax.inject.Inject
 
 class ExerciseStore @Inject constructor(
     private val thoughtStore: ThoughtStore,
-    private val predictionStore: PredictionStore,
     private val checkupStore: CheckupStore
 ) {
     suspend fun getExerciseList(): List<Exercise> {
         val thoughts = thoughtStore.getOrderedThoughts()
         val checkups = checkupStore.getOrderedCheckups()
-        val predictions = predictionStore.getOrderedPredictions()
         // Combine existing exercises
-        return (thoughts + checkups + predictions)
+        return (thoughts + checkups)
     }
 
     fun getSortedExerciseList(exercises: List<Exercise>): List<Exercise> {
