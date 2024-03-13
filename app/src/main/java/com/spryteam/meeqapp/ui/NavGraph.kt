@@ -11,13 +11,19 @@ import com.spryteam.meeqapp.ui.ALTERNATIVE_SCREEN
 import com.spryteam.meeqapp.ui.AUTOMATIC_THOUGHT_SCREEN
 import com.spryteam.meeqapp.ui.CHALLENGE_SCREEN
 import com.spryteam.meeqapp.ui.DISTORTION_SCREEN
+import com.spryteam.meeqapp.ui.FEELING_SCREEN
 import com.spryteam.meeqapp.ui.FINISHED_SCREEN
 import com.spryteam.meeqapp.ui.FOLLOW_UP_REQUEST_SCREEN
+import com.spryteam.meeqapp.ui.FeelingRoute
+import com.spryteam.meeqapp.ui.FinishedRoute
 import com.spryteam.meeqapp.ui.MAIN_SCREEN
-import com.spryteam.meeqapp.ui.SCREENING_ROUTE
+import com.spryteam.meeqapp.ui.MainRoute
 import com.spryteam.meeqapp.ui.THOUGHT_SCREEN
-import com.spryteam.meeqapp.ui.screening.ScreeningRoute
-import com.spryteam.meeqapp.ui.thoughts.MainRoute
+import com.spryteam.meeqapp.ui.distortions.DistortionRoute
+import com.spryteam.meeqapp.ui.followup.FollowUpRoute
+import com.spryteam.meeqapp.ui.thoughts.AlternativeThoughtRoute
+import com.spryteam.meeqapp.ui.thoughts.AutomaticThoughtRoute
+import com.spryteam.meeqapp.ui.thoughts.ChallengeRoute
 import com.spryteam.meeqapp.ui.thoughts.ThoughtRoute
 import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
@@ -43,7 +49,6 @@ fun NavGraph(
         startDestination = startDestination
     ) {
         composable(MAIN_SCREEN) {
-            //MainScreen { navController.navigate(THOUGHT_SCREEN) }
             MainRoute(
                 onNavigateToAssumption = { /*TODO*/ },
                 onNavigateToAutoThought = { navController.navigate(THOUGHT_SCREEN) },
@@ -53,42 +58,30 @@ fun NavGraph(
                 sharedViewModel = viewModel
             )
         }
-        // On-boarding
-        /*composable(WELCOME_SCREEN) {
-            WelcomeScreen(navController)
-        }*/
-        /*composable(CHECKUP_SUMMARY_SCREEN) {
-                CheckUpSummaryScreen(navController,viewModel = sharedViewModel)
-        }*/
-        /*composable(ASSUMPTION_SCREEN) {
-            AssumptionScreen(navController,sharedViewModel = sharedViewModel)
-        }*/
-        /*composable(ASSUMPTION_NOTE_SCREEN) {
-            AssumptionNoteScreen(navController, sharedViewModel)
-        }*/
-        /*composable(AUTOMATIC_THOUGHT_SCREEN) {
+
+        composable(AUTOMATIC_THOUGHT_SCREEN) {
             AutomaticThoughtRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToDistortion = { navController.navigate(DISTORTION_SCREEN) },
                 onNavigateToThought = { navController.navigate(THOUGHT_SCREEN) },
                 thoughtViewModel = thoughtViewModel
             )
-        }*/
+        }
         composable(THOUGHT_SCREEN) {
             ThoughtRoute(
                 onSaveThought = viewModel::saveThought,
                 onNavigateToMain = { navController.navigate(MAIN_SCREEN) })
 
         }
-        /*composable(DISTORTION_SCREEN) {
+        composable(DISTORTION_SCREEN) {
             DistortionRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToChallenge = { navController.navigate(CHALLENGE_SCREEN) },
                 onNavigateToAutoThought = { navigateToAutoThought() },
                 thoughtViewModel = thoughtViewModel
             )
-        }*/
-        /*composable(CHALLENGE_SCREEN) {
+        }
+        composable(CHALLENGE_SCREEN) {
             ChallengeRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToDistortion = { navigateToDistortion() },
@@ -96,28 +89,28 @@ fun NavGraph(
                 onNavigateToAutoThought = { navigateToAutoThought() },
                 thoughtViewModel = thoughtViewModel
             )
-        }*/
-        /*composable(ALTERNATIVE_SCREEN) {
+        }
+        composable(ALTERNATIVE_SCREEN) {
             AlternativeThoughtRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToFeeling = { navController.navigate(FEELING_SCREEN) },
                 onNavigateToChallenge = { navigateToChallenge() },
                 thoughtViewModel = thoughtViewModel,
             )
-        }*/
-        /*composable(FEELING_SCREEN) {
+        }
+        composable(FEELING_SCREEN) {
             FeelingRoute(
                 onNavigateToFollowUp = { navController.navigate(FOLLOW_UP_REQUEST_SCREEN) },
                 thoughtViewModel = thoughtViewModel
             )
-        }*/
-        /*composable(FOLLOW_UP_REQUEST_SCREEN) {
+        }
+        composable(FOLLOW_UP_REQUEST_SCREEN) {
             FollowUpRoute(
                 onNavigateToFinished = { navController.navigate(FINISHED_SCREEN) },
                 thoughtViewModel = thoughtViewModel
             )
-        }*/
-        /*composable(FINISHED_SCREEN) {
+        }
+        composable(FINISHED_SCREEN) {
             FinishedRoute(
                 onNavigateToAutoThought = { navigateToAutoThought() },
                 onNavigateToDistortions = { navigateToDistortion() },
@@ -128,10 +121,6 @@ fun NavGraph(
                 thoughtViewModel = thoughtViewModel,
                 viewModel = viewModel
             )
-        }*/
-
-composable(SCREENING_ROUTE) {
-            ScreeningRoute()
         }
     }
 }
