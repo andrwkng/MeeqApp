@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.predictions
+package com.spryteam.meeqapp.ui.predictions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.sprytm.meeqapp.ui.CardAttentionDot
-import com.sprytm.meeqapp.ui.CardBadge
-import com.sprytm.meeqapp.ui.CardCrown
-import com.sprytm.meeqapp.ui.CardMutedContent
-import com.sprytm.meeqapp.ui.CardTextContent
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.thoughts.Exercise
+import com.spryteam.meeqapp.ui.CardAttentionDot
+import com.spryteam.meeqapp.ui.CardBadge
+import com.spryteam.meeqapp.ui.CardCrown
+import com.spryteam.meeqapp.ui.CardMutedContent
+import com.spryteam.meeqapp.ui.CardTextContent
+import com.spryteam.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.thoughts.Exercise
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -59,7 +59,7 @@ fun PredictionCard(
                 CardBadge(
                     icon = Icons.Default.PlayArrow,
                     text = "Tap to start follow up",
-                    backgroundColor = theme.colorLightPink
+                    backgroundColor = theme.lightPink
                 )
             }
 

@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui
+package com.spryteam.meeqapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,8 @@ fun MainScreen(
             .verticalScroll(rememberScrollState())
     ) {
         //ThoughtScreen(navController)
-        navigate()
+        //navigate()
+        //HomeScreen()
     }
 }
 

@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.distortions
+package com.spryteam.meeqapp.ui.distortions
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,48 +9,45 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sprytm.meeqapp.ui.components.ActionButton
-import com.sprytm.meeqapp.ui.components.GhostButton
-import com.sprytm.meeqapp.ui.components.GhostButtonWithGuts
-import com.sprytm.meeqapp.ui.components.HintHeader
-import com.sprytm.meeqapp.ui.components.MediumHeader
-import com.sprytm.meeqapp.ui.components.RoundedSelector
-import com.sprytm.meeqapp.ui.components.SubHeader
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
 import com.spryteam.meeqapp.R
+import com.spryteam.meeqapp.ui.components.ActionButton
+import com.spryteam.meeqapp.ui.components.GhostButton
+import com.spryteam.meeqapp.ui.components.GhostButtonWithGuts
+import com.spryteam.meeqapp.ui.components.HintHeader
+import com.spryteam.meeqapp.ui.components.MediumHeader
+import com.spryteam.meeqapp.ui.components.RoundedSelector
+import com.spryteam.meeqapp.ui.components.SingleLineText
+import com.spryteam.meeqapp.ui.components.SubHeader
+import com.spryteam.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
 @Composable
 fun DistortionRoute(
     onNavigateToFinished: () -> Unit,
     onNavigateToChallenge: () -> Unit,
     onNavigateToAutoThought: () -> Unit,
-    viewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel,
 ) {
-    val autoThought: String by viewModel.automaticThought.collectAsState("")
-    val distortions: List<CognitiveDistortion> by viewModel.distortionList.collectAsState(emptyList())
+    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
+    val distortions: List<CognitiveDistortion> by thoughtViewModel.distortionList.collectAsState(emptyList())
 
     DistortionScreen(
         distortionList = distortions,
-        isEditing = viewModel.isEditing,
-        isNextDisabled = viewModel.isNextDisabled,
-        onPressSlug = viewModel::onPressSlug,
+        isEditing = thoughtViewModel.isEditing,
+        isNextDisabled = thoughtViewModel.isNextDisabled,
+        onPressSlug = thoughtViewModel::onPressSlug,
         autoThoughtVal = autoThought,
         onFinishPressed = onNavigateToFinished,
-        onNextPressed = { viewModel.onNext(onNavigateToChallenge) },
-        onBackPressed = { viewModel.onNext(onNavigateToAutoThought) }
+        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToChallenge)*/ },
+        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToAutoThought)*/ }
     )
 }
 
@@ -66,8 +63,8 @@ fun DistortionScreen(
     onBackPressed: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    var shouldShowPreviousThought by remember { mutableStateOf(false) }
-    var shouldShowDistortions by remember { mutableStateOf(false) }
+    //var shouldShowPreviousThought by remember { mutableStateOf(false) }
+    //var shouldShowDistortions by remember { mutableStateOf(false) }
 
     fun saveThought() {
         /*coroutineScope.launch {
@@ -81,14 +78,14 @@ fun DistortionScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 24.dp)
-        //.background(Theme.lightOffwhite)
+        //.background(Theme.lightOffWhite)
         //.verticalScroll(scrollState)
     ) {
         // Content inside ScrollView
         Column(
             modifier = Modifier
                 //.fillMaxSize()
-                .background(Theme.lightOffwhite)
+                .background(Theme.lightOffWhite)
                 .padding(16.dp)
                 .verticalScroll(scrollState)
                 .weight(weight = 1f, fill = false)
@@ -107,7 +104,7 @@ fun DistortionScreen(
                 GhostButtonWithGuts(
                     borderColor = Color.LightGray,
                     onClick = { onBackPressed() }
-                ){Text(autoThoughtVal)}
+                ){ SingleLineText(autoThoughtVal) }
 
                 SubHeader(text = "Common Distortions")
                 HintHeader(
@@ -135,14 +132,14 @@ fun DistortionScreen(
                 ActionButton(
                     title = "Save",
                     onClick = { onFinishPressed() },
-                    style = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 )
             } else {
                     GhostButton(
                         borderColor = Theme.lightGray,
                         textColor = Theme.veryLightText,
                         title = "Back",
-                        style = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         marginRight = 24.dp,
                         onClick = { onBackPressed() }
                     )
@@ -150,7 +147,7 @@ fun DistortionScreen(
                         title = "Next",
                         onClick = { onNextPressed() },
                         disabled = isNextDisabled,
-                        style = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f)
                     )
             }
         }
@@ -167,7 +164,7 @@ fun DistortionScreenPreview() {
         distortionList = list,
         isEditing = false,
         isNextDisabled = true,
-        autoThoughtVal = "Automatic Thought",
+        autoThoughtVal = "She hasn't replied to my texts, i guess she doesn't like me",
         onPressSlug = { /*TODO*/ },
         onFinishPressed = { /*TODO*/ },
         onNextPressed = { /*TODO*/ }) {

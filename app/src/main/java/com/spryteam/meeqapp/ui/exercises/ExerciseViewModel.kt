@@ -1,10 +1,10 @@
-package com.sprytm.meeqapp.ui.exercises
+package com.spryteam.meeqapp.ui.exercises
 
 import androidx.lifecycle.ViewModel
-import com.sprytm.meeqapp.data.CheckupStore
-import com.sprytm.meeqapp.data.PredictionStore
-import com.sprytm.meeqapp.data.ThoughtStore
-import com.sprytm.meeqapp.ui.checkup.Checkup
+import com.spryteam.meeqapp.data.CheckupStore
+import com.spryteam.meeqapp.data.PredictionStore
+import com.spryteam.meeqapp.data.ThoughtStore
+import com.spryteam.meeqapp.ui.checkup.Checkup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,19 +1,16 @@
-package com.sprytm.meeqapp.ui.viewmodel
+package com.spryteam.meeqapp.ui.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.sprytm.meeqapp.data.ExerciseStore
-import com.sprytm.meeqapp.ui.checkup.Checkup
-import com.sprytm.meeqapp.ui.distortions.distortions
-import com.sprytm.meeqapp.ui.exercises.ExerciseGroup
-import com.sprytm.meeqapp.ui.predictions.Prediction
-import com.sprytm.meeqapp.ui.thoughts.Exercise
-import com.sprytm.meeqapp.ui.thoughts.ImmediateCheckup
-import com.sprytm.meeqapp.ui.thoughts.SavedThought
-import com.sprytm.meeqapp.ui.thoughts.Thought
+import com.spryteam.meeqapp.data.ExerciseStore
+import com.spryteam.meeqapp.ui.checkup.Checkup
+import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
+import com.spryteam.meeqapp.ui.predictions.Prediction
+import com.spryteam.meeqapp.ui.thoughts.Exercise
+import com.spryteam.meeqapp.ui.thoughts.SavedThought
+import com.spryteam.meeqapp.ui.thoughts.Thought
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,7 +22,9 @@ class SharedViewModel @Inject constructor(
     private val exerciseStore: ExerciseStore
 ) : ViewModel() {
     //class SharedViewModel : ViewModel() {
-    val groups = mutableStateOf(listOf<ExerciseGroup>())
+    //val groups = mutableStateOf(listOf<ExerciseGroup>())
+    private val _groups = MutableStateFlow(listOf<ExerciseGroup>())
+    val groups = _groups.asStateFlow()
 
     //val thoughts = mutableStateOf<ExerciseGroup?>(null)
     val thoughts = mutableListOf<SavedThought>()
@@ -36,9 +35,6 @@ class SharedViewModel @Inject constructor(
     //val predictions = mutableStateOf<ExerciseGroup?>(null)
     val predictions = mutableListOf<Prediction>()
 
-    private val _createdAt = mutableStateOf(LocalDate.now())
-    val createdAt: LocalDate
-        get() = _createdAt.value
 
     /*fun updateThought() {
         //_thought.value = thought
@@ -48,105 +44,26 @@ class SharedViewModel @Inject constructor(
         }
     }*/
 
-    // FollowUp
-    private val _followUpCompleted = mutableStateOf<Boolean?>(null)
-
-    private val _followUpNote = mutableStateOf<String?>(null)
-    val followUpNote: String?
-        get() = _followUpNote.value
-
-    private val _followUpDate = mutableStateOf<String?>(null)
-
-    val navigateToFinished = mutableStateOf({})
-    fun onContinue() {
-        navigateToFinished.value()
-    }
-
-    fun onSetCheckup() {
-        _followUpDate.value = getFollowUpTime()
-        //saveThought()
-        onContinue()
-    }
-
-    // Feeling
-    private val _checkup = mutableStateOf<ImmediateCheckup?>(null)
-
-    fun onFeltWorse(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.WORSE)
-        navigate()
-    }
-
-    private fun saveCheckup(feeling: ImmediateCheckup) {
-        _checkup.value = feeling
-        //saveThought()
-    }
-
-    fun onFeltTheSame(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.WORSE)
-        navigate()
-    }
-
-    fun onFeltBetter(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.BETTER)
-        navigate()
-    }
-
-    // Distortions
-    private val _distortions = MutableStateFlow(distortions)
-    val distortionList = _distortions.asStateFlow()
-
-    fun onPressSlug(selected: Any) {
-        val list = _distortions.value
-        list.let {
-            val index = list.indexOfFirst { it.slug == selected }
-
-            if (index != -1) {
-                list[index].selected = !list[index].selected
-                //distortionList = cognitiveDistortions.toList()
-                _distortions.value = list
-            }
-        }
-    }
 
 
 
-    // Challenge
-    private val _challenge = MutableStateFlow("")
-    val challenge: StateFlow<String> = _challenge.asStateFlow()
 
-    fun onChallengeChange(value: String) {
-        _challenge.value = value
-        _isNextDisabled.value = false
-    }
 
-    // Automatic Thought
-    private val _isNextDisabled = mutableStateOf(true)
-    val isNextDisabled: Boolean
-        get() = _isNextDisabled.value
 
-    private val _autoThought = MutableStateFlow("")
-    val automaticThought: StateFlow<String> = _autoThought.asStateFlow()
 
-    private val _isEditing = mutableStateOf(false)
-    val isEditing: Boolean
-        get() = _isEditing.value
+
+
+
+
 
     fun onFinish() {
         //saveThought("New Thought")
         //navigation.navigate(FINISHED_SCREEN)
     }
 
-    fun onNext(navigate: () -> Unit) {
-        //saveThought("New Thought")
-        //navigation.navigate(DISTORTION_SCREEN)
-        navigate()
-    }
 
-    fun onChange(value: String) {
-        _autoThought.value = value
-        _isNextDisabled.value = false
-        //thought.value?.automaticThought = label
-    }
+
+
 
     fun onCancel() {}
 
@@ -169,7 +86,9 @@ class SharedViewModel @Inject constructor(
     fun saveThought(thought: SavedThought) {
         //thoughts.value?.exercises?.add(thought as Exercise)
         //thoughtStore.saveThought(thoughts)
+        Log.i("saveThought:", thought.alternativeThought)
         thoughts.add(thought)
+        Log.i("thoughts size:", thoughts.size.toString())
     }
 
     fun setHasBeenSurveyedTrue() {
@@ -226,8 +145,15 @@ class SharedViewModel @Inject constructor(
     fun loadExercises() {
         val exercises: List<Exercise> = (thoughts + checkups + predictions)
 
-        groups.value =
+        Log.i("thoughts size:", thoughts.size.toString())
+
+        Log.i("loadExercises size:", exercises.size.toString())
+
+        _groups.value =
             exerciseStore.getSortedExerciseGroups(exerciseStore.getSortedExerciseList(exercises))
+
+        Log.i("groups size:", groups.value.size.toString())
+
     }
 
     fun navigateToPredictionViewer(prediction: Prediction? = null) {
@@ -283,7 +209,7 @@ class SharedViewModel @Inject constructor(
      * a Segment identify that marks them as on/off.
      * @param oneIn ex: 10 for 1 in 10 chance; 5 for 1 in 5 chance.
      */
-    suspend fun passesFeatureFlag(
+    /*suspend fun passesFeatureFlag(
         oneIn: Int,
         //userPrefViewModel: UserPreferenceStore
     ): Boolean {
@@ -292,7 +218,7 @@ class SharedViewModel @Inject constructor(
         val diceRoll = id?.hashCode()?.rem((oneIn - 1))
 
         return diceRoll == 0
-    }
+    }*/
 
 
 

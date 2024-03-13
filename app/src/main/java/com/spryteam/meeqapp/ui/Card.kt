@@ -1,17 +1,25 @@
-package com.sprytm.meeqapp.ui
+package com.spryteam.meeqapp.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,21 +28,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.Paragraph
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.test.platform.app.InstrumentationRegistry
-import com.sprytm.meeqapp.ui.components.Badge
-import com.sprytm.meeqapp.ui.components.HintHeader
-import com.sprytm.meeqapp.ui.components.SubHeader
-import com.sprytm.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.components.Badge
+import com.spryteam.meeqapp.ui.components.HintHeader
+import com.spryteam.meeqapp.ui.components.Paragraph
+import com.spryteam.meeqapp.ui.components.SubHeader
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun TouchableCardContainer(
@@ -48,7 +51,7 @@ fun TouchableCardContainer(
         modifier = Modifier
             .padding(bottom = 18.dp)
             .background(Color.White)
-            .border(1.dp, Theme.colorLightGray, RoundedCornerShape(8.dp))
+            .border(1.dp, Theme.lightGray, RoundedCornerShape(8.dp))
             .then(modifier)
     ) {
         children()
@@ -56,7 +59,6 @@ fun TouchableCardContainer(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TouchableOpacity(
     onClick: () -> Unit,
@@ -100,23 +102,29 @@ fun CardCrown(
     icon: ImageVector,
     color: Color = Theme.veryLightText,
 ) {
-    Box(
+    /*Badge(
+        text = text,
+        icon = icon,
+        //modifier = Modifier.padding(bottom = 18.dp)
+    )*/
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 12.dp)
             .background(
-                color = MaterialTheme.colorScheme.background,
+                color = Theme.colorGray,
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
             )
-            .padding(8.dp),
-        contentAlignment = Alignment.CenterStart
+            //.padding(vertical = 8.dp, horizontal = 12.dp)
+            .fillMaxWidth()
+            .padding(12.dp)
+        //contentAlignment = Alignment.CenterStart
     ) {
         Text(
             text = text,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-            letterSpacing = 1.sp
+            fontSize = 12.sp,
+            fontWeight = FontWeight.W700,
+            color = Theme.lightText,
+            letterSpacing = 1.sp,
+            modifier = Modifier.weight(1f)
         )
         Icon(
             icon,
@@ -125,13 +133,35 @@ fun CardCrown(
             modifier = Modifier.size(12.dp)
         )
     }
+
+    /*Row(
+        modifier = Modifier
+            .clip(MaterialTheme.shapes.medium)
+            .background(Theme.lightOffWhite)
+            .padding(12.dp)
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            color = Theme.lightText,
+            modifier = Modifier.weight(1f)
+        )
+
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = Theme.lightText,
+            modifier = Modifier.size(16.dp),
+        )
+    }*/
 }
 
 @Composable
 fun CardTitleAndSubtitleContent(title: String, subtitle: String) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            //.fillMaxSize()
             .padding(12.dp)
     ) {
         SubHeader(
@@ -147,11 +177,11 @@ fun CardTitleAndSubtitleContent(title: String, subtitle: String) {
 
 @Composable
 fun CardTextContent(text: String) {
-    val defaultDensity = Density(density = 1f)
-    val fontFamilyResolver = createFontFamilyResolver(
+    //val defaultDensity = Density(density = 1f)
+    /*val fontFamilyResolver = createFontFamilyResolver(
         InstrumentationRegistry.getInstrumentation().context
-    )
-    val constraints = Constraints()
+    )*/
+    /*val constraints = Constraints()
 
     Paragraph(
         text = text,
@@ -165,8 +195,25 @@ fun CardTextContent(text: String) {
         ellipsis = false,
         constraints = Constraints(maxWidth = constraints.maxWidth),
         density = defaultDensity,
-        fontFamilyResolver = fontFamilyResolver
-    )
+        //fontFamilyResolver = fontFamilyResolver
+    )*/
+//    color: theme.darkText,
+//    fontWeight: "400",
+//    fontSize: 16,
+//    marginBottom: 8,
+//    paddingLeft: 12,
+//    paddingRight: 12,
+//    paddingTop: 12,
+//    paddingBottom: 6,
+    Paragraph(
+        modifier = Modifier
+            .padding(bottom = 8.dp)
+            .padding(top = 12.dp, bottom = 6.dp)
+            .padding(start = 12.dp, end = 12.dp),
+        fontWeight = FontWeight.W400,
+        textDirection = TextDirection.Content,
+        color = Theme.darkText,
+    ) { text }
 }
 
 
@@ -174,17 +221,30 @@ fun CardTextContent(text: String) {
 fun CardMutedContent(content: @Composable () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            //.fillMaxSize()
             .padding(4.dp)
             .background(
-                color = MaterialTheme.colorScheme.background,
+                color = Theme.lightOffWhite,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(12.dp, 6.dp),
+            .padding(12.dp, 6.dp)
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         content()
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCardCrown() {
+    CardCrown(text = "THOUGHT", Icons.Default.Email)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CardTextContentPreview() {
+    CardTextContent(text = "Alternative thought")
 }
 
 @Composable
@@ -206,14 +266,20 @@ fun CardAttentionDot() {
     Box(
         modifier = Modifier
             .padding(top = 12.dp, end = 0.dp)
-            .offset((-6).dp, 0.dp)
+            .offset((-5).dp, 7.dp)
             .size(18.dp)
             .background(Theme.colorPink, CircleShape)
             //.align(Alignment.TopEnd)
     )
 }
 
-@Preview
+@Preview(showBackground = true)
+@Composable
+fun CardBadgePreview() {
+    CardBadge(text = "Felt better later on", Icons.Default.ThumbUp)
+}
+
+@Preview(showBackground = true)
 @Composable
 fun CardAttentionDotPreview() {
     CardAttentionDot()

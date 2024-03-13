@@ -1,8 +1,8 @@
-package com.sprytm.meeqapp.ui.predictions
+package com.spryteam.meeqapp.ui.predictions
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sprytm.meeqapp.data.PredictionStore
+import com.spryteam.meeqapp.data.PredictionStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

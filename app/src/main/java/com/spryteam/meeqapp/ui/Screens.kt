@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui
+package com.spryteam.meeqapp.ui
 
 const val MAIN_SCREEN = "MAIN_SCREEN"
 const val EXPLANATION_SCREEN = "EXPLANATION_SCREEN"

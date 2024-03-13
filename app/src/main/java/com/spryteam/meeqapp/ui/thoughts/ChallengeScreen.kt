@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.thoughts
+package com.spryteam.meeqapp.ui.thoughts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,15 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spryteam.meeqapp.R
-
-import com.sprytm.meeqapp.ui.components.ActionButton
-import com.sprytm.meeqapp.ui.components.GhostButton
-import com.sprytm.meeqapp.ui.components.GhostButtonWithGuts
-import com.sprytm.meeqapp.ui.components.HintHeader
-import com.sprytm.meeqapp.ui.components.MediumHeader
-import com.sprytm.meeqapp.ui.components.SubHeader
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.components.ActionButton
+import com.spryteam.meeqapp.ui.components.GhostButton
+import com.spryteam.meeqapp.ui.components.GhostButtonWithGuts
+import com.spryteam.meeqapp.ui.components.HintHeader
+import com.spryteam.meeqapp.ui.components.MediumHeader
+import com.spryteam.meeqapp.ui.components.SingleLineText
+import com.spryteam.meeqapp.ui.components.SubHeader
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun ChallengeRoute(
@@ -39,23 +38,22 @@ fun ChallengeRoute(
     onNavigateToDistortion: () -> Unit,
     onNavigateToAlternative: () -> Unit,
     onNavigateToAutoThought: () -> Unit,
-    viewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel,
 ) {
-    val challenge: String by viewModel.challenge.collectAsState("")
-    val autoThought: String by viewModel.automaticThought.collectAsState("")
+    val challenge: String by thoughtViewModel.challenge.collectAsState("")
+    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
 
     ChallengeScreen(
         challengeVal = challenge,
-        onChallengeChange = viewModel::onChallengeChange,
-        isEditing = viewModel.isEditing,
-        isNextDisabled = viewModel.isNextDisabled,
+        onChallengeChange = thoughtViewModel::onChallengeChange,
+        isEditing = thoughtViewModel.isEditing,
+        isNextDisabled = thoughtViewModel.isNextDisabled,
         autoThoughtVal = autoThought,
         onNavigateToAutoThought = onNavigateToAutoThought,
-        onNextPressed = { viewModel.onNext(onNavigateToAlternative) },
+        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToAlternative)*/ },
         onFinishPressed = onNavigateToFinished,
-        onBackPressed = { viewModel.onNext(onNavigateToDistortion) }
+        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToDistortion)*/ }
     )
-
 }
 
 @Composable
@@ -76,7 +74,7 @@ fun ChallengeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp)
-            .background(Theme.lightOffwhite)
+            .background(Theme.lightOffWhite)
     ) {
         Column {
             MediumHeader(text = stringResource(id = R.string.challenge))
@@ -92,18 +90,19 @@ fun ChallengeScreen(
             ) {
                 SubHeader(text = "Your Thought")
                 GhostButtonWithGuts(
-                    borderColor = Theme.lightGray,
+                    borderColor = Theme.colorGray,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onNavigateToAutoThought
-                ) { Text(autoThoughtVal) }
+                ) {
+                    SingleLineText(autoThoughtVal)
+                }
             }
 
-            SubHeader(text = "Your Challenge")
             OutlinedTextField(
                 value = challengeVal,
                 onValueChange = onChallengeChange,
                 textStyle = textInputStyle,
-                label = { Text("Challenge") },
+                label = { SubHeader(text = "Your Challenge") },
                 placeholder = { Text(text = stringResource(id = R.string.changed_placeholder)) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -122,14 +121,14 @@ fun ChallengeScreen(
                     ActionButton(
                         title = "Save",
                         onClick = { onFinishPressed() },
-                        style = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     )
                 } else {
                     GhostButton(
                         borderColor = Theme.lightGray,
                         textColor = Theme.veryLightText,
                         title = "Back",
-                        style = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         marginRight = 24.dp,
                         onClick = { onBackPressed() }
                     )
@@ -137,7 +136,7 @@ fun ChallengeScreen(
                         title = "Next",
                         onClick = { onNextPressed() },
                         disabled = isNextDisabled,
-                        style = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }

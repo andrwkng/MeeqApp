@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.thoughts
+package com.spryteam.meeqapp.ui.thoughts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,32 +18,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spryteam.meeqapp.R
-
-import com.sprytm.meeqapp.ui.components.ActionButton
-import com.sprytm.meeqapp.ui.components.GhostButton
-import com.sprytm.meeqapp.ui.components.HintHeader
-import com.sprytm.meeqapp.ui.components.MediumHeader
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.components.ActionButton
+import com.spryteam.meeqapp.ui.components.GhostButton
+import com.spryteam.meeqapp.ui.components.HintHeader
+import com.spryteam.meeqapp.ui.components.MediumHeader
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun AlternativeThoughtRoute(
     onNavigateToFinished: () -> Unit,
     onNavigateToFeeling: () -> Unit,
     onNavigateToChallenge: () -> Unit,
-    viewModel: SharedViewModel,
     thoughtViewModel: ThoughtViewModel
 ) {
     val altThought: String by thoughtViewModel.alternativeThought.collectAsState("")
 
     AlternativeThoughtScreen(
-        isEditing = viewModel.isEditing,
-        isNextDisabled = viewModel.isNextDisabled,
+        isEditing = thoughtViewModel.isEditing,
+        isNextDisabled = thoughtViewModel.isNextDisabled,
         altThoughtVal = altThought,
         onAltThoughtChange = thoughtViewModel::onAltThoughtChange,
-        onNextPressed = { viewModel.onNext(onNavigateToFeeling) },
+        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToFeeling)*/ },
         onFinishPressed = onNavigateToFinished,
-        onBackPressed = { viewModel.onNext(onNavigateToChallenge) }
+        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToChallenge)*/ }
     )
 }
 
@@ -99,14 +96,14 @@ fun AlternativeThoughtScreen(
                     ActionButton(
                         title = "Save",
                         onClick = { onFinishPressed() },
-                        style = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     )
                 } else {
                     GhostButton(
                         borderColor = Theme.lightGray,
                         textColor = Theme.veryLightText,
                         title = "Back",
-                        style = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         marginRight = 24.dp,
                         onClick = { onBackPressed() }
                     )
@@ -114,7 +111,7 @@ fun AlternativeThoughtScreen(
                         title = "Next",
                         onClick = { onNextPressed() },
                         disabled = isNextDisabled,
-                        style = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.checkup
+package com.spryteam.meeqapp.ui.checkup
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,11 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sprytm.meeqapp.ui.CardBadge
-import com.sprytm.meeqapp.ui.CardCrown
-import com.sprytm.meeqapp.ui.CardMutedContent
-import com.sprytm.meeqapp.ui.exercises.Mood
-import com.sprytm.meeqapp.ui.thoughts.Exercise
+import com.spryteam.meeqapp.ui.CardBadge
+import com.spryteam.meeqapp.ui.CardCrown
+import com.spryteam.meeqapp.ui.CardMutedContent
+import com.spryteam.meeqapp.ui.exercises.Mood
+import com.spryteam.meeqapp.ui.thoughts.Exercise
 import java.time.LocalDate
 
 data class Checkup(

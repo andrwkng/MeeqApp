@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.components
+package com.spryteam.meeqapp.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sprytm.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun MediumHeader(
@@ -39,6 +39,7 @@ fun HintHeader(
     text: String,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = 14.sp,
+    textAlign: TextAlign = TextAlign.Left,
     style: TextStyle = TextStyle()
 ) {
     Text(
@@ -49,6 +50,7 @@ fun HintHeader(
         color = Theme.veryLightText,
         fontSize,
         fontWeight = FontWeight.SemiBold,
+        textAlign = textAlign,
         style = style
     )
 }

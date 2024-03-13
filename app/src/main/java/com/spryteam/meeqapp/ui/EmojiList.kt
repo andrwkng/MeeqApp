@@ -1,11 +1,11 @@
-package com.sprytm.meeqapp.ui
+package com.spryteam.meeqapp.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.sprytm.meeqapp.ui.components.Paragraph
-import com.sprytm.meeqapp.ui.distortions.CognitiveDistortion
-import com.sprytm.meeqapp.ui.distortions.distortions
-import com.sprytm.meeqapp.ui.distortions.emojiForSlug
+import com.spryteam.meeqapp.ui.components.Paragraph
+import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
+import com.spryteam.meeqapp.ui.distortions.distortions
+import com.spryteam.meeqapp.ui.distortions.emojiForSlug
 
 
 
@@ -13,7 +13,7 @@ import com.sprytm.meeqapp.ui.distortions.emojiForSlug
 fun EmojiList(distortions:  List<CognitiveDistortion>) {
     val emojiList = distortions
         .asSequence()
-        //.filter { it.selected }
+        .filter { it.selected }
         .map { emojiForSlug(it.slug) }
         //.take(8)
         .filter { it.isNotBlank() }
@@ -54,5 +54,8 @@ fun EmptyThoughtIllustration() {
 @Preview
 @Composable
 fun PreviewEmojiList() {
-    EmojiList(distortions)
+    val list = distortions
+    list[2].selected = true
+    list[3].selected = true
+    EmojiList(list)
 }

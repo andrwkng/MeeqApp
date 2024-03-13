@@ -1,4 +1,3 @@
-
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -7,28 +6,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sprytm.meeqapp.ui.ALTERNATIVE_SCREEN
-import com.sprytm.meeqapp.ui.AUTOMATIC_THOUGHT_SCREEN
-import com.sprytm.meeqapp.ui.CHALLENGE_SCREEN
-import com.sprytm.meeqapp.ui.DISTORTION_SCREEN
-import com.sprytm.meeqapp.ui.FEELING_SCREEN
-import com.sprytm.meeqapp.ui.FINISHED_SCREEN
-import com.sprytm.meeqapp.ui.FOLLOW_UP_REQUEST_SCREEN
-import com.sprytm.meeqapp.ui.FeelingRoute
-import com.sprytm.meeqapp.ui.FinishedRoute
-import com.sprytm.meeqapp.ui.MAIN_SCREEN
-import com.sprytm.meeqapp.ui.MainScreen
-import com.sprytm.meeqapp.ui.SCREENING_ROUTE
-import com.sprytm.meeqapp.ui.THOUGHT_SCREEN
-import com.sprytm.meeqapp.ui.distortions.DistortionRoute
-import com.sprytm.meeqapp.ui.followup.FollowUpRoute
-import com.sprytm.meeqapp.ui.screening.ScreeningRoute
-import com.sprytm.meeqapp.ui.thoughts.AlternativeThoughtRoute
-import com.sprytm.meeqapp.ui.thoughts.AutomaticThoughtRoute
-import com.sprytm.meeqapp.ui.thoughts.ChallengeRoute
-import com.sprytm.meeqapp.ui.thoughts.ThoughtRoute
-import com.sprytm.meeqapp.ui.thoughts.ThoughtViewModel
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.ALTERNATIVE_SCREEN
+import com.spryteam.meeqapp.ui.AUTOMATIC_THOUGHT_SCREEN
+import com.spryteam.meeqapp.ui.CHALLENGE_SCREEN
+import com.spryteam.meeqapp.ui.DISTORTION_SCREEN
+import com.spryteam.meeqapp.ui.FINISHED_SCREEN
+import com.spryteam.meeqapp.ui.FOLLOW_UP_REQUEST_SCREEN
+import com.spryteam.meeqapp.ui.MAIN_SCREEN
+import com.spryteam.meeqapp.ui.SCREENING_ROUTE
+import com.spryteam.meeqapp.ui.THOUGHT_SCREEN
+import com.spryteam.meeqapp.ui.screening.ScreeningRoute
+import com.spryteam.meeqapp.ui.thoughts.MainRoute
+import com.spryteam.meeqapp.ui.thoughts.ThoughtRoute
+import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
+import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun NavGraph(
@@ -43,6 +34,7 @@ fun NavGraph(
     val navigateToChallenge = { navController.navigate(CHALLENGE_SCREEN) }
     val navigateToAlternative = { navController.navigate(ALTERNATIVE_SCREEN) }
     val navigateToFollowUp = { navController.navigate(FOLLOW_UP_REQUEST_SCREEN) }
+    val navigateToThought = { navController.navigate(THOUGHT_SCREEN) }
 
 
     NavHost(
@@ -50,7 +42,17 @@ fun NavGraph(
         startDestination = startDestination
     ) {
         composable(MAIN_SCREEN) {
-            MainScreen { navController.navigate(THOUGHT_SCREEN) }
+            //MainScreen { navController.navigate(THOUGHT_SCREEN) }
+            MainRoute(
+                onNavigateToPredictionOnboarding = { /*TODO*/ },
+                onNavigateToAssumption = { /*TODO*/ },
+                onNavigateToAutoThought = { navController.navigate(THOUGHT_SCREEN) },
+                onNavigateToThoughtViewer = { /*TODO*/ },
+                onNavigateToCheckup = { /*TODO*/ },
+                onNavigateToCheckupViewer = { /*TODO*/ },
+                onNavigateToPredictionViewer = { /*TODO*/ },
+                sharedViewModel = viewModel
+            )
         }
         // On-boarding
         /*composable(WELCOME_SCREEN) {
@@ -74,59 +76,58 @@ fun NavGraph(
         /*composable(PREDICTION_FOLLOW_UP_SCREEN) {
             PredictionFollowUpScreen(navController, viewModel = sharedViewModel)
         }*/
-        composable(AUTOMATIC_THOUGHT_SCREEN) {
+        /*composable(AUTOMATIC_THOUGHT_SCREEN) {
             AutomaticThoughtRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToDistortion = { navController.navigate(DISTORTION_SCREEN) },
                 onNavigateToThought = { navController.navigate(THOUGHT_SCREEN) },
-                viewModel = viewModel
+                thoughtViewModel = thoughtViewModel
             )
-        }
+        }*/
         composable(THOUGHT_SCREEN) {
             ThoughtRoute(
-                onNavigateToPredictionOnboarding = { /*TODO*/ },
-                onNavigateToAssumption = { /*TODO*/ },
-                onNavigateToAutoThought = { navigateToAutoThought() },
-                onNavigateToThoughtViewer = { /*TODO*/ },
-                onNavigateToCheckup = { /*TODO*/ },
-                onNavigateToCheckupViewer = { /*TODO*/ },
-                onNavigateToPredictionViewer = { /*TODO*/ },
-                sharedViewModel = viewModel
-            )
+                onSaveThought = viewModel::saveThought,
+                onNavigateToMain = { navController.navigate(MAIN_SCREEN) })
+
         }
-        composable(DISTORTION_SCREEN) {
+        /*composable(DISTORTION_SCREEN) {
             DistortionRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToChallenge = { navController.navigate(CHALLENGE_SCREEN) },
                 onNavigateToAutoThought = { navigateToAutoThought() },
-                viewModel = viewModel
+                thoughtViewModel = thoughtViewModel
             )
-        }
-        composable(CHALLENGE_SCREEN) {
+        }*/
+        /*composable(CHALLENGE_SCREEN) {
             ChallengeRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToDistortion = { navigateToDistortion() },
                 onNavigateToAlternative = { navigateToAlternative() },
                 onNavigateToAutoThought = { navigateToAutoThought() },
-                viewModel = viewModel
+                thoughtViewModel = thoughtViewModel
             )
-        }
-        composable(ALTERNATIVE_SCREEN) {
+        }*/
+        /*composable(ALTERNATIVE_SCREEN) {
             AlternativeThoughtRoute(
                 onNavigateToFinished = { navigateToFinished() },
                 onNavigateToFeeling = { navController.navigate(FEELING_SCREEN) },
                 onNavigateToChallenge = { navigateToChallenge() },
                 thoughtViewModel = thoughtViewModel,
-                viewModel = viewModel
             )
-        }
-        composable(FEELING_SCREEN) {
-            FeelingRoute(onNavigateToFollowUp = { navController.navigate(FOLLOW_UP_REQUEST_SCREEN) }, viewModel = viewModel)
-        }
-        composable(FOLLOW_UP_REQUEST_SCREEN) {
-            FollowUpRoute(onNavigateToFinished = { navController.navigate(FINISHED_SCREEN) }, viewModel = viewModel)
-        }
-        composable(FINISHED_SCREEN) {
+        }*/
+        /*composable(FEELING_SCREEN) {
+            FeelingRoute(
+                onNavigateToFollowUp = { navController.navigate(FOLLOW_UP_REQUEST_SCREEN) },
+                thoughtViewModel = thoughtViewModel
+            )
+        }*/
+        /*composable(FOLLOW_UP_REQUEST_SCREEN) {
+            FollowUpRoute(
+                onNavigateToFinished = { navController.navigate(FINISHED_SCREEN) },
+                thoughtViewModel = thoughtViewModel
+            )
+        }*/
+        /*composable(FINISHED_SCREEN) {
             FinishedRoute(
                 onNavigateToAutoThought = { navigateToAutoThought() },
                 onNavigateToDistortions = { navigateToDistortion() },
@@ -134,10 +135,10 @@ fun NavGraph(
                 onNavigateToAlternative = { navigateToAlternative() },
                 onNavigateToFollowUp = { navigateToFollowUp() },
                 resetNavigationToThought = { resetNavigationTo(navController, THOUGHT_SCREEN) },
-                viewModel = viewModel,
-                thoughtViewModel = thoughtViewModel
+                thoughtViewModel = thoughtViewModel,
+                viewModel = viewModel
             )
-        }
+        }*/
 
         composable(SCREENING_ROUTE) {
             ScreeningRoute()

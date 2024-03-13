@@ -1,16 +1,16 @@
-package com.sprytm.meeqapp.data
+package com.spryteam.meeqapp.data
 
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.sprytm.meeqapp.ui.distortions.CognitiveDistortion
-import com.sprytm.meeqapp.ui.distortions.distortions
-import com.sprytm.meeqapp.ui.thoughts.ImmediateCheckup
-import com.sprytm.meeqapp.ui.thoughts.SavedThought
-import com.sprytm.meeqapp.ui.thoughts.SavedThoughtImpl
-import com.sprytm.meeqapp.ui.thoughts.Thought
+import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
+import com.spryteam.meeqapp.ui.distortions.distortions
+import com.spryteam.meeqapp.ui.thoughts.ImmediateCheckup
+import com.spryteam.meeqapp.ui.thoughts.SavedThought
+import com.spryteam.meeqapp.ui.thoughts.SavedThoughtImpl
+import com.spryteam.meeqapp.ui.thoughts.Thought
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -99,7 +99,7 @@ class ThoughtStore @Inject constructor(
             var keys = listOf<Any>()
             dataStore.data.map { preferences ->
                 preferences.asMap().keys.filter { it.toString().startsWith(THOUGHTS_KEY_PREFIX) }
-            }.collect{
+            }.collect {
                 keys = it
             }
 
@@ -124,11 +124,17 @@ class ThoughtStore @Inject constructor(
     }
 }
 
-fun NewThought(
+fun newSavedThought(
     automaticThought: String = "",
-    cognitiveDistortions: List<CognitiveDistortion> = distortions.map { CognitiveDistortion(label = it.label, slug = it.slug, description = it.description) },
     challenge: String = "",
     alternativeThought: String = "",
+    cognitiveDistortions: List<CognitiveDistortion> = distortions.map {
+        CognitiveDistortion(
+            label = it.label,
+            slug = it.slug,
+            description = it.description
+        )
+    },
     immediateCheckup: ImmediateCheckup? = null,
     followUpDate: String? = null,
     followUpCompleted: Boolean? = null,
@@ -137,7 +143,7 @@ fun NewThought(
     createdAt: LocalDate = LocalDate.now(),
     updatedAt: LocalDate = LocalDate.now(),
     uuid: String = getThoughtKey(UUID.randomUUID().toString()),
-): SavedThought {
+): SavedThoughtImpl {
     return SavedThoughtImpl(
         automaticThought = automaticThought,
         cognitiveDistortions = cognitiveDistortions,

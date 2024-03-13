@@ -1,9 +1,9 @@
-package com.sprytm.meeqapp
+package com.spryteam.meeqapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.sprytm.meeqapp.ui.MeeqApp
+import com.spryteam.meeqapp.ui.MeeqApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

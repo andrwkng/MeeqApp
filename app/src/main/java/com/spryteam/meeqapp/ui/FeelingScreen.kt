@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui
+package com.spryteam.meeqapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,20 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sprytm.meeqapp.ui.components.GhostButton
-import com.sprytm.meeqapp.ui.components.MediumHeader
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.components.GhostButton
+import com.spryteam.meeqapp.ui.components.MediumHeader
+import com.spryteam.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
 @Composable
 fun FeelingRoute(
     onNavigateToFollowUp: () -> Unit,
-    viewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel,
+    //viewModel: SharedViewModel,
 ) {
     FeelingScreen(
-        onFeltWorsePressed = { viewModel.onFeltWorse(onNavigateToFollowUp) },
-        onFeltTheSamePressed = { viewModel.onFeltTheSame(onNavigateToFollowUp) },
-        onFeltBetterPressed = { viewModel.onFeltBetter(onNavigateToFollowUp) }
+        onFeltWorsePressed = { thoughtViewModel.onFeltWorse(onNavigateToFollowUp) },
+        onFeltTheSamePressed = { thoughtViewModel.onFeltTheSame(onNavigateToFollowUp) },
+        onFeltBetterPressed = { thoughtViewModel.onFeltBetter(onNavigateToFollowUp) }
     )
 }
 
@@ -39,7 +40,8 @@ fun FeelingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Theme.colorLightOffwhite)
+            .background(Theme.lightOffWhite)
+            .padding(12.dp)
             .padding(top = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -57,8 +59,8 @@ fun FeelingScreen(
         // GhostButton - Felt Better
         GhostButton(
             title = "Better than before 👍",
-            style = Modifier.fillMaxWidth(),
-            borderColor = Theme.colorLightGray,
+            modifier = Modifier.fillMaxWidth(),
+            borderColor = Theme.colorBlue,
             textColor = Theme.darkText,
             marginBottom = 12.dp,
             onClick = { onFeltBetterPressed() }
@@ -67,8 +69,8 @@ fun FeelingScreen(
         // GhostButton - Felt The Same
         GhostButton(
             title = "About the same 🤷‍",
-            style = Modifier.fillMaxWidth(),
-            borderColor = Theme.colorLightGray,
+            modifier = Modifier.fillMaxWidth(),
+            borderColor = Theme.colorGray,
             textColor = Theme.darkText,
             marginBottom = 12.dp,
             onClick = { onFeltTheSamePressed() }
@@ -77,8 +79,8 @@ fun FeelingScreen(
         // GhostButton - Felt Worse
         GhostButton(
             title = "Worse than before 👎",
-            style = Modifier.fillMaxWidth(),
-            borderColor = Theme.colorLightGray,
+            modifier = Modifier.fillMaxWidth(),
+            borderColor = Theme.colorRed,
             textColor = Theme.darkText,
             onClick = { onFeltWorsePressed() }
         )

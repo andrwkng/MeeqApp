@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.exercises
+package com.spryteam.meeqapp.ui.exercises
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,15 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spryteam.meeqapp.R
 
-import com.sprytm.meeqapp.data.HistoryButtonLabelSetting
-import com.sprytm.meeqapp.ui.checkup.CheckUpCard
-import com.sprytm.meeqapp.ui.checkup.Checkup
-import com.sprytm.meeqapp.ui.predictions.Prediction
-import com.sprytm.meeqapp.ui.predictions.PredictionCard
-import com.sprytm.meeqapp.ui.thoughts.Exercise
-import com.sprytm.meeqapp.ui.thoughts.FollowUpState
-import com.sprytm.meeqapp.ui.thoughts.SavedThought
-import com.sprytm.meeqapp.ui.thoughts.ThoughtItem
+import com.spryteam.meeqapp.data.HistoryButtonLabelSetting
+import com.spryteam.meeqapp.ui.checkup.CheckUpCard
+import com.spryteam.meeqapp.ui.checkup.Checkup
+import com.spryteam.meeqapp.ui.predictions.Prediction
+import com.spryteam.meeqapp.ui.predictions.PredictionCard
+import com.spryteam.meeqapp.ui.thoughts.Exercise
+import com.spryteam.meeqapp.ui.thoughts.FollowUpState
+import com.spryteam.meeqapp.ui.thoughts.SavedThought
+import com.spryteam.meeqapp.ui.thoughts.ThoughtItem
 import java.time.LocalDate
 
 

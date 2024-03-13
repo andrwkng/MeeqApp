@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.theme
+package com.spryteam.meeqapp.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -17,29 +17,25 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 object Theme {
-    val colorLightOffwhite = Color(0xFFfbfcfe)
-    val colorOffwhite = Color(0xFFf2f5fa)
-    val colorLightGray = Color(0xFFEAEDF8)
-    val colorGray = Color(0xFFdadfeb)
-    val veryLightText = Color(0xFF8894af)
-    val lightText = Color(0xFF596275)
-    val darkText = Color(0xFF303952)
-    val colorPink = Color(0xFFf8a5c2)
-    val colorDarkPink = Color(0xFFF78FB3)
-    val colorLightPink = Color(0xFFFFF3F8)
-    val red = Color(0xFFc44569)
-    val colorLightBlue = Color(0xFFEDF0FC)
-    val veryLightBlue = Color(0xFFF2F4FD)
-    val colorBlue = Color(0xFF778beb)
-    val colorDarkBlue = Color(0xFF546de5)
-    val colorPurple = Color(0xFF8B77AA)
-    val colorLightPurple = Color(0xFFEEEBFF)
-    val colorYellow = Color(0xFFF7D795)
-
-
-    val lightOffwhite = Color(0xFFfbfcfe)
     val lightGray = Color(0xFFEAEDF8)
+    val colorGray = Color(0xFFdadfeb)
+    val colorPink = Color(0xFFf8a5c2)
+    val darkPink = Color(0xFFF78FB3)
+    val lightPink = Color(0xFFFFF3F8)
+    val colorRed = Color(0xFFc44569)
+    val lightBlue = Color(0xFFEDF0FC)
+    val colorBlue = Color(0xFF778beb)
     val darkBlue = Color(0xFF546de5)
+    val veryLightBlue = Color(0xFFF2F4FD)
+    val colorPurple = Color(0xFF8B77AA)
+    val lightPurple = Color(0xFFEEEBFF)
+    val colorYellow = Color(0xFFF7D795)
+    val offWhite = Color(0xFFf2f5fa)
+    val lightOffWhite = Color(0xFFfbfcfe)
+
+    val veryLightText = Color(0xFF8894af)
+    val lightText = Color(0xFF49505F)
+    val darkText = Color(0xFF303952)
 }
 
 private val DarkColorScheme = darkColorScheme(

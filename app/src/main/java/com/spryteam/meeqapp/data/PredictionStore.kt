@@ -1,9 +1,9 @@
-package com.sprytm.meeqapp.data
+package com.spryteam.meeqapp.data
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.sprytm.meeqapp.ui.predictions.Prediction
-import com.sprytm.meeqapp.ui.predictions.PredictionImpl
-import com.sprytm.meeqapp.ui.predictions.json
+import com.spryteam.meeqapp.ui.predictions.Prediction
+import com.spryteam.meeqapp.ui.predictions.PredictionImpl
+import com.spryteam.meeqapp.ui.predictions.json
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach

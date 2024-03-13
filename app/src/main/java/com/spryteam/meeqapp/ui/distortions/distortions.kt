@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.distortions
+package com.spryteam.meeqapp.ui.distortions
 
 import com.spryteam.meeqapp.R
 

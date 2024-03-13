@@ -1,7 +1,7 @@
-package com.sprytm.meeqapp.data
+package com.spryteam.meeqapp.data
 
-import com.sprytm.meeqapp.ui.exercises.ExerciseGroup
-import com.sprytm.meeqapp.ui.thoughts.Exercise
+import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
+import com.spryteam.meeqapp.ui.thoughts.Exercise
 import java.time.LocalDate
 import javax.inject.Inject
 

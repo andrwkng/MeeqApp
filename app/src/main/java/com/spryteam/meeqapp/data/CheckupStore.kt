@@ -1,8 +1,8 @@
-package com.sprytm.meeqapp.data
+package com.spryteam.meeqapp.data
 
 import android.content.Context
 import android.util.Log
-import com.sprytm.meeqapp.ui.checkup.Checkup
+import com.spryteam.meeqapp.ui.checkup.Checkup
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull

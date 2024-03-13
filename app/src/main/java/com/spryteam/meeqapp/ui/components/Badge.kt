@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.components
+package com.spryteam.meeqapp.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -18,13 +18,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sprytm.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun Badge(
     text: String,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Theme.colorLightBlue,
+    backgroundColor: Color = Theme.lightBlue,
     icon: ImageVector,
 ) {
     Row(

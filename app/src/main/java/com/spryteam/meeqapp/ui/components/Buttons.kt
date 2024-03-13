@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.components
+package com.spryteam.meeqapp.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -17,11 +17,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +40,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sprytm.meeqapp.ui.theme.Theme
+import com.spryteam.meeqapp.ui.theme.Theme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActionButton(
     title: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     fillColor: Color = Theme.colorBlue,
     textColor: Color = Color.White,
@@ -50,13 +53,12 @@ fun ActionButton(
     height: Dp = 48.dp,
     marginTop: Dp = 0.dp,
     marginBottom: Dp = 0.dp,
-    disabled: Boolean = true,
+    disabled: Boolean = false,
     flex: Float = 1f,
-    style: Modifier = Modifier,
 ) {
     Box(
         //onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .padding(top = marginTop, bottom = marginBottom)
             .border(1.dp, Theme.darkBlue, shape = RoundedCornerShape(10.dp))
             .width(width)
@@ -64,7 +66,6 @@ fun ActionButton(
             .background(fillColor, shape = RoundedCornerShape(10.dp))
             .padding(12.dp)
             //.weight(flex)
-            .then(style)
             .clickable(onClick = onClick, enabled = !disabled)
         //contentAlignment = Alignment.Center
     ) {
@@ -82,17 +83,22 @@ fun ActionButton(
 @Composable
 fun IconButton(
     icon: ImageVector,
+    modifier: Modifier = Modifier,
     label: String,
     onClick: () -> Unit = {},
-    style: Modifier = Modifier,
     iconSize: Dp = 24.dp,
     //hasBadge: Boolean = false
 ) {
     androidx.compose.material3.IconButton(
-        onClick = { onClick },
-        modifier = Modifier
+        onClick = onClick,
+        modifier = modifier
+            .height(48.dp)
+            .width(48.dp)
             .size(iconSize)
-            .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.small)
+            .background(
+                Theme.lightGray,
+                shape = RoundedCornerShape(10.dp)
+            )
     ) {
         Icon(
             icon,
@@ -105,6 +111,7 @@ fun IconButton(
 @Composable
 fun GhostButton(
     title: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     borderColor: Color = Color.Gray, // Default color can be modified as needed
     textColor: Color = Color.Black, // Default color can be modified as needed
@@ -116,11 +123,10 @@ fun GhostButton(
     disabled: Boolean = false,
     //flex: Float = 0f,
     fontSize: TextUnit = 16.sp, // Default font size can be modified as needed
-    style: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .padding(top = marginTop, bottom = marginBottom, end = marginRight)
             .border(1.dp, borderColor, shape = RoundedCornerShape(10.dp))
             //.border(2.dp, borderColor, shape = RoundedCornerShape(10.dp))
@@ -129,7 +135,6 @@ fun GhostButton(
             .height(height)
             .padding(12.dp)
             //.weight(flex)
-            .then(style)
             .clickable(onClick = onClick, enabled = !disabled)
     ) {
         Text(
@@ -156,7 +161,15 @@ fun GhostButtonWithGuts(
 ) {
     OutlinedButton(
         onClick = { onClick() },
-        modifier = modifier.fillMaxWidth().height(height),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height),
+        colors = ButtonColors(
+            containerColor = Theme.lightOffWhite,
+            contentColor = Theme.lightText,
+            disabledContainerColor = Theme.lightOffWhite,
+            disabledContentColor = Theme.veryLightText
+        ),
         border = BorderStroke(
             width = 1.dp,
             color = borderColor,
@@ -213,6 +226,72 @@ fun RoundedSelectorButton(
     }
 }
 
+@Composable
+fun ExerciseButton(
+    title: String,
+    hint: String,
+    icon: ImageVector = Icons.AutoMirrored.Filled.ArrowForward,
+    hasYourAttention: Boolean = false,
+    onClick: () -> Unit
+) {
+    ListItem(
+        headlineContent = { Text(title) },
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(bottom = 12.dp)
+            .background(color = Theme.lightGray)
+            .border(
+                width = 1.dp,
+                color = if (hasYourAttention) Theme.lightPink else Theme.lightGray,
+                shape = RoundedCornerShape(5.dp)
+            ),
+        supportingContent = {
+            Text(hint)
+        },
+        trailingContent = {
+            Icon(
+                icon,
+                contentDescription = null,
+                modifier = Modifier.size(32.dp)
+            )
+        },
+        colors = ListItemColors(
+            containerColor = Theme.lightOffWhite,
+            headlineColor = Theme.darkText,
+            trailingIconColor = if (hasYourAttention) Theme.colorPink else Theme.colorBlue,
+            overlineColor = Theme.lightGray,
+            supportingTextColor = Theme.lightText,
+            leadingIconColor = Theme.lightGray,
+            disabledHeadlineColor = Theme.lightGray,
+            disabledLeadingIconColor = Theme.lightGray,
+            disabledTrailingIconColor = Theme.lightGray,
+        )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExerciseButtonAttentionPreview() {
+    ExerciseButton(
+        title = "Exercise Button",
+        hint = "Manage anxiety around upcoming events or tasks.",
+        icon = Icons.Default.Star,
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExerciseButtonPreview() {
+    ExerciseButton(
+        title = "Exercise Button",
+        hint = "Manage anxiety around upcoming events or tasks.",
+        icon = Icons.Default.Star,
+        hasYourAttention = true,
+        onClick = {}
+    )
+}
+
 @Preview
 @Composable
 fun ActionButtonPreview() {
@@ -225,7 +304,7 @@ fun ActionButtonPreview() {
 @Preview
 @Composable
 fun IconButtonPreview() {
-    IconButton(Icons.Default.Close, "IconButton")
+    IconButton(Icons.Default.Close, label = "IconButton")
 }
 
 @Preview
@@ -243,7 +322,7 @@ fun GhostButtonPreview() {
 fun GhostButtonWithGutsPreview() {
     GhostButtonWithGuts(
         onClick = {},
-    ){ Text("GhostButtonWithGuts")}
+    ) { Text("GhostButtonWithGuts") }
 }
 
 @Preview

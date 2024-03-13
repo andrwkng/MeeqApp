@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.articles
+package com.spryteam.meeqapp.ui.articles
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

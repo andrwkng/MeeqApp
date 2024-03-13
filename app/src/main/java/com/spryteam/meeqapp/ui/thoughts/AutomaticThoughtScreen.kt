@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.ui.thoughts
+package com.spryteam.meeqapp.ui.thoughts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,42 +15,36 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spryteam.meeqapp.R
-
-import com.sprytm.meeqapp.ui.components.ActionButton
-import com.sprytm.meeqapp.ui.components.GhostButton
-import com.sprytm.meeqapp.ui.components.HintHeader
-import com.sprytm.meeqapp.ui.components.MediumHeader
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.components.ActionButton
+import com.spryteam.meeqapp.ui.components.GhostButton
+import com.spryteam.meeqapp.ui.components.HintHeader
+import com.spryteam.meeqapp.ui.components.MediumHeader
+import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
 fun AutomaticThoughtRoute(
     onNavigateToFinished: () -> Unit,
     onNavigateToDistortion: () -> Unit,
     onNavigateToThought: () -> Unit,
-    viewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel,
 ) {
    // val viewModel: AutomaticThoughtViewModel = viewModel()
-    val autoThought: String by viewModel.automaticThought.collectAsState("")
+    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
 
     AutomaticThoughtScreen(
-        isEditing = viewModel.isEditing,
-        isNextDisable = viewModel.isNextDisabled,
+        isEditing = thoughtViewModel.isEditing,
+        isNextDisable = thoughtViewModel.isNextDisabled,
         autoThoughtVal = autoThought,
-        onAutoThoughtChange = viewModel::onChange,
+        onAutoThoughtChange = thoughtViewModel::onAutoChange,
         onFinishPressed = onNavigateToFinished,
-        onNextPressed = { viewModel.onNext(onNavigateToDistortion) },
+        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToDistortion)*/ },
         onCancelPressed = onNavigateToThought
 
     )
@@ -65,16 +60,10 @@ fun AutomaticThoughtScreen(
     onNextPressed: () -> Unit,
     onCancelPressed: () -> Unit
 ) {
-
-    LaunchedEffect(true) {
-        //thought.value = newThought()
-    }
-
-
     Surface(
         modifier = Modifier
             .padding(24.dp)
-            .background(Theme.lightOffwhite)
+            .background(Theme.lightOffWhite)
             .fillMaxSize()
     ) {
         Column(
@@ -82,18 +71,19 @@ fun AutomaticThoughtScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             MediumHeader(text = stringResource(id = R.string.auto_thought))
-            HintHeader("What's going on?")
+            HintHeader("What's going on in your mind right now?")
 
-            var eventLabel by remember { mutableStateOf("") }
             OutlinedTextField(
                 value = autoThoughtVal,
                 label = { Text("What's going on?") },
                 onValueChange = onAutoThoughtChange,
+                placeholder = { Text(text = stringResource(id = R.string.auto_thought_placeholder)) },
                 singleLine = false,
                 maxLines = 6,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 24.dp),
+                    .padding(top = 8.dp, bottom = 24.dp)
+                    .heightIn(min = 100.dp),
             )
 
             Row(
@@ -107,55 +97,26 @@ fun AutomaticThoughtScreen(
                     ActionButton(
                         title = "Finish",
                         onClick = { onFinishPressed() },
-                        style = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f)
                     )
                 } else {
                     GhostButton(
                         title = "Cancel",
-                        onClick = { onCancelPressed()/*navigation.navigate(THOUGHT_SCREEN)*/ },
+                        onClick = { onCancelPressed() },
                         marginRight = 12.dp,
                     )
 
                     ActionButton(
                         title = "Next",
                         onClick = { onNextPressed() },
-                        style = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         disabled = isNextDisable
-                        //disabled = thought.value?.automaticThought.isNullOrEmpty()
                     )
                 }
             }
         }
     }
 }
-
-/*@Composable
-fun MediumHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = title,
-        modifier = modifier.padding(bottom = 12.dp),
-        fontSize = 20.sp,
-        fontWeight = FontWeight.W900,
-        color = Theme.darkText,
-    )
-}*/
-
-/*@Composable
-fun HintHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = title,
-        modifier = modifier,
-        fontSize = 16.sp,
-        fontWeight = FontWeight.W700,
-        color = Theme.veryLightText,
-    )
-}*/
 
 @Preview(showBackground = true)
 @Composable
@@ -169,5 +130,4 @@ fun AutomaticThoughtScreenPreview() {
         onNextPressed = { /*TODO*/ }) {
         
     }
-    //AutomaticThoughtScreen(rememberNavController(), /*viewModel = hiltViewModel()*/)
 }

@@ -1,27 +1,45 @@
-package com.sprytm.meeqapp.ui.thoughts
+package com.spryteam.meeqapp.ui.thoughts
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sprytm.meeqapp.ui.ExerciseButton
-import com.sprytm.meeqapp.ui.exercises.ExerciseGroup
-import com.sprytm.meeqapp.ui.predictions.PredictionViewModel
-import com.sprytm.meeqapp.ui.theme.Theme
-import com.sprytm.meeqapp.ui.viewmodel.SharedViewModel
+import com.spryteam.meeqapp.ui.Feed
+import com.spryteam.meeqapp.ui.components.ExerciseButton
+import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
+import com.spryteam.meeqapp.ui.predictions.PredictionViewModel
+import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
-fun ThoughtRoute(
+fun ThoughtScreen(
+    screeningData: FormScreeningData,
+    isNextDisabled: Boolean,
+    onClosePressed: () -> Unit,
+    onPreviousPressed: () -> Unit,
+    onNextPressed: () -> Unit,
+    onFinishPressed: () -> Unit,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Surface {
+        Scaffold(
+            content = content,
+        )
+    }
+}
+
+@Composable
+fun MainRoute(
     onNavigateToPredictionOnboarding: () -> Unit,
     onNavigateToAssumption: () -> Unit,
     onNavigateToAutoThought: () -> Unit,
@@ -33,10 +51,12 @@ fun ThoughtRoute(
     thoughtViewModel: ThoughtViewModel = hiltViewModel(),
     predictionViewModel: PredictionViewModel = hiltViewModel()
 ) {
+    sharedViewModel.loadExercises()
+    val groups: List<ExerciseGroup> by sharedViewModel.groups.collectAsState(emptyList())
 
-    ThoughtScreen(
-        groups = sharedViewModel.groups.value,
-        onNewAutoThought = onNavigateToAutoThought,
+    HomeScreen(
+        groups = groups,
+        onNewAutoThought = { onNavigateToAutoThought() },
         onNewPrediction = {
             if (!predictionViewModel.hasSeenPredictionOnboarding) {
                 predictionViewModel.setSeenPredictionOnboardingTrue()
@@ -51,11 +71,12 @@ fun ThoughtRoute(
         navigateToPredictionViewer = onNavigateToPredictionViewer,
         shouldFadeIn = thoughtViewModel.shouldFadeIn.value,
         shouldPromptCheckup = thoughtViewModel.shouldPromptCheckup.value,
+        followUpState = { thoughtViewModel.followUpState() },
         onLoad = { sharedViewModel.loadExercises() }
     )
 }
 @Composable
-fun ThoughtScreen(
+fun HomeScreen(
     groups: List<ExerciseGroup>,
     onNewAutoThought: () -> Unit,
     onNewPrediction: () -> Unit,
@@ -67,6 +88,7 @@ fun ThoughtScreen(
     navigateToPredictionViewer: () -> Unit,
     shouldFadeIn: Boolean,
     shouldPromptCheckup: Boolean,
+    followUpState: () -> FollowUpState,
     onLoad: () -> Unit
 ) {
     //val existingUser = viewModel.isExistingUser.collectAsState()
@@ -86,7 +108,7 @@ fun ThoughtScreen(
             onNewPredictionPressed = onNewPrediction,
             onNewAutoThoughtPressed = onNewAutoThought
         )
-        /*Feed(
+        Feed(
             groups = groups,
             navigateToThoughtViewer = navigateToThoughtViewer,
             navigateToCheckup = navigateToCheckup,
@@ -94,8 +116,9 @@ fun ThoughtScreen(
             navigateToPredictionViewer = navigateToPredictionViewer,
             shouldFadeIn = shouldFadeIn,
             shouldPromptCheckup = shouldPromptCheckup,
+            followUpState = followUpState,
             onLoad = onLoad
-        )*/
+        )
     }
 }
 
@@ -114,28 +137,41 @@ fun ExerciseButtons(
     Column(
         modifier = Modifier
             .padding(top = 12.dp, bottom = 24.dp)
-            .padding(end = 12.dp)
-            .background(color = Theme.colorOffwhite)
-            .border(1.dp, Theme.colorLightGray)
+            .padding(end = 12.dp, start = 12.dp)
     ) {
-        ExerciseButton(
+        /*ExerciseButton(
             title = "New Prediction",
             hint = "Manage anxiety around upcoming events or tasks.",
             icon = Icons.Default.Star,
             onClick = onNewPredictionPressed,
-        )
+        )*/
 
         ExerciseButton(
             title = "New Automatic Thought",
             hint = "Challenge your in-the-moment automatic negative thoughts.",
-            icon = Icons.Default.Email,
             onClick = onNewAutoThoughtPressed
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ThoughtScreenPreview() {
-    //ThoughtScreen(rememberNavController())
+    /*ThoughtScreen(
+        screeningData = ,
+        isNextDisabled = ,
+        onClosePressed = { *//*TODO*//* },
+        onPreviousPressed = { *//*TODO*//* },
+        onNextPressed = { *//*TODO*//* },
+        onFinishPressed = { *//*TODO*//* }) {
+
+    }*/
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExerciseButtonsPreview() {
+    ExerciseButtons(onNewPredictionPressed = { /*TODO*/ }) {
+        
+    }
 }

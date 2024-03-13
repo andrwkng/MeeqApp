@@ -1,4 +1,4 @@
-package com.sprytm.meeqapp.data
+package com.spryteam.meeqapp.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.sprytm.meeqapp.ui.predictions.Prediction
+import com.spryteam.meeqapp.ui.predictions.Prediction
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

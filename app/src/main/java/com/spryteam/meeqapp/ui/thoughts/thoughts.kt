@@ -1,6 +1,6 @@
-package com.sprytm.meeqapp.ui.thoughts
+package com.spryteam.meeqapp.ui.thoughts
 
-import com.sprytm.meeqapp.ui.distortions.CognitiveDistortion
+import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
