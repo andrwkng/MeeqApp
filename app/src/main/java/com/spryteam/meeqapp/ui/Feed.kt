@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.tooling.preview.Preview
 import com.spryteam.meeqapp.data.HistoryButtonLabelSetting
 import com.spryteam.meeqapp.ui.components.CheckupPrompt
 import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
@@ -52,19 +51,4 @@ fun Feed(
         }
 
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun FeedPreview() {
-    /*Feed(
-        groups = ,
-        navigateToThoughtViewer = { TODO },
-        navigateToCheckup = { TODO },
-        navigateToSurvey = { TODO },
-        navigateToCheckupViewer = { TODO },
-        shouldFadeIn = true,
-        shouldPromptCheckup = false,
-        dismissSurveyPrompt = { }
-    )*/
 }

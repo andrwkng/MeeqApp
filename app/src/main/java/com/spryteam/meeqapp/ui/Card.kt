@@ -236,13 +236,3 @@ fun CardAttentionDotPreview() {
 fun CardTitleAndSubtitleContentPreview() {
     CardTitleAndSubtitleContent("Title", "SubTitle")
 }
-
-/*@Composable
-@Preview(showBackground = true)
-fun TouchableCardContainerPreview() {
-    TouchableCardContainer(
-        //onPress = {},
-    ){
-
-    }
-}*/

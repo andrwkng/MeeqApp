@@ -32,7 +32,6 @@ fun HomeScreen(
     groups: List<ExerciseGroup>,
     onNewAutoThought: () -> Unit,
     modifier: Modifier = Modifier,
-    //Feed state
     navigateToThoughtViewer: () -> Unit,
     navigateToCheckup: () -> Unit,
     navigateToCheckupViewer: () -> Unit,
@@ -80,20 +79,6 @@ fun ExerciseButtons(
             onClick = onNewAutoThoughtPressed
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ThoughtScreenPreview() {
-    /*ThoughtScreen(
-        screeningData = ,
-        isNextDisabled = ,
-        onClosePressed = { *//*TODO*//* },
-        onPreviousPressed = { *//*TODO*//* },
-        onNextPressed = { *//*TODO*//* },
-        onFinishPressed = { *//*TODO*//* }) {
-
-    }*/
 }
 
 @Preview(showBackground = true)

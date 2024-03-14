@@ -13,7 +13,6 @@ import com.spryteam.meeqapp.ui.thoughts.SavedThoughtImpl
 import com.spryteam.meeqapp.ui.thoughts.Thought
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -28,15 +27,8 @@ val EXISTING_USER_KEY = "@Meeq:existing-user";
 
 class ThoughtStore @Inject constructor(
     @ApplicationContext appContext: Context,
-    //private val flagStore: FlagStore
 ) {
     private val dataStore = appContext.dataStore
-    fun getIsExistingUser(): Flow<Boolean> {
-        val key = booleanPreferencesKey(EXISTING_USER_KEY)
-        return dataStore.data.map { preferences ->
-            preferences[key] ?: false
-        }
-    }
 
     suspend fun setIsExistingUser() {
         dataStore.edit { preferences ->
@@ -165,16 +157,6 @@ fun getThoughtKey(info: String): String {
 }
 
 fun parseThoughts(data: List<String>): List<SavedThought> {
-    /*val emptyThought = SavedThoughtImpl(
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        alternativeThought = thought.alternativeThought,
-        automaticThought = thought.automaticThought,
-        challenge = thought.challenge,
-        cognitiveDistortions = thought.cognitiveDistortions,
-        immediateCheckup = thought.immediateCheckup,
-        uuid = thought.uuid
-    )*/
 
     return data
         //.map { value -> Json.decodeFromString<SavedThoughtImpl>(if(value.isNullOrEmpty()) value else "{}") } // Worst case scenario, if bad data gets in we don't show it.
@@ -185,23 +167,4 @@ fun parseThoughts(data: List<String>): List<SavedThought> {
                 null
             }
         }
-    //.map(::fixTimestamps)
 }
-
-/*fun fixTimestamps(thought: SavedThoughtImpl): SavedThought {
-
-
-    val createdAt = LocalDate.parse(thought.createdAt.toString())
-    val updatedAt = Date(thought.updatedAt as Long)
-
-    return SavedThoughtImpl(
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        alternativeThought = thought.alternativeThought,
-        automaticThought = thought.automaticThought,
-        challenge = thought.challenge,
-        cognitiveDistortions = thought.cognitiveDistortions,
-        immediateCheckup = thought.immediateCheckup,
-        uuid = thought.uuid
-    )
-}*/

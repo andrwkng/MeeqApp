@@ -33,11 +33,6 @@ fun Paragraph(
         color = color,
         style = TextStyle(
             textDirection = textDirection,
-//            fontFamily = FontFamily.Default,
-//            fontWeight = FontWeight.Normal,
-//            fontSize = 16.sp,
-//            lineHeight = 24.sp,
-//            letterSpacing = 0.5.sp
         ),
     )
 }
@@ -55,36 +50,6 @@ fun SingleLineText(
         modifier = modifier
     )
 }
-
-/*@Composable
-fun MoodText(mood: Mood?) {
-    when (mood) {
-        Mood.GOOD -> {
-            Paragraph(
-                Modifier.Companion
-                    .padding(bottom = 12.dp)
-            ) { "Going well 👍" }
-        }
-
-        Mood.NEUTRAL -> {
-            Paragraph(
-                Modifier.Companion
-                    .padding(bottom = 12.dp)
-            ) { "Going okay 🤷‍" }
-        }
-
-        Mood.BAD -> {
-            Paragraph(
-                Modifier.Companion
-                    .padding(bottom = 12.dp)
-            ) { "Going poorly 👎" }
-        }
-
-        else -> {
-            null
-        }
-    }
-}*/
 
 @Preview(showBackground = true)
 @Composable

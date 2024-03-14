@@ -39,28 +39,16 @@ fun DistortionScreen(
     onBackPressed: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    //var shouldShowPreviousThought by remember { mutableStateOf(false) }
-    //var shouldShowDistortions by remember { mutableStateOf(false) }
 
-    fun saveThought() {
-        /*coroutineScope.launch {
-            thought?.let {
-                sharedViewModel.saveThought(it)
-            }
-        }*/
-    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 24.dp)
-        //.background(Theme.lightOffWhite)
-        //.verticalScroll(scrollState)
     ) {
         // Content inside ScrollView
         Column(
             modifier = Modifier
-                //.fillMaxSize()
                 .background(Theme.lightOffWhite)
                 .padding(16.dp)
                 .verticalScroll(scrollState)
@@ -78,16 +66,16 @@ fun DistortionScreen(
                 GhostButtonWithGuts(
                     borderColor = Color.LightGray,
                     onClick = { onBackPressed() }
-                ){ SingleLineText(autoThoughtVal) }
-
+                ) { SingleLineText(autoThoughtVal) }
+            }
+            Column(
+                modifier = Modifier.padding(bottom = 12.dp)
+            ) {
                 SubHeader(text = "Common Distortions")
                 HintHeader(
                     text = "Tap any of these that apply to your current situation."
                 )
-                // Assuming RoundedSelector is a custom Composable
-                // with similar functionality
                 RoundedSelector(
-                    //items = thought?.cognitiveDistortions, // pass your items here
                     items = distortionList,
                     onPress = onPressSlug // pass your onPress function here
                 )
@@ -98,7 +86,7 @@ fun DistortionScreen(
             modifier = Modifier
                 .padding(12.dp)
                 .background(Color.White),
-                    horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End
         ) {
             // Action buttons based on editing state
             if (isEditing) {
@@ -108,20 +96,20 @@ fun DistortionScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             } else {
-                    GhostButton(
-                        borderColor = Theme.lightGray,
-                        textColor = Theme.veryLightText,
-                        title = "Back",
-                        modifier = Modifier.weight(1f),
-                        marginRight = 24.dp,
-                        onClick = { onBackPressed() }
-                    )
-                    ActionButton(
-                        title = "Next",
-                        onClick = { onNextPressed() },
-                        disabled = isNextDisabled,
-                        modifier = Modifier.weight(1f)
-                    )
+                GhostButton(
+                    borderColor = Theme.lightGray,
+                    textColor = Theme.veryLightText,
+                    title = "Back",
+                    modifier = Modifier.weight(1f),
+                    marginRight = 24.dp,
+                    onClick = { onBackPressed() }
+                )
+                ActionButton(
+                    title = "Next",
+                    onClick = { onNextPressed() },
+                    disabled = isNextDisabled,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

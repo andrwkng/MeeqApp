@@ -1,12 +1,12 @@
 package com.spryteam.meeqapp.ui.thoughts
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spryteam.meeqapp.data.CheckupStore
 import com.spryteam.meeqapp.data.ThoughtStore
 import com.spryteam.meeqapp.data.newSavedThought
+import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
 import com.spryteam.meeqapp.ui.distortions.distortions
 import com.spryteam.meeqapp.ui.viewmodel.getFollowUpTime
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,17 +32,9 @@ class ThoughtViewModel @Inject constructor(
     val createdAt: LocalDate
         get() = _createdAt.value
 
-    private val _updatedAt = mutableStateOf(LocalDate.now())
-    val updatedAt: LocalDate
-        get() = _updatedAt.value
 
     // Feeling
     private val _checkup = mutableStateOf<ImmediateCheckup?>(null)
-
-    fun onFeltWorse(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.WORSE)
-        navigate()
-    }
 
     fun onFeltWorse(form: Form) {
         saveCheckup(ImmediateCheckup.WORSE)
@@ -61,17 +53,6 @@ class ThoughtViewModel @Inject constructor(
 
     private fun saveCheckup(feeling: ImmediateCheckup) {
         _checkup.value = feeling
-        //saveThought()
-    }
-
-    fun onFeltTheSame(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.SAME)
-        navigate()
-    }
-
-    fun onFeltBetter(navigate: () -> Unit) {
-        saveCheckup(ImmediateCheckup.BETTER)
-        navigate()
     }
 
     // FollowUp
@@ -98,8 +79,13 @@ class ThoughtViewModel @Inject constructor(
     }
 
     // Distortions
-    private val _distortions = MutableStateFlow(distortions)
+    private val cogDistortions = distortions
+    private val _distortions = MutableStateFlow(emptyList<CognitiveDistortion>())
     val distortionList = _distortions.asStateFlow()
+
+    init {
+        _distortions.value = cogDistortions.toList()
+    }
 
     fun onPressSlug(selected: Any) {
         val list = _distortions.value
@@ -141,30 +127,17 @@ class ThoughtViewModel @Inject constructor(
 
     fun onAltThoughtChange(value: String) {
         _altThought.value = value
-        //_isNextDisabled.value = false
+        _isNextDisabled.value = false
     }
 
     val shouldFadeIn = mutableStateOf(false)
     val shouldPromptCheckup = mutableStateOf(false)
-
-    private val _isExistingUser = MutableStateFlow(false)
-    //val isExistingUser = _isExistingUser.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            val userExists = thoughtStore.getIsExistingUser()
-            userExists.collect {
-                _isExistingUser.value = it
-            }
-        }
-    }
 
     private val _immediateCheckup = mutableStateOf<ImmediateCheckup?>(null)
     private val _followUpCheckup = mutableStateOf<String?>(null)
     private val _uuid = mutableStateOf<String?>(null)
 
     private fun getCurrentThought(): SavedThought {
-        //return thought as SavedThought
         return newSavedThought(
             automaticThought = automaticThought.value,
             alternativeThought = alternativeThought.value,
@@ -175,9 +148,6 @@ class ThoughtViewModel @Inject constructor(
             followUpCompleted = followUpCompleted,
             followUpCheckup = _followUpCheckup.value,
             followUpNote = followUpNote,
-            //createdAt = createdAt,
-            //updatedAt = updatedAt,
-            //uuid = _uuid.value as String
         )
     }
 
@@ -253,12 +223,6 @@ class ThoughtViewModel @Inject constructor(
         }
     }
 
-    fun setIsExistingUser() {
-        viewModelScope.launch {
-            thoughtStore.setIsExistingUser()
-        }
-    }
-
     suspend fun countThoughts(): Int {
         return thoughtStore.countThoughts()
     }
@@ -272,7 +236,7 @@ class ThoughtViewModel @Inject constructor(
     val screeningData: FormScreeningData
         get() = _screeningData.value
 
-    private fun createScreeningData(form: Form = Form.AUTOMATIC_THOUGHT,): FormScreeningData {
+    private fun createScreeningData(form: Form = Form.AUTOMATIC_THOUGHT): FormScreeningData {
         return FormScreeningData(
             title = "",
             shouldShowPreviousButton = false,

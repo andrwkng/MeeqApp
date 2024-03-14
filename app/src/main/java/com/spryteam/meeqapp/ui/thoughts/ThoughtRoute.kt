@@ -21,7 +21,7 @@ fun ThoughtRoute(
     val autoThought: String by viewModel.automaticThought.collectAsState("")
     val challenge: String by viewModel.challenge.collectAsState("")
     val altThought: String by viewModel.alternativeThought.collectAsState("")
-    val distortions: List<CognitiveDistortion> by viewModel.distortionList.collectAsState(emptyList())
+    val cogDistortions: List<CognitiveDistortion> by viewModel.distortionList.collectAsState(emptyList())
 
 
     ThoughtScreen {
@@ -42,7 +42,7 @@ fun ThoughtRoute(
 
             Form.DISTORTION -> {
                 DistortionScreen(
-                    distortionList = distortions,
+                    distortionList = cogDistortions,
                     isEditing = viewModel.isEditing,
                     isNextDisabled = viewModel.isNextDisabled,
                     onPressSlug = viewModel::onPressSlug,
@@ -98,7 +98,7 @@ fun ThoughtRoute(
                 FinishedScreen(
                     automaticThought = autoThought,
                     challenge = challenge,
-                    cognitiveDistortions = distortions,
+                    cognitiveDistortions = cogDistortions,
                     alternativeThought = altThought,
                     followUpNote = viewModel.followUpNote ?: "",
                     followUpState = viewModel.followUpState(),

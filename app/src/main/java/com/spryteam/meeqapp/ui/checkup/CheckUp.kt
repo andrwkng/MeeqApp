@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +23,7 @@ import com.spryteam.meeqapp.ui.CardBadge
 import com.spryteam.meeqapp.ui.CardCrown
 import com.spryteam.meeqapp.ui.CardMutedContent
 import com.spryteam.meeqapp.ui.exercises.Mood
+import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.Exercise
 import java.time.LocalDate
 
@@ -64,7 +64,7 @@ fun CheckUpCard(
                     text = "Recorded on ${currentCheckup.createdAt.toString()}",
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    color = YourTheme.veryLightText // Replace with your actual theme color
+                    color = Theme.veryLightText // Replace with your actual theme color
                 )
             }
 
@@ -76,15 +76,6 @@ fun CheckUpCard(
             }
         }
     }
-}
-
-// Define the Checkup data class
-//data class Checkup(val createdAt: Long, val currentMood: String)
-
-// Replace with your actual theme class
-object YourTheme {
-    val veryLightText: Color
-        get() = Color.Black // Provide your color value
 }
 
 @Composable

@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Date
 import javax.inject.Inject
 
-val CHECKUP_KEY_PREFIX = "@Meeq:checkups:"
+const val CHECKUP_KEY_PREFIX = "@Meeq:checkups:"
 const val CHECKUP_SCHEDULE_KEY = "@Meeq:next-checkup-date"
 
 class CheckupStore @Inject constructor(
@@ -64,8 +64,6 @@ class CheckupStore @Inject constructor(
                     .map { Json.decodeFromString<Checkup>(it.value.toString()) }
             }
 
-            // It's better to lose data than to brick the app
-            // (though losing data is really bad too)
             return rows.firstOrNull() ?: emptyList()
         } catch (error: Exception) {
             Log.e("getCheckups", "Error retrieving checkups", error)

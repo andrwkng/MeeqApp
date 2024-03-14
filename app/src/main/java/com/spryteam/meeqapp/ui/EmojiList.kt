@@ -28,5 +28,6 @@ fun PreviewEmojiList() {
     val list = distortions
     list[2].selected = true
     list[3].selected = true
+    list[4].selected = true
     EmojiList(list)
 }

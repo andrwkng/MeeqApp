@@ -134,16 +134,6 @@ fun ExerciseList(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ExerciseListPreview(){
-    /*ExerciseList(
-        groups = emptyList(),
-        navigateToThoughtViewer = {},
-        navigateToCheckupViewer = {},
-        historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT
-    )*/
-}
 
 @Preview(showBackground = true)
 @Composable

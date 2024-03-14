@@ -57,7 +57,6 @@ fun ActionButton(
     flex: Float = 1f,
 ) {
     Box(
-        //onClick = onClick,
         modifier = modifier
             .padding(top = marginTop, bottom = marginBottom)
             .border(1.dp, Theme.darkBlue, shape = RoundedCornerShape(10.dp))
@@ -65,9 +64,7 @@ fun ActionButton(
             .height(height)
             .background(fillColor, shape = RoundedCornerShape(10.dp))
             .padding(12.dp)
-            //.weight(flex)
             .clickable(onClick = onClick, enabled = !disabled)
-        //contentAlignment = Alignment.Center
     ) {
         Text(
             text = title,
@@ -129,12 +126,9 @@ fun GhostButton(
         modifier = modifier
             .padding(top = marginTop, bottom = marginBottom, end = marginRight)
             .border(1.dp, borderColor, shape = RoundedCornerShape(10.dp))
-            //.border(2.dp, borderColor, shape = RoundedCornerShape(10.dp))
-            //.maxHeight(48.dp)
             .width(width)
             .height(height)
             .padding(12.dp)
-            //.weight(flex)
             .clickable(onClick = onClick, enabled = !disabled)
     ) {
         Text(
@@ -196,7 +190,6 @@ fun RoundedSelectorButton(
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(12.dp)
-            //.borderBottom(2.dp, if (selected) Theme.darkBlue else Theme.lightGray)
             .padding(end = 12.dp)
             .fillMaxWidth()
             .wrapContentHeight()
