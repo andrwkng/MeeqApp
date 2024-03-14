@@ -28,7 +28,6 @@ import com.spryteam.meeqapp.ui.components.HintHeader
 import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AutomaticThoughtScreen(
     isEditing: Boolean,
