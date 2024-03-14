@@ -42,9 +42,7 @@ class SharedViewModel @Inject constructor(
     fun saveThought(thought: SavedThought) {
         //thoughts.value?.exercises?.add(thought as Exercise)
         //thoughtStore.saveThought(thoughts)
-        Log.i("saveThought:", thought.alternativeThought)
         thoughts.add(thought)
-        Log.i("thoughts size:", thoughts.size.toString())
     }
 
     fun setHasBeenSurveyedTrue() {
@@ -100,15 +98,8 @@ class SharedViewModel @Inject constructor(
     fun loadExercises() {
         val exercises: List<Exercise> = (thoughts + checkups)
 
-        Log.i("thoughts size:", thoughts.size.toString())
-
-        Log.i("loadExercises size:", exercises.size.toString())
-
         _groups.value =
             exerciseStore.getSortedExerciseGroups(exerciseStore.getSortedExerciseList(exercises))
-
-        Log.i("groups size:", groups.value.size.toString())
-
     }
 
 

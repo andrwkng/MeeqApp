@@ -94,7 +94,6 @@ class ThoughtViewModel @Inject constructor(
 
     fun onSetCheckup() {
         _followUpDate.value = getFollowUpTime()
-        Log.i("onSetCheckup() followUpDate:", _followUpDate.value.toString())
         onContinue()
     }
 
