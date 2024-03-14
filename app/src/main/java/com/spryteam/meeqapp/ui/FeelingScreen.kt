@@ -17,18 +17,6 @@ import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
-@Composable
-fun FeelingRoute(
-    onNavigateToFollowUp: () -> Unit,
-    thoughtViewModel: ThoughtViewModel,
-    //viewModel: SharedViewModel,
-) {
-    FeelingScreen(
-        onFeltWorsePressed = { thoughtViewModel.onFeltWorse(onNavigateToFollowUp) },
-        onFeltTheSamePressed = { thoughtViewModel.onFeltTheSame(onNavigateToFollowUp) },
-        onFeltBetterPressed = { thoughtViewModel.onFeltBetter(onNavigateToFollowUp) }
-    )
-}
 
 @Composable
 fun FeelingScreen(

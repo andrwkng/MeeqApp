@@ -16,8 +16,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,46 +34,8 @@ import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
 import com.spryteam.meeqapp.ui.distortions.distortions
 import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.FollowUpState
-import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
-import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-
-@Composable
-fun FinishedRoute(
-    onNavigateToAutoThought: () -> Unit,
-    onNavigateToDistortions: () -> Unit,
-    onNavigateToChallenge: () -> Unit,
-    onNavigateToAlternative: () -> Unit,
-    onNavigateToFollowUp: () -> Unit,
-    resetNavigationToThought: () -> Unit,
-    viewModel: SharedViewModel,
-    thoughtViewModel: ThoughtViewModel
-    ) {
-    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
-    val altThought: String by thoughtViewModel.alternativeThought.collectAsState("")
-    val distortions: List<CognitiveDistortion> by thoughtViewModel.distortionList.collectAsState(emptyList())
-    val challenge: String by thoughtViewModel.challenge.collectAsState("")
-
-    /*FinishedScreen(
-        automaticThought = autoThought,
-        challenge = challenge,
-        cognitiveDistortions = distortions,
-        alternativeThought = altThought,
-        followUpNote = thoughtViewModel.followUpNote ?: "",
-        followUpState = thoughtViewModel.followUpState(),
-        createdAt = thoughtViewModel.createdAt.toString(),
-        onAutoThoughtPressed = onNavigateToAutoThought,
-        onDistortionsPressed = onNavigateToDistortions,
-        onChallengePressed = onNavigateToChallenge,
-        onAltThoughtPressed = onNavigateToAlternative,
-        onFollowUpPressed = onNavigateToFollowUp,
-        onDeletePressed = { thoughtViewModel.deleteThought() },
-        onRepeatPressed = { thoughtViewModel.onRepeat(onNavigateToAutoThought) },
-        onFinishPressed = { thoughtViewModel.onFinishedNext(resetNavigationToThought,viewModel::saveThought) }
-    )*/
-
-}
 
 @SuppressLint("SimpleDateFormat")
 @Composable

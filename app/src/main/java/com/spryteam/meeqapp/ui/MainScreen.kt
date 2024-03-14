@@ -1,33 +1,35 @@
 package com.spryteam.meeqapp.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
+import com.spryteam.meeqapp.ui.thoughts.HomeScreen
+import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
+import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
-fun MainScreen(
-    navigate: () -> Unit,
+fun MainRoute(
+    onNavigateToAutoThought: () -> Unit,
+    onNavigateToThoughtViewer: () -> Unit,
+    onNavigateToCheckup: () -> Unit,
+    onNavigateToCheckupViewer: () -> Unit,
+    sharedViewModel: SharedViewModel,
+    thoughtViewModel: ThoughtViewModel = hiltViewModel(),
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .verticalScroll(rememberScrollState())
-    ) {
-        //ThoughtScreen(navController)
-        //navigate()
-        //HomeScreen()
-    }
-}
+    sharedViewModel.loadExercises()
+    val groups: List<ExerciseGroup> by sharedViewModel.groups.collectAsState(emptyList())
 
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    //MainScreen(rememberNavController())
+    HomeScreen(
+        groups = groups,
+        onNewAutoThought = { onNavigateToAutoThought() },
+        navigateToThoughtViewer = onNavigateToThoughtViewer,
+        navigateToCheckup = onNavigateToCheckup,
+        navigateToCheckupViewer = onNavigateToCheckupViewer,
+        shouldFadeIn = thoughtViewModel.shouldFadeIn.value,
+        shouldPromptCheckup = thoughtViewModel.shouldPromptCheckup.value,
+        followUpState = { thoughtViewModel.followUpState() },
+        onLoad = { sharedViewModel.loadExercises() }
+    )
 }
