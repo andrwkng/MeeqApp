@@ -31,54 +31,6 @@ import com.spryteam.meeqapp.ui.thoughts.ThoughtItem
 import java.time.LocalDate
 
 
-/*@Composable
-fun XExerciseList(
-    groups: List<ExerciseGroup>,
-    historyButtonLabel: HistoryButtonLabelSetting,
-    navigateToThoughtViewer: (thought: SavedThought) -> Unit,
-    navigateToCheckupViewer: (checkup: Checkup) -> Unit,
-) {
-    if (groups.isEmpty()) {
-        EmptyThoughtIllustration()
-    } else {
-        LazyColumn(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(16.dp),
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(groups) { group ->
-                val isToday = SimpleDateFormat("yyyy-MM-dd").format(group.date) == SimpleDateFormat("yyyy-MM-dd").format(Date())
-
-                item {
-                    Surface {
-                        Text(text = if (isToday) "Today" else SimpleDateFormat("EEE, MMM dd, yyyy").format(group.date))
-                    }
-                }
-
-                group.exercises.sortedByDescending { it.uuid }.forEach { ex ->
-                    when {
-                        isCheckup(ex) -> {
-                            CheckUpCard(
-                                currentCheckup = ex,
-                                onPress = { navigateToCheckupViewer(ex) },
-                                key = ex.uuid
-                            )
-                        }
-                        isThought(ex) -> {
-                            ThoughtItem(thought = ex, onPress = { navigateToThoughtViewer(ex) }, historyButtonLabel = historyButtonLabel)
-                        }
-                    }
-                }
-            }
-
-            items(exercises) { exercise ->
-                ExerciseItem(exercise, props.navigateToExerciseViewer)
-            }
-        }
-    }
-}*/
-
 enum class Mood {
     GOOD,
     NEUTRAL,
@@ -154,7 +106,7 @@ fun ExerciseList(
                                     historyButtonLabel = historyButtonLabel,
                                     followUpState = { followUpState() },
                                     onPress = { navigateToThoughtViewer(ex) },
-                                    key = ex.uuid
+                                    //key = ex.uuid
                                 )
                             }
 
