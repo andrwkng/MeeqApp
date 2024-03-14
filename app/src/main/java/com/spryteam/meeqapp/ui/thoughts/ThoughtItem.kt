@@ -28,89 +28,12 @@ import com.spryteam.meeqapp.ui.EmojiList
 import com.spryteam.meeqapp.ui.distortions.distortions
 import com.spryteam.meeqapp.ui.theme.Theme
 
-
-/*
-@Composable
-fun ThoughtItem(
-    thought: SavedThought,
-    historyButtonLabel: HistoryButtonLabelSetting,
-    onPress: (SavedThought) -> Unit,
-    onDelete: (SavedThought) -> Unit
-) {
-    val theme = Theme
-
-    Row(
-        modifier = Modifier
-            .padding(bottom = 18.dp)
-            .clickable { onPress(thought) }
-    ) {
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .border(2.dp, theme.lightGray, RoundedCornerShape(8.dp))
-                .border(1.dp, theme.lightGray, RoundedCornerShape(8.dp))
-                .padding(end = 18.dp)
-                .weight(1f)
-        ) {
-            Text(
-                text = if (historyButtonLabel == HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT) {
-                    thought.alternativeThought
-                } else {
-                    thought.automaticThought
-                },
-                modifier = Modifier
-                    .padding(12.dp),
-                    //.weight(1f),
-                color = theme.darkText,
-                fontWeight = FontWeight.W400,
-                fontSize = 16.sp
-            )
-
-            Card(
-                modifier = Modifier
-                    .background(theme.lightOffWhite)
-                    .padding(4.dp)
-                    .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
-                    .fillMaxWidth()
-                    .heightIn(min = 0.dp)
-                    .weight(1f),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = take(
-                        thought.cognitiveDistortions
-                            .filterNotNull()
-                            .filter { it.selected }
-                            .map { emojiForSlug(it.slug) },
-                        8
-                    ).filterNotNull().joinToString(" ").trim(),
-                    modifier = Modifier.padding(8.dp),
-                    color = Theme.darkText
-                )
-            }
-        }
-
-        IconButton(
-            modifier = Modifier.align(Alignment.Top),
-            onClick = { onDelete(thought) },
-            contentDescription = "Delete Thought"
-        ) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Thought")
-        }
-    }
-}
-*/
-
-
 @Composable
 fun ThoughtItem(
     thought: SavedThought,
     historyButtonLabel: HistoryButtonLabelSetting,
     followUpState: () -> FollowUpState,
     onPress: (SavedThought) -> Unit,
-    //onDelete: (SavedThought) -> Unit,
-    key: String
 ) {
     Column(
         modifier = Modifier
@@ -197,13 +120,10 @@ fun PreviewThoughtItem() {
         immediateCheckup = ImmediateCheckup.BETTER,
         followUpCheckup = "better"
     )
-    //MeeqAppTheme {
     ThoughtItem(
         thought = savedThought,
         historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT,
         followUpState = { FollowUpState.READY },
         onPress = {},
-        key = "Key_random_12234"
     )
-    //}
 }

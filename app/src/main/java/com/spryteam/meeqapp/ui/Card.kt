@@ -102,11 +102,7 @@ fun CardCrown(
     icon: ImageVector,
     color: Color = Theme.veryLightText,
 ) {
-    /*Badge(
-        text = text,
-        icon = icon,
-        //modifier = Modifier.padding(bottom = 18.dp)
-    )*/
+
     Row(
         modifier = Modifier
             .background(
@@ -133,28 +129,6 @@ fun CardCrown(
             modifier = Modifier.size(12.dp)
         )
     }
-
-    /*Row(
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
-            .background(Theme.lightOffWhite)
-            .padding(12.dp)
-            .fillMaxWidth(),
-    ) {
-        Text(
-            text = text,
-            fontWeight = FontWeight.Bold,
-            color = Theme.lightText,
-            modifier = Modifier.weight(1f)
-        )
-
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = Theme.lightText,
-            modifier = Modifier.size(16.dp),
-        )
-    }*/
 }
 
 @Composable
@@ -177,34 +151,6 @@ fun CardTitleAndSubtitleContent(title: String, subtitle: String) {
 
 @Composable
 fun CardTextContent(text: String) {
-    //val defaultDensity = Density(density = 1f)
-    /*val fontFamilyResolver = createFontFamilyResolver(
-        InstrumentationRegistry.getInstrumentation().context
-    )*/
-    /*val constraints = Constraints()
-
-    Paragraph(
-        text = text,
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            textDirection = TextDirection.Content,
-            color = MaterialTheme.colorScheme.onBackground,
-        ),
-        maxLines = Int.MAX_VALUE,
-        ellipsis = false,
-        constraints = Constraints(maxWidth = constraints.maxWidth),
-        density = defaultDensity,
-        //fontFamilyResolver = fontFamilyResolver
-    )*/
-//    color: theme.darkText,
-//    fontWeight: "400",
-//    fontSize: 16,
-//    marginBottom: 8,
-//    paddingLeft: 12,
-//    paddingRight: 12,
-//    paddingTop: 12,
-//    paddingBottom: 6,
     Paragraph(
         modifier = Modifier
             .padding(bottom = 8.dp)

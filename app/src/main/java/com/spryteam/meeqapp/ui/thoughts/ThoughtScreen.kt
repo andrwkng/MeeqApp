@@ -18,12 +18,6 @@ import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
 
 @Composable
 fun ThoughtScreen(
-    screeningData: FormScreeningData,
-    isNextDisabled: Boolean,
-    onClosePressed: () -> Unit,
-    onPreviousPressed: () -> Unit,
-    onNextPressed: () -> Unit,
-    onFinishPressed: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Surface {
@@ -47,13 +41,6 @@ fun HomeScreen(
     followUpState: () -> FollowUpState,
     onLoad: () -> Unit
 ) {
-    //val existingUser = viewModel.isExistingUser.collectAsState()
-
-    /*LaunchedEffect(Unit) { // the key define when the block is relaunched
-        if(!existingUser.value){
-                viewModel.setIsExistingUser()
-        }
-    }*/
 
     Column(
         modifier = modifier
@@ -80,9 +67,6 @@ fun HomeScreen(
 fun ExerciseButtons(
     onNewAutoThoughtPressed: () -> Unit
 ) {
-//    val context = LocalContext.current
-//    val flagStore = FlagStore(context)
-//    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier

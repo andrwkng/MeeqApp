@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -27,7 +25,6 @@ import com.spryteam.meeqapp.ui.components.RoundedSelector
 import com.spryteam.meeqapp.ui.components.SingleLineText
 import com.spryteam.meeqapp.ui.components.SubHeader
 import com.spryteam.meeqapp.ui.theme.Theme
-import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
 
 @Composable
@@ -69,9 +66,7 @@ fun DistortionScreen(
                 .verticalScroll(scrollState)
                 .weight(weight = 1f, fill = false)
         ) {
-            //thought.takeIf { it != null }?.let {
-            // Render components only if the thought is not null
-            // ...
+
             MediumHeader(text = stringResource(id = R.string.cbt_form_cog_distortion))
             HintHeader(text = "Is this thought logical?")
 
@@ -97,7 +92,6 @@ fun DistortionScreen(
                     onPress = onPressSlug // pass your onPress function here
                 )
             }
-            //}
         }
 
         Row(

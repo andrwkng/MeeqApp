@@ -1,6 +1,5 @@
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -11,14 +10,12 @@ import com.spryteam.meeqapp.ui.MAIN_SCREEN
 import com.spryteam.meeqapp.ui.MainRoute
 import com.spryteam.meeqapp.ui.THOUGHT_SCREEN
 import com.spryteam.meeqapp.ui.thoughts.ThoughtRoute
-import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = MAIN_SCREEN,
-    thoughtViewModel: ThoughtViewModel = hiltViewModel(),
     viewModel: SharedViewModel = viewModel()
 ) {
 
@@ -28,7 +25,6 @@ fun NavGraph(
     ) {
         composable(MAIN_SCREEN) {
             MainRoute(
-                onNavigateToAssumption = { /*TODO*/ },
                 onNavigateToAutoThought = { navController.navigate(THOUGHT_SCREEN) },
                 onNavigateToThoughtViewer = { /*TODO*/ },
                 onNavigateToCheckup = { /*TODO*/ },

@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,7 +39,6 @@ fun AlternativeThoughtScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //thought?.let {
             MediumHeader(text = stringResource(R.string.alt_thought))
             HintHeader(
                 text = "Given this situation again, what could you think instead?"
@@ -50,18 +47,8 @@ fun AlternativeThoughtScreen(
             OutlinedTextField(
                 value = altThoughtVal,
                 onValueChange = onAltThoughtChange,
-                //textStyle = MaterialTheme.typography.bodyMedium,
-                //maxLines = 6,
                 label = { Text("Alternative Thought") },
                 placeholder = { Text(stringResource(R.string.alt_thought_placeholder)) },
-                /*keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done
-                ),*/
-                /*colors = TextFieldDefaults.textFieldColors(
-                    placeholderColor = textInputPlaceholderColor.toColor(),
-                    backgroundColor = Color.Transparent,
-                    cursorColor = theme.lightGray
-                )*/
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 48.dp),
@@ -96,7 +83,6 @@ fun AlternativeThoughtScreen(
                     )
                 }
             }
-        //}
     }
 }
 

@@ -1,10 +1,8 @@
 package com.spryteam.meeqapp.ui.thoughts
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.spryteam.meeqapp.ui.FeelingScreen
 import com.spryteam.meeqapp.ui.FinishedScreen
@@ -26,15 +24,7 @@ fun ThoughtRoute(
     val distortions: List<CognitiveDistortion> by viewModel.distortionList.collectAsState(emptyList())
 
 
-    ThoughtScreen(
-        screeningData = screeningData,
-        isNextDisabled = viewModel.isNextDisabled,
-        onClosePressed = { /*TODO*/ },
-        onPreviousPressed = { /*viewModel.onPrevPressed()*/ },
-        onNextPressed = { /*viewModel.onNextPressed()*/ },
-        onFinishPressed = { /*TODO*/ }) { paddingValues ->
-
-        val modifier = Modifier.padding(paddingValues)
+    ThoughtScreen {
 
         when (screeningData.form) {
 

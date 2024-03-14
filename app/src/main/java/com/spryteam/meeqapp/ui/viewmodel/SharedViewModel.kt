@@ -20,37 +20,12 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val exerciseStore: ExerciseStore
 ) : ViewModel() {
-    //class SharedViewModel : ViewModel() {
-    //val groups = mutableStateOf(listOf<ExerciseGroup>())
     private val _groups = MutableStateFlow(listOf<ExerciseGroup>())
     val groups = _groups.asStateFlow()
 
-    //val thoughts = mutableStateOf<ExerciseGroup?>(null)
     val thoughts = mutableListOf<SavedThought>()
 
-    //private val checkups = mutableStateOf<ExerciseGroup?>(null)
     private val checkups = mutableListOf<Checkup>()
-
-
-    /*fun updateThought() {
-        //_thought.value = thought
-        _thought.value?.let {
-            //_thought.value as SavedThought
-            updateAutomaticThought()
-        }
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
 
     fun onFinish() {
         //saveThought("New Thought")
@@ -58,26 +33,11 @@ class SharedViewModel @Inject constructor(
     }
 
 
-
-
-
     fun onCancel() {}
 
     private fun updateThought(thought: Thought) {
 
     }
-
-
-
-
-    /*fun saveThought() {
-        viewModelScope.launch {
-            val nThought = thought.value
-            if (nThought != null) {
-                viewModel.saveThought(nThought)
-            }
-        }
-    }*/
 
     fun saveThought(thought: SavedThought) {
         //thoughts.value?.exercises?.add(thought as Exercise)
@@ -95,7 +55,6 @@ class SharedViewModel @Inject constructor(
 
     fun dismissSurveyPrompt() {
         setHasBeenSurveyedTrue()
-        //shouldPromptSurvey = false
     }
 
     fun navigateToSurveyScreen() {
@@ -153,33 +112,6 @@ class SharedViewModel @Inject constructor(
     }
 
 
-
-
-
-    /*
-    @Composable
-    fun HomeScreen(navController: NavController) {
-        val userObj = User()
-        Button(
-            onClick = {
-                val gson: Gson = GsonBuilder().create()
-                val userJson = gson.toJson(userObj)
-     Replacing {user} with userJson
-
-                navController.navigate(
-                    "detail/${user}" //Just modify your route accordingly
-                        .replace(
-                            oldValue = "{user}",
-                            newValue = userJson
-                        )
-                )
-            }
-        ) {
-            Text(text = "Navigate to Detail with userJson")
-        }
-    }
-    */
-
     // Only shows one in so many days.
 // Useful for giving not just new folks surveys.
     fun passesDayFilter(oneIn: Int): Boolean {
@@ -190,25 +122,6 @@ class SharedViewModel @Inject constructor(
         val diceRoll = LocalDate.now().dayOfMonth % (oneIn - 1)
         return diceRoll == 0
     }
-
-    /**
-     * Checks if this user passes a feature flag, records
-     * a Segment identify that marks them as on/off.
-     * @param oneIn ex: 10 for 1 in 10 chance; 5 for 1 in 5 chance.
-     */
-    /*suspend fun passesFeatureFlag(
-        oneIn: Int,
-        //userPrefViewModel: UserPreferenceStore
-    ): Boolean {
-        var id: String? = null
-        //runBlocking { userPrefViewModel.getUserID().collect { id = it } }
-        val diceRoll = id?.hashCode()?.rem((oneIn - 1))
-
-        return diceRoll == 0
-    }*/
-
-
-
 
 }
 
@@ -221,28 +134,4 @@ fun getFollowUpTime(): String {
     }
     return inAFewHours.format(DateTimeFormatter.ISO_DATE_TIME)
 }
-/*
-@HiltViewModel
-class SharedViewModel @Inject constructor(
-    private val  thoughtStore: ThoughtStore
-): ViewModel() {
-    private var _checkup: MutableState<Checkup?> = mutableStateOf(null)
-    val checkup = _checkup.value
 
-    private var _thought: MutableState<Thought?> = mutableStateOf(null)
-    val thought = _thought.value
-
-
-    suspend fun saveThought(thought: Thought) {
-        _thought.value = thoughtStore.saveThought(thought)
-    }
-
-    fun updateThought(thought: Thought) {
-        _thought.value = thought
-    }
-
-    fun updateCheckup(checkup: Checkup) {
-        _checkup.value = checkup
-    }
-
-}*/

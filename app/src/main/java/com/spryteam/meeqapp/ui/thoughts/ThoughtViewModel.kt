@@ -24,7 +24,6 @@ class ThoughtViewModel @Inject constructor(
     private val thoughtStore: ThoughtStore,
     private val checkupStore: CheckupStore
 ) : ViewModel() {
-    //private val _thought = mutableStateOf<SavedThought?>(null)
     private val _thought = mutableStateOf<SavedThoughtImpl?>(null)
     val thought: SavedThought?
         get() = _thought.value
@@ -96,7 +95,6 @@ class ThoughtViewModel @Inject constructor(
     fun onSetCheckup() {
         _followUpDate.value = getFollowUpTime()
         Log.i("onSetCheckup() followUpDate:", _followUpDate.value.toString())
-        //saveThought()
         onContinue()
     }
 
@@ -111,7 +109,6 @@ class ThoughtViewModel @Inject constructor(
 
             if (index != -1) {
                 list[index].selected = !list[index].selected
-                //distortionList = cognitiveDistortions.toList()
                 _distortions.value = list
             }
         }
@@ -119,7 +116,6 @@ class ThoughtViewModel @Inject constructor(
 
     // Challenge
     private val _challenge = MutableStateFlow("")
-    //val challenge: StateFlow<String> = MutableStateFlow(thought?.challenge).asStateFlow()
 
     val challenge: StateFlow<String> = _challenge.asStateFlow()
 
@@ -168,25 +164,6 @@ class ThoughtViewModel @Inject constructor(
     private val _followUpCheckup = mutableStateOf<String?>(null)
     private val _uuid = mutableStateOf<String?>(null)
 
-    /*private fun newThought() {
-        _thought.value = newSavedThought()
-        *//*val thought = _thought.value
-        thought?.automaticThought = "'"
-        _autoThought.value = thought.automaticThought
-        _challenge.value = thought.challenge
-        _altThought.value = thought.alternativeThought
-        _distortions.value = thought.cognitiveDistortions
-        _immediateCheckup.value = thought.immediateCheckup
-        _followUpDate.value = thought.followUpDate
-        _followUpCompleted.value = thought.followUpCompleted
-        _followUpCheckup.value = thought.followUpCheckup
-        _followUpNote.value = thought.followUpNote
-        _createdAt.value = LocalDate.now()
-        _updatedAt.value = LocalDate.now()
-        _uuid.value = thought.uuid*//*
-
-    }*/
-
     private fun getCurrentThought(): SavedThought {
         //return thought as SavedThought
         return newSavedThought(
@@ -205,18 +182,11 @@ class ThoughtViewModel @Inject constructor(
         )
     }
 
-    /*fun newAutoThought(navigate: () -> Unit) {
-        //newThought()
-        //Log.i("newAutoThought: newThought()", _updatedAt.value.toString())
-        navigate()
-    }*/
-
     fun deleteThought() {}
 
     fun onAutoChange(value: String) {
         _autoThought.value = value
         _isNextDisabled.value = false
-        //thought.value?.automaticThought = label
     }
 
     fun onLoad(loadExercises: () -> Unit) {
@@ -230,8 +200,6 @@ class ThoughtViewModel @Inject constructor(
     }
 
     fun onNext(form: Form) {
-        //saveThought("New Thought")
-        //navigation.navigate(DISTORTION_SCREEN)
         _screeningData.value = createScreeningData(form)
     }
 
@@ -243,9 +211,6 @@ class ThoughtViewModel @Inject constructor(
     }
 
     fun onRepeat(navigate: () -> Unit) {
-        //val newThought = NewThought(automaticThought = thought?.automaticThought!!)
-        //updateThought(newThought)
-        //navigation.navigate(AUTOMATIC_THOUGHT_SCREEN)
         navigate()
     }
 
@@ -253,7 +218,6 @@ class ThoughtViewModel @Inject constructor(
         if (followUpState() == FollowUpState.READY) {
             _followUpCompleted.value = true
         }
-        //Log.i("onFinishedNext: saveThought()", _updatedAt.value.toString())
 
         saveThought(getCurrentThought())
     }
@@ -278,19 +242,14 @@ class ThoughtViewModel @Inject constructor(
     }
 
     fun navigateToViewerWithThought(
-        //navigation: NavController,
-        //viewModel: SharedViewModel = viewModel()
     ) {
-        //viewModel.thought.value = thought
         // Follow-ups
         when (followUpState()) {
             FollowUpState.READY -> {
-                //navigation.navigate(FOLLOW_UP_NOTE_SCREEN)
                 return
             }
             // Regular finished screen
             else -> {
-                //navigation.navigate(FINISHED_SCREEN)
             }
         }
     }

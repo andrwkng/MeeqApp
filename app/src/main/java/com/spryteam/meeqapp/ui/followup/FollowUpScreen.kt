@@ -15,7 +15,6 @@ import com.spryteam.meeqapp.ui.components.GhostButton
 import com.spryteam.meeqapp.ui.components.HintHeader
 import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
-import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
 
 @Composable
@@ -31,14 +30,7 @@ fun FollowUpScreen(
             .padding(top = 24.dp)
             .background(Theme.lightOffWhite)
             .padding(16.dp),
-        //contentAlignment = Alignment.Center
     ) {
-        // Status Bar
-        /*Spacer(
-            //modifier = Modifier
-                //.statusBarsHeight()
-                //.background(MaterialTheme.colorBackground)
-        )*/
 
         MediumHeader(
             text = "Want to follow up later?",
@@ -48,7 +40,6 @@ fun FollowUpScreen(
             textAlign = TextAlign.Center
         )
 
-        // Hint Header
         HintHeader(
             text = "This is a chance to re-examine your thoughts with a different " +
                     "perspective and cement your changed view.",
@@ -76,20 +67,6 @@ fun FollowUpScreen(
             borderColor = Theme.colorGray,
             textColor = Theme.lightText
         )
-        /*OutlinedButton(
-            onClick = {
-                onContinue()
-            },
-            modifier = Modifier
-                .height(48.dp)
-                .fillMaxWidth(),
-            border = BorderStroke(1.dp, Theme.colorGray),
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = Theme.lightText
-            )
-        ) {
-            Text(text = "No thanks.")
-        }*/
     }
 
 }

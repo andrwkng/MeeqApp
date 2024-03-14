@@ -23,27 +23,10 @@ fun Feed(
     shouldPromptCheckup: Boolean = false,
     onLoad: () -> Unit,
     followUpState: () -> FollowUpState,
-    //viewModel: SharedViewModel,
-    //exerciseViewModel: ExerciseViewModel = hiltViewModel()
 ) {
-//    val context = LocalContext.current
-//    val flagStore = FlagStore(context)
-//
-//    val userPreferenceStore = UserPreferenceStore(flagStore)
-//
-//
-
-//
-//    var areExercisesLoaded: Boolean = false
-    //val isVisible: Boolean = shouldFadeIn
     val isVisible = true
-//
-//    val coroutineScope = rememberCoroutineScope()
-
-
 
     LaunchedEffect(true) {
-        //Log.i("LaunchedEffect","started")
         onLoad()
     }
 
@@ -63,7 +46,6 @@ fun Feed(
         if (shouldPromptCheckup) {
             CheckupPrompt(
                 onPress = {
-                    //navigation.navigate(CHECKUP_SCREEN)
                     navigateToCheckup()
                 }
             )
