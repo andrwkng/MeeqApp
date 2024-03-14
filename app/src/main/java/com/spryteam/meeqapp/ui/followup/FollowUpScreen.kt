@@ -17,17 +17,6 @@ import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
-@Composable
-fun FollowUpRoute(
-    onNavigateToFinished: () -> Unit,
-    thoughtViewModel: ThoughtViewModel,
-) {
-    thoughtViewModel.navigateToFinished.value = { onNavigateToFinished() }
-    FollowUpScreen(
-        onContinue = { thoughtViewModel.onContinue() },
-        onSetCheckup = { thoughtViewModel.onSetCheckup() }
-    )
-}
 
 @Composable
 fun FollowUpScreen(

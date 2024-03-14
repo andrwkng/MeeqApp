@@ -28,27 +28,6 @@ import com.spryteam.meeqapp.ui.components.HintHeader
 import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 
-@Composable
-fun AutomaticThoughtRoute(
-    onNavigateToFinished: () -> Unit,
-    onNavigateToDistortion: () -> Unit,
-    onNavigateToThought: () -> Unit,
-    thoughtViewModel: ThoughtViewModel,
-) {
-   // val viewModel: AutomaticThoughtViewModel = viewModel()
-    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
-
-    AutomaticThoughtScreen(
-        isEditing = thoughtViewModel.isEditing,
-        isNextDisable = thoughtViewModel.isNextDisabled,
-        autoThoughtVal = autoThought,
-        onAutoThoughtChange = thoughtViewModel::onAutoChange,
-        onFinishPressed = onNavigateToFinished,
-        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToDistortion)*/ },
-        onCancelPressed = onNavigateToThought
-
-    )
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AutomaticThoughtScreen(

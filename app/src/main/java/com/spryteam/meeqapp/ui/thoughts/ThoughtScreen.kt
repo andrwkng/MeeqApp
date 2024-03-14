@@ -8,17 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.spryteam.meeqapp.ui.Feed
 import com.spryteam.meeqapp.ui.components.ExerciseButton
 import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
-import com.spryteam.meeqapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun ThoughtScreen(
@@ -37,33 +33,6 @@ fun ThoughtScreen(
     }
 }
 
-@Composable
-fun MainRoute(
-    onNavigateToPredictionOnboarding: () -> Unit,
-    onNavigateToAssumption: () -> Unit,
-    onNavigateToAutoThought: () -> Unit,
-    onNavigateToThoughtViewer: () -> Unit,
-    onNavigateToCheckup: () -> Unit,
-    onNavigateToCheckupViewer: () -> Unit,
-    onNavigateToPredictionViewer: () -> Unit,
-    sharedViewModel: SharedViewModel,
-    thoughtViewModel: ThoughtViewModel = hiltViewModel(),
-) {
-    sharedViewModel.loadExercises()
-    val groups: List<ExerciseGroup> by sharedViewModel.groups.collectAsState(emptyList())
-
-    HomeScreen(
-        groups = groups,
-        onNewAutoThought = { onNavigateToAutoThought() },
-        navigateToThoughtViewer = onNavigateToThoughtViewer,
-        navigateToCheckup = onNavigateToCheckup,
-        navigateToCheckupViewer = onNavigateToCheckupViewer,
-        shouldFadeIn = thoughtViewModel.shouldFadeIn.value,
-        shouldPromptCheckup = thoughtViewModel.shouldPromptCheckup.value,
-        followUpState = { thoughtViewModel.followUpState() },
-        onLoad = { sharedViewModel.loadExercises() }
-    )
-}
 @Composable
 fun HomeScreen(
     groups: List<ExerciseGroup>,

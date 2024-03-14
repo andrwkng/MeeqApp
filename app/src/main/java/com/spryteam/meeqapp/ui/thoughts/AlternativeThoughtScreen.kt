@@ -24,25 +24,6 @@ import com.spryteam.meeqapp.ui.components.HintHeader
 import com.spryteam.meeqapp.ui.components.MediumHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 
-@Composable
-fun AlternativeThoughtRoute(
-    onNavigateToFinished: () -> Unit,
-    onNavigateToFeeling: () -> Unit,
-    onNavigateToChallenge: () -> Unit,
-    thoughtViewModel: ThoughtViewModel
-) {
-    val altThought: String by thoughtViewModel.alternativeThought.collectAsState("")
-
-    AlternativeThoughtScreen(
-        isEditing = thoughtViewModel.isEditing,
-        isNextDisabled = thoughtViewModel.isNextDisabled,
-        altThoughtVal = altThought,
-        onAltThoughtChange = thoughtViewModel::onAltThoughtChange,
-        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToFeeling)*/ },
-        onFinishPressed = onNavigateToFinished,
-        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToChallenge)*/ }
-    )
-}
 
 @Composable
 fun AlternativeThoughtScreen(

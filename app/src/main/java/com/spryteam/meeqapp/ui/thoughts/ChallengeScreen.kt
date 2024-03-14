@@ -32,29 +32,6 @@ import com.spryteam.meeqapp.ui.components.SingleLineText
 import com.spryteam.meeqapp.ui.components.SubHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 
-@Composable
-fun ChallengeRoute(
-    onNavigateToFinished: () -> Unit,
-    onNavigateToDistortion: () -> Unit,
-    onNavigateToAlternative: () -> Unit,
-    onNavigateToAutoThought: () -> Unit,
-    thoughtViewModel: ThoughtViewModel,
-) {
-    val challenge: String by thoughtViewModel.challenge.collectAsState("")
-    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
-
-    ChallengeScreen(
-        challengeVal = challenge,
-        onChallengeChange = thoughtViewModel::onChallengeChange,
-        isEditing = thoughtViewModel.isEditing,
-        isNextDisabled = thoughtViewModel.isNextDisabled,
-        autoThoughtVal = autoThought,
-        onNavigateToAutoThought = onNavigateToAutoThought,
-        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToAlternative)*/ },
-        onFinishPressed = onNavigateToFinished,
-        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToDistortion)*/ }
-    )
-}
 
 @Composable
 fun ChallengeScreen(

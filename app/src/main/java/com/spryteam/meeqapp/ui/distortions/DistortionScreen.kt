@@ -29,27 +29,6 @@ import com.spryteam.meeqapp.ui.components.SubHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.ThoughtViewModel
 
-@Composable
-fun DistortionRoute(
-    onNavigateToFinished: () -> Unit,
-    onNavigateToChallenge: () -> Unit,
-    onNavigateToAutoThought: () -> Unit,
-    thoughtViewModel: ThoughtViewModel,
-) {
-    val autoThought: String by thoughtViewModel.automaticThought.collectAsState("")
-    val distortions: List<CognitiveDistortion> by thoughtViewModel.distortionList.collectAsState(emptyList())
-
-    DistortionScreen(
-        distortionList = distortions,
-        isEditing = thoughtViewModel.isEditing,
-        isNextDisabled = thoughtViewModel.isNextDisabled,
-        onPressSlug = thoughtViewModel::onPressSlug,
-        autoThoughtVal = autoThought,
-        onFinishPressed = onNavigateToFinished,
-        onNextPressed = { /*thoughtViewModel.onNext(onNavigateToChallenge)*/ },
-        onBackPressed = { /*thoughtViewModel.onNext(onNavigateToAutoThought)*/ }
-    )
-}
 
 @Composable
 fun DistortionScreen(
