@@ -26,6 +26,7 @@ import com.spryteam.meeqapp.ui.CardMutedContent
 import com.spryteam.meeqapp.ui.CardTextContent
 import com.spryteam.meeqapp.ui.EmojiList
 import com.spryteam.meeqapp.ui.distortions.distortions
+import com.spryteam.meeqapp.ui.distortions.update
 import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
@@ -109,14 +110,15 @@ enum class FollowUpState {
 @Composable
 fun PreviewThoughtItem() {
     val list = distortions
-    list[2].selected = true
-    list[3].selected = true
-    list[5].selected = true
+
     val savedThought = newSavedThought(
         automaticThought = "My automatic thought",
         challenge = "My challenge",
         alternativeThought = "My alternative though",
-        cognitiveDistortions = distortions,
+        cognitiveDistortions = list
+            .update(3, selected = !list[3].selected)
+            .update(5, selected = !list[5].selected)
+            .update(6, selected = !list[6].selected),
         immediateCheckup = ImmediateCheckup.BETTER,
         followUpCheckup = "better"
     )

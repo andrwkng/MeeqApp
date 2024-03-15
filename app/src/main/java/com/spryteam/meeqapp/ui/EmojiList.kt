@@ -6,7 +6,7 @@ import com.spryteam.meeqapp.ui.components.Paragraph
 import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
 import com.spryteam.meeqapp.ui.distortions.distortions
 import com.spryteam.meeqapp.ui.distortions.emojiForSlug
-
+import com.spryteam.meeqapp.ui.distortions.update
 
 
 @Composable
@@ -26,8 +26,8 @@ fun EmojiList(distortions:  List<CognitiveDistortion>) {
 @Composable
 fun PreviewEmojiList() {
     val list = distortions
-    list[2].selected = true
-    list[3].selected = true
-    list[4].selected = true
-    EmojiList(list)
+    EmojiList(list
+        .update(2, selected = !list[2].selected)
+        .update(3, selected = !list[3].selected)
+        .update(4, selected = !list[4].selected))
 }

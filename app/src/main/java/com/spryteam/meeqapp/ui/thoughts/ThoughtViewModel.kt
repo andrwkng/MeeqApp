@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.spryteam.meeqapp.data.CheckupStore
 import com.spryteam.meeqapp.data.ThoughtStore
 import com.spryteam.meeqapp.data.newSavedThought
-import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
-import com.spryteam.meeqapp.ui.distortions.distortions
+import com.spryteam.meeqapp.ui.distortions.newDistortions
+import com.spryteam.meeqapp.ui.distortions.update
 import com.spryteam.meeqapp.ui.viewmodel.getFollowUpTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -79,23 +79,15 @@ class ThoughtViewModel @Inject constructor(
     }
 
     // Distortions
-    private val cogDistortions = distortions
-    private val _distortions = MutableStateFlow(emptyList<CognitiveDistortion>())
+    private val _distortions = MutableStateFlow(newDistortions())
     val distortionList = _distortions.asStateFlow()
 
-    init {
-        _distortions.value = cogDistortions.toList()
-    }
-
-    fun onPressSlug(selected: Any) {
+    fun onPressSlug(selectedSlug: String) {
         val list = _distortions.value
         list.let {
-            val index = list.indexOfFirst { it.slug == selected }
+            val index = list.indexOfFirst { it.slug == selectedSlug }
 
-            if (index != -1) {
-                list[index].selected = !list[index].selected
-                _distortions.value = list
-            }
+            _distortions.value = list.update(index, selected = !list[index].selected)
         }
     }
 
