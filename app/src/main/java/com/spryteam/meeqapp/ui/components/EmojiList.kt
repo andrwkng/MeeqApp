@@ -1,8 +1,7 @@
-package com.spryteam.meeqapp.ui
+package com.spryteam.meeqapp.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.spryteam.meeqapp.ui.components.Paragraph
 import com.spryteam.meeqapp.ui.distortions.CognitiveDistortion
 import com.spryteam.meeqapp.ui.distortions.distortions
 import com.spryteam.meeqapp.ui.distortions.emojiForSlug

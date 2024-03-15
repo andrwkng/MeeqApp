@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spryteam.meeqapp.ui.components.ActionButton
 import com.spryteam.meeqapp.ui.components.Badge
+import com.spryteam.meeqapp.ui.components.EmojiList
 import com.spryteam.meeqapp.ui.components.GhostButton
 import com.spryteam.meeqapp.ui.components.GhostButtonWithGuts
 import com.spryteam.meeqapp.ui.components.HintHeader
