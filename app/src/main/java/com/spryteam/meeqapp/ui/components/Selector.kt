@@ -91,9 +91,7 @@ fun SelectorTextItem(
                 modifier = Modifier.padding(horizontal = 12.dp),
                 fontSize = 24.sp
             )
-
-            Text(collapse.value.toString())
-
+            
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
