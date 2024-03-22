@@ -26,7 +26,7 @@ interface Thought {
     val followUpDate: String?
     val followUpCompleted: Boolean?
     val followUpCheckup: String?
-    val followUpNote: String?
+    val followUpNote: String
 }
 
 sealed interface SavedThought: Thought, Exercise
@@ -40,7 +40,7 @@ data class ThoughtImpl(
     override val followUpDate: String? = null,
     override var followUpCompleted: Boolean? = null,
     override val followUpCheckup: String? = null,
-    override val followUpNote: String? = null,
+    override val followUpNote: String,
 ) : Thought
 
 @Serializable
@@ -53,7 +53,7 @@ data class SavedThoughtImpl(
     override val followUpDate: String? = null,
     override var followUpCompleted: Boolean? = null,
     override val followUpCheckup: String? = null,
-    override val followUpNote: String? = null,
+    override val followUpNote: String,
     @Contextual
     override val createdAt: LocalDate,
     @Contextual

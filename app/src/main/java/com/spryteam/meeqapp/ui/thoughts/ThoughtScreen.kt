@@ -33,6 +33,7 @@ fun HomeScreen(
     onNewAutoThought: () -> Unit,
     modifier: Modifier = Modifier,
     navigateToThoughtViewer: () -> Unit,
+    setThought: (SavedThought) -> Unit,
     navigateToCheckup: () -> Unit,
     navigateToCheckupViewer: () -> Unit,
     shouldFadeIn: Boolean,
@@ -52,6 +53,7 @@ fun HomeScreen(
         Feed(
             groups = groups,
             navigateToThoughtViewer = navigateToThoughtViewer,
+            setThought = setThought,
             navigateToCheckup = navigateToCheckup,
             navigateToCheckupViewer = navigateToCheckupViewer,
             shouldFadeIn = shouldFadeIn,

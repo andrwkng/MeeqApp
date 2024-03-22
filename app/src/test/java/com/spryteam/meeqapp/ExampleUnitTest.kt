@@ -1,4 +1,4 @@
-package com.example.meeqapp
+package com.spryteam.meeqapp
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -60,6 +60,7 @@ class ThoughtStore @Inject constructor(
                 challenge = thought.challenge,
                 cognitiveDistortions = thought.cognitiveDistortions,
                 immediateCheckup = thought.immediateCheckup,
+                followUpNote = thought.followUpNote
             )
         } else {
             saveableThought = thought as SavedThought
@@ -131,7 +132,7 @@ fun newSavedThought(
     followUpDate: String? = null,
     followUpCompleted: Boolean? = null,
     followUpCheckup: String? = null,
-    followUpNote: String? = null,
+    followUpNote: String = "",
     createdAt: LocalDate = LocalDate.now(),
     updatedAt: LocalDate = LocalDate.now(),
     uuid: String = getThoughtKey(UUID.randomUUID().toString()),

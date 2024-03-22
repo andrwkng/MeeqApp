@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spryteam.meeqapp.data.CheckupStore
 import com.spryteam.meeqapp.data.ThoughtStore
-import com.spryteam.meeqapp.data.newSavedThought
+import com.spryteam.meeqapp.data.getThoughtKey
+import com.spryteam.meeqapp.domain.ScheduleFollowUpUseCase
 import com.spryteam.meeqapp.ui.distortions.newDistortions
 import com.spryteam.meeqapp.ui.distortions.update
-import com.spryteam.meeqapp.ui.viewmodel.getFollowUpTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,17 +17,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ThoughtViewModel @Inject constructor(
     private val thoughtStore: ThoughtStore,
-    private val checkupStore: CheckupStore
+    private val checkupStore: CheckupStore,
+    val getFollowUpTime: ScheduleFollowUpUseCase
 ) : ViewModel() {
-    private val _thought = mutableStateOf<SavedThoughtImpl?>(null)
-    val thought: SavedThought?
-        get() = _thought.value
-
     private val _createdAt = mutableStateOf(LocalDate.now())
     val createdAt: LocalDate
         get() = _createdAt.value
@@ -60,9 +59,14 @@ class ThoughtViewModel @Inject constructor(
     private val followUpCompleted: Boolean?
         get() = _followUpCompleted.value
 
-    private val _followUpNote = mutableStateOf<String?>(null)
-    val followUpNote: String?
-        get() = _followUpNote.value
+    private val _followUpNote = MutableStateFlow("")
+    val followUpNote: StateFlow<String>
+        get() = _followUpNote.asStateFlow()
+
+    fun onFollowUpNoteChange(value: String) {
+        _followUpNote.value = value
+        _isNextDisabled.value = false
+    }
 
     private val _followUpDate = mutableStateOf<String?>(null)
     private val followUpDate: String?
@@ -74,7 +78,7 @@ class ThoughtViewModel @Inject constructor(
     }
 
     fun onSetCheckup() {
-        _followUpDate.value = getFollowUpTime()
+        _followUpDate.value = getFollowUpTime().format(DateTimeFormatter.ISO_DATE_TIME)
         onContinue()
     }
 
@@ -93,7 +97,6 @@ class ThoughtViewModel @Inject constructor(
 
     // Challenge
     private val _challenge = MutableStateFlow("")
-
     val challenge: StateFlow<String> = _challenge.asStateFlow()
 
     fun onChallengeChange(value: String) {
@@ -127,10 +130,13 @@ class ThoughtViewModel @Inject constructor(
 
     private val _immediateCheckup = mutableStateOf<ImmediateCheckup?>(null)
     private val _followUpCheckup = mutableStateOf<String?>(null)
-    private val _uuid = mutableStateOf<String?>(null)
+    private val _updatedAt = mutableStateOf<LocalDate>(LocalDate.now())
+    private val _uuid = mutableStateOf(getThoughtKey(UUID.randomUUID().toString()))
+    val uuid: String
+        get() = _uuid.value
 
-    private fun getCurrentThought(): SavedThought {
-        return newSavedThought(
+    fun getThought(): SavedThought {
+        return SavedThoughtImpl(
             automaticThought = automaticThought.value,
             alternativeThought = alternativeThought.value,
             cognitiveDistortions = distortionList.value,
@@ -139,8 +145,26 @@ class ThoughtViewModel @Inject constructor(
             followUpDate = followUpDate,
             followUpCompleted = followUpCompleted,
             followUpCheckup = _followUpCheckup.value,
-            followUpNote = followUpNote,
+            followUpNote = followUpNote.value,
+            createdAt = createdAt,
+            updatedAt = _updatedAt.value,
+            uuid = _uuid.value
         )
+    }
+
+     fun setThoughtItems(thought: SavedThought) {
+        _autoThought.value = thought.automaticThought
+        _altThought.value = thought.alternativeThought
+        _distortions.value = thought.cognitiveDistortions
+        _challenge.value = challenge.value
+        _immediateCheckup.value = thought.immediateCheckup
+        _followUpDate.value = thought.followUpDate
+        _followUpCompleted.value = thought.followUpCompleted
+        _followUpCheckup.value = thought.followUpCheckup
+        _followUpNote.value = thought.followUpNote
+        _createdAt.value = thought.createdAt
+        _updatedAt.value = thought.updatedAt
+        _uuid.value = thought.uuid
     }
 
     fun deleteThought() {}
@@ -175,12 +199,10 @@ class ThoughtViewModel @Inject constructor(
         navigate()
     }
 
-    fun onFinishedNext(saveThought: (SavedThought) -> Unit) {
+    fun onFinishedNext() {
         if (followUpState() == FollowUpState.READY) {
             _followUpCompleted.value = true
         }
-
-        saveThought(getCurrentThought())
     }
 
     fun followUpState(): FollowUpState {
@@ -202,18 +224,7 @@ class ThoughtViewModel @Inject constructor(
         return FollowUpState.NONE
     }
 
-    fun navigateToViewerWithThought(
-    ) {
-        // Follow-ups
-        when (followUpState()) {
-            FollowUpState.READY -> {
-                return
-            }
-            // Regular finished screen
-            else -> {
-            }
-        }
-    }
+    var navigateToThought: () -> Unit = {}
 
     suspend fun countThoughts(): Int {
         return thoughtStore.countThoughts()
@@ -245,7 +256,8 @@ enum class Form {
     ALTERNATIVE,
     FINISHED,
     FEELING,
-    FOLLOWUP,
+    FOLLOW_UP,
+    FOLLOW_UP_NOTE
 }
 
 data class FormScreeningData(
