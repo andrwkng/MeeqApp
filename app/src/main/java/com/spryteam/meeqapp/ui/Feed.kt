@@ -10,12 +10,14 @@ import com.spryteam.meeqapp.ui.components.CheckupPrompt
 import com.spryteam.meeqapp.ui.exercises.ExerciseGroup
 import com.spryteam.meeqapp.ui.exercises.ExerciseList
 import com.spryteam.meeqapp.ui.thoughts.FollowUpState
+import com.spryteam.meeqapp.ui.thoughts.SavedThought
 
 
 @Composable
 fun Feed(
     groups: List<ExerciseGroup>,
     navigateToThoughtViewer: () -> Unit,
+    setThought: (SavedThought) -> Unit,
     navigateToCheckup: () -> Unit,
     navigateToCheckupViewer: () -> Unit,
     shouldFadeIn: Boolean = false,
@@ -37,7 +39,8 @@ fun Feed(
         ExerciseList(
             groups = groups,
             historyButtonLabel = HistoryButtonLabelSetting.ALTERNATIVE_THOUGHT,
-            navigateToThoughtViewer = { navigateToThoughtViewer() },
+            navigateToThoughtViewer = navigateToThoughtViewer,
+            setThought = setThought,
             navigateToCheckupViewer = { navigateToCheckupViewer() },
             followUpState = followUpState,
         )

@@ -73,7 +73,8 @@ data class ExerciseGroup(
 @Composable
 fun ExerciseList(
     groups: List<ExerciseGroup>,
-    navigateToThoughtViewer: (SavedThought) -> Unit,
+    navigateToThoughtViewer: () -> Unit,
+    setThought: (SavedThought) -> Unit,
     navigateToCheckupViewer: (Checkup) -> Unit,
     historyButtonLabel: HistoryButtonLabelSetting,
     followUpState: () -> FollowUpState,
@@ -105,7 +106,10 @@ fun ExerciseList(
                                     thought = thought,
                                     historyButtonLabel = historyButtonLabel,
                                     followUpState = { followUpState() },
-                                    onPress = { navigateToThoughtViewer(ex) },
+                                    onPress = {
+                                        setThought(ex)
+                                        navigateToThoughtViewer()
+                                              },
                                     //key = ex.uuid
                                 )
                             }
