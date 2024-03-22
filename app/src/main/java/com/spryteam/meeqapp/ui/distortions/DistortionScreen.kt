@@ -119,16 +119,17 @@ fun DistortionScreen(
 @Composable
 fun DistortionScreenPreview() {
     val list = distortions
-    list[0].selected = true
-    list[2].selected = true
+
     DistortionScreen(
-        distortionList = list,
+        distortionList = list
+            .update(0, selected = !list[0].selected)
+            .update(2, selected = !list[2].selected)
+            .update(3, selected = !list[3].selected),
         isEditing = false,
         isNextDisabled = true,
         autoThoughtVal = "She hasn't replied to my texts, i guess she doesn't like me",
         onPressSlug = { /*TODO*/ },
         onFinishPressed = { /*TODO*/ },
         onNextPressed = { /*TODO*/ }) {
-
     }
 }

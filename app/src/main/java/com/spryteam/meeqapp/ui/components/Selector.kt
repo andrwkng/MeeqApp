@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,12 +44,17 @@ fun RoundedSelector(
     ) {
         Column {
             items?.forEach { item ->
+                val collapse = mutableStateOf(false)
                 SelectorTextItem(
                     emoji = item.emoji ?: "🍎", // Default emoji to "🍎" if not provided
                     text = stringResource(item.label),
                     description = stringResource(item.description),
                     selected = item.selected,
-                    onPress = { onPress(item.slug) }
+                    collapse = collapse,
+                    onPress = {
+                        onPress(item.slug)
+                        if (item.selected) collapse.value = true
+                    }
                 )
             }
         }
@@ -57,6 +65,7 @@ fun RoundedSelector(
 fun SelectorTextItem(
     onPress: () -> Unit,
     selected: Boolean = false,
+    collapse: MutableState<Boolean> = mutableStateOf(false),
     emoji: String,
     text: String,
     description: String
@@ -68,7 +77,6 @@ fun SelectorTextItem(
     Column(
         modifier = Modifier
             .padding(bottom = 4.dp)
-            //.border(1.dp, borderColor)
             .border(1.dp, borderColor, shape = RoundedCornerShape(8.dp))
             .padding(vertical = 1.dp)
             .background(backgroundColor)
@@ -77,14 +85,13 @@ fun SelectorTextItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 12.dp)
         ) {
             Text(
                 text = emoji,
                 modifier = Modifier.padding(horizontal = 12.dp),
                 fontSize = 24.sp
             )
-
+            
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -99,39 +106,50 @@ fun SelectorTextItem(
                 )
 
                 if (selected) {
+                    collapse.value = true
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.padding(end = 8.dp)
                     )
+
+                } else {
+                    Surface(modifier = Modifier.clickable { collapse.value = true }) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = null,
+                            tint = Theme.darkText,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+
                 }
+
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(if (selected) Theme.darkBlue else Theme.lightOffWhite)
-                .padding(6.dp)
-                .clip(RoundedCornerShape(8.dp))
-        ) {
-            Text(
-                text = description,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                color = textColor,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-            )
+        if (collapse.value) {
+            Box(
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
+                    .background(if (selected) Theme.darkBlue else Theme.lightOffWhite)
+                    .padding(6.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            ) {
+                Text(
+                    text = description,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 16.sp,
+                    color = textColor,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                )
+            }
         }
     }
 }
 
-@Preview
-@Composable
-fun RoundedSelectorPreview() {
-    RoundedSelector(items = distortions, onPress = {})
-}
 
 @Preview
 @Composable
@@ -154,4 +172,10 @@ fun SelectorTextItemSelectedPreview() {
         onPress = {},
         selected = true
     )
+}
+
+@Preview
+@Composable
+fun RoundedSelectorPreview() {
+    RoundedSelector(items = distortions, onPress = {})
 }

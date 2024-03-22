@@ -19,9 +19,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.spryteam.meeqapp.ui.CardBadge
-import com.spryteam.meeqapp.ui.CardCrown
-import com.spryteam.meeqapp.ui.CardMutedContent
+import com.spryteam.meeqapp.ui.components.CardBadge
+import com.spryteam.meeqapp.ui.components.CardCrown
+import com.spryteam.meeqapp.ui.components.CardMutedContent
 import com.spryteam.meeqapp.ui.exercises.Mood
 import com.spryteam.meeqapp.ui.theme.Theme
 import com.spryteam.meeqapp.ui.thoughts.Exercise

@@ -1,7 +1,6 @@
 package com.spryteam.meeqapp.ui.distortions
 
 import com.spryteam.meeqapp.R
-
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,7 +8,7 @@ data class CognitiveDistortion(
     val emoji: String? = null,
     val label: Int,
     val slug: String,
-    var selected: Boolean = false,
+    val selected: Boolean = false,
     val description: Int
 )
 
@@ -92,3 +91,56 @@ val distortions = listOf(
         description = R.string.other_blaming_one_liner
     )
 )
+
+fun newDistortions(): List<CognitiveDistortion> {
+    return distortions.toList()
+}
+
+fun List<CognitiveDistortion>.update(
+    index: Int,
+    emoji: String? = null,
+    label: Int? = null,
+    slug: String? = null,
+    description: Int? = null,
+    selected: Boolean? = null
+): List<CognitiveDistortion> {
+    if (index < 0 || index >= size) {
+        throw IndexOutOfBoundsException("Index $index is out of bounds.")
+    }
+
+    return mapIndexed { i, distortion ->
+        if (i == index) {
+            distortion.copy(
+                emoji = emoji ?: distortion.emoji,
+                label = label ?: distortion.label,
+                slug = slug ?: distortion.slug,
+                description = description ?: distortion.description,
+                selected = selected ?: distortion.selected,
+            )
+        } else {
+            distortion
+        }
+    }
+}
+
+
+
+
+/*
+fun <T> List<CognitiveDistortion>.update(index: Int, distortion: CognitiveDistortion) : List<T> {
+    if (index != -1) {
+
+        val selectedItem = list[index]
+        list.removeAt(index)
+        list.add(
+            index, CognitiveDistortion(
+                emoji = selectedItem.emoji,
+                label = selectedItem.label,
+                slug = selectedItem.slug,
+                description = selectedItem.description,
+                selected = !selectedItem.selected
+            )
+        )
+        _distortions.value = list
+    }
+}*/

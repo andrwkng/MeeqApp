@@ -2,3 +2,5 @@ package com.spryteam.meeqapp.ui
 
 const val MAIN_SCREEN = "MAIN_SCREEN"
 const val THOUGHT_SCREEN = "THOUGHT_SCREEN"
+const val FOLLOW_UP_NOTE_SCREEN = "FOLLOW_UP_NOTE_SCREEN"
+const val FINISHED_SCREEN = "FINISHED_SCREEN"

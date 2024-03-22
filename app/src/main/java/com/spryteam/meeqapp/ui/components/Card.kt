@@ -1,4 +1,4 @@
-package com.spryteam.meeqapp.ui
+package com.spryteam.meeqapp.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -33,10 +33,6 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.spryteam.meeqapp.ui.components.Badge
-import com.spryteam.meeqapp.ui.components.HintHeader
-import com.spryteam.meeqapp.ui.components.Paragraph
-import com.spryteam.meeqapp.ui.components.SubHeader
 import com.spryteam.meeqapp.ui.theme.Theme
 
 @Composable
